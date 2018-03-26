@@ -107,11 +107,6 @@ public class Sign_Up extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"DONE",Toast.LENGTH_LONG).show();
                         String uid = mAuth.getCurrentUser().getUid();
                         DatabaseReference current  = mDatabase.child(uid);
-                        /*Students temp = new Students(name,pass,email,"CSE","2nd","Dhaka","O+",userID);
-                        current.child("Name").setValue(name);
-                        current.child("Department").setValue("CSE");
-                        current.child("Year").setValue("2nd");
-                        current.child("Blood Group").setValue("O+");*/
 
                         User_Department temp= new User_Department(dept,email,pass,uid);
                         current.setValue(temp);

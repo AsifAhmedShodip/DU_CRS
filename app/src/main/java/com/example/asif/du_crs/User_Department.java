@@ -5,7 +5,7 @@ package com.example.asif.du_crs;
  */
 
 public class User_Department {
-    static User_Department current_Dept=new User_Department();
+    static User_Department current=new User_Department();
     String deptName =null , email=null , pass = null , uid=null ;
 
     public User_Department()
@@ -21,12 +21,12 @@ public class User_Department {
         uid = id;
     }
 
-    public static User_Department getCurrent_Dept() {
-        return current_Dept;
+    public static User_Department getCurrent() {
+        return current;
     }
 
-    public static void setCurrent_Dept(User_Department current_Dept) {
-        User_Department.current_Dept = current_Dept;
+    public static void setCurrent(User_Department current) {
+        User_Department.current = current;
     }
 
     public String getDeptName() {
