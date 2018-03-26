@@ -11,7 +11,6 @@ import java.util.List;
 /**
  * Created by aniomi on 3/26/18.
  */
-
 public class FunctionList {
     static int getminute(int hourss,int minutess)
     {
@@ -53,6 +52,53 @@ public class FunctionList {
         }
         return list;
         //push in package
+    }
+    static node nextday(node prev)
+    {
+        int daycount[]=new int[20];
+        for(int i=1;i<=7;i+=2)
+        {
+            daycount[i]=31;
+        }
+        for(int i=8;i<=12;i+=2)
+        {
+            daycount[i]=31;
+        }
+        for(int i=9;i<=12;i+=2)
+        {
+            daycount[i]=30;
+        }
+        for(int i=2;i<=7;i+=2)
+        {
+            daycount[i]=30;
+        }
+        daycount[2]=28;
+        int x=prev.y;
+        boolean xp=((x%400==0) || (x%4==0 && x%100!=0));
+        if(xp==true) daycount[2]+=1;
+        node next=new node();
+        if(prev.d==daycount[prev.m] && prev.m==12)
+        {
+            next.y=prev.y+1;
+            next.d=next.m=1;
+        }
+        else if(prev.d==daycount[prev.m])
+        {
+            next.y=prev.y;
+            next.d=1;
+            next.m=prev.m+1;
+        }
+        else
+        {
+            next.y=prev.y;
+            next.d=prev.d+1;
+            next.m=prev.m;
+        }
+        return next;
+    }
+    boolean isNormalHoliday(node curr)
+    {
+        return true;
     }
 
 }
