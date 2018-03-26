@@ -100,5 +100,69 @@ public class FunctionList {
     {
         return true;
     }
+    static ArrayList<node> EmptySlots(int need,int rangel,int rangeh,int capacity,ArrayList<ExamHallSlot> Bookedslots)
+    {
+        ArrayList<node> FreeList=new ArrayList<>();
+        int flag[]=new int[2000];
+        for(int i=0;i<2000;i++)
+        {
+            flag[i]=capacity;
+        }
+        for(int i=0;i<rangel;i++)
+        {
+            flag[i]=0;
+        }
+        for(int i=rangeh+1;i<2000;i++)
+        {
+            flag[i]=0;
+        }
+        int l=Bookedslots.size();
+        for(int i=0;i<l;i++)
+        {
+            int stt=Bookedslots.get(i).startTime;
+            int ett=Bookedslots.get(i).endTime;
+            int count=Bookedslots.get(i).counter;
+            for(int j=stt;j<=ett;j++)
+            {
+                flag[j]-=count;
+            }
+        }
+        int ss=-1,ee=0,cc=1;
+        for(int i=0;i<2000;i++)
+        {
+            if(flag[i]>=need)
+            {
+                ss=i;
+            }
+        }
+        if(ss==-1) return FreeList;
+        boolean isCum=true;
+        int t=0;
+        for(int i=ss;i<=2000;i++)
+        {
+            if(isCum)
+            {
+                if(need<=flag[i])
+                {
+                    ee=i;
+                }
+                else
+                {
+                    FreeList.add(new node(ss,ee,t));
+                    isCum=false;
+                }
+            }
+            else
+            {
+                if(need<=flag[i])
+                {
+                    ss=i;
+                    ee=i;
+                    isCum=true;
+                }
+            }
+        }
+        return FreeList;
+    }
 
 }
