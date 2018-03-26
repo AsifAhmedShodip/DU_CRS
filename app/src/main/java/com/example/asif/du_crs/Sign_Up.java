@@ -91,31 +91,35 @@ public class Sign_Up extends AppCompatActivity {
         final String email = mEmail.getText().toString().trim();
         final String pass = mPass.getText().toString().trim();
         final String rePass = mRepass.getText().toString().trim(); //need to implement
+        final String code = mCode.getText().toString().trim();
 
 
-        /*if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass))
+        if(!TextUtils.isEmpty(dept) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass) && !TextUtils.isEmpty(rePass)
+                && !TextUtils.isEmpty(code))
         {
-           *//* mprog.setMessage("Signing UP...");
-            mprog.show();*//*
+           /* mprog.setMessage("Signing UP...");
+            mprog.show();*/
             mAuth.createUserWithEmailAndPassword(email,pass).addOnCompleteListener(this,new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful())
                     {
                         Toast.makeText(getApplicationContext(),"DONE",Toast.LENGTH_LONG).show();
-                        String userID = mAuth.getCurrentUser().getUid();
-                        DatabaseReference current  = mDatabase.child(userID);
-                        Students temp = new Students(name,pass,email,"CSE","2nd","Dhaka","O+",userID);
-                       *//* current.child("Name").setValue(name);
+                        String uid = mAuth.getCurrentUser().getUid();
+                        DatabaseReference current  = mDatabase.child(uid);
+                        /*Students temp = new Students(name,pass,email,"CSE","2nd","Dhaka","O+",userID);
+                        current.child("Name").setValue(name);
                         current.child("Department").setValue("CSE");
                         current.child("Year").setValue("2nd");
-                        current.child("Blood Group").setValue("O+");*//*
+                        current.child("Blood Group").setValue("O+");*/
+
+                        User_Department temp= new User_Department(dept,email,pass,uid);
                         current.setValue(temp);
-                        Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
-                        startActivity(intent);
+                        Intent intent = new Intent(Sign_Up.this,MainActivity.class);
+                        startActivity(intent) ;
                     }
                 }
             });
-        }*/
+        }
     }
 }

@@ -2,6 +2,8 @@
  * Created by aniomi on 3/26/18.
  */
 
+package com.example.omi.du_crs;
+
 public class ExamHallSlot {
     public ExamHallSlot(int startTime, int endTime, int reservetionId, String reserverId, boolean isCancelled) {
         this.startTime = startTime;
