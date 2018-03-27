@@ -5,64 +5,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.omi.du_crs.SearchActivity"
-    android:layout_margin="@dimen/fab_margin">
-    <EditText
+    android:padding="5dpdek"
+    >
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:hint="Enter Search category"
         android:id="@+id/search_category"/>
     <EditText
-        android:layout_below="@+id/search_category"
+        android:layout_below="@id/search_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="start time"
+        android:id="@+id/stb"
+        />
+
+    <EditText
+        android:layout_below="@id/stb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="end time"
+        android:id="@+id/etb"/>
+
+    <EditText
+        android:layout_below="@id/etb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="start date"
+        android:id="@+id/sdb"/>
+
+    <EditText
+        android:layout_below="@id/sdb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="end date"
+        android:id="@+id/edb"
+        android:layout_alignParentRight="true"/>
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:hint="Enter Start Time"
-        android:id="@+id/start_time"/>
-    <EditText
-        android:layout_below="@+id/start_time"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:hint="Enter End Time"
-        android:id="@+id/end_time"/>
-    <EditText
-        android:layout_below="@+id/end_time"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:hint="Enter Date lower range"
-        android:id="@+id/lower_date"/>
-    <EditText
-        android:layout_below="@+id/lower_date"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:hint="Enter Date higher range"
-        android:id="@+id/higher_date"/>
-    <EditText
-        android:layout_below="@+id/higher_date"
+        android:hint="Enter audotorioum/ground"
+        android:id="@+id/auditorioum"
+        android:layout_below="@id/edb"/>
+    <Spinner
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:hint="Enter Department"
-        android:id="@+id/department"/>
-    <EditText
-        android:layout_below="@+id/department"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:hint="Enter Room No"
-        android:id="@+id/room_no"/>
-    <EditText
-        android:layout_below="@+id/room_no"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:hint="Ground/Auditorioum"
-        android:id="@+id/ground"/>
+        android:id="@+id/deptName"
+        android:layout_below="@id/auditorioum"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:hint="Enter Department"
+            android:id="@+id/Ground"
+            android:layout_below="@id/deptName"/>
 
+
+        <EditText
+        android:layout_below="@id/Ground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Room no"
+        android:id="@+id/room_no"
+        android:layout_alignParentRight="true"/>
     <Button
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ground"
-        android:layout_centerHorizontal="true"
-        android:text="Search"
-        android:id="@+id/search_buttons"/>
-
-
+        android:layout_below="@id/room_no"
+        android:layout_alignParentRight="true"
+        android:text="Search"/>
+    </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

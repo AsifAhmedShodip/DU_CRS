@@ -16,14 +16,24 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Sign_Up"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".sign_in"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity android:name=".signUpselect"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Reservations"></activity>
+        <activity
+            android:name=".Sign_Up"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".sign_in"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".signUpselect"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Reservations" />
+        <activity
+            android:name="com.example.omi.du_crs.ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="com.example.omi.du_crs.Main2Activity"
+            android:label="@string/title_activity_main2" />
+        <activity android:name="com.example.omi.du_crs.SearchActivity"></activity>
     </application>
 
 </manifest>
