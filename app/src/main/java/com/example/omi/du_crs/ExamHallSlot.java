@@ -5,7 +5,7 @@
 package com.example.omi.du_crs;
 
 public class ExamHallSlot {
-    public ExamHallSlot(int startTime, int endTime, int reservetionId, String reserverId, boolean isCancelled) {
+    public ExamHallSlot(int startTime, int endTime, String reservetionId, String reserverId, boolean isCancelled) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.reservetionId = reservetionId;
@@ -14,13 +14,36 @@ public class ExamHallSlot {
     }
 
     public ExamHallSlot() {
+        startTime=endTime=counter=0;
+        isCancelled=false;
+        reservetionId=reserverId="Omi";
+        rdate="12/12/2012";
     }
 
     int startTime;
     int endTime;
     int counter;
+    String rdate;
 
-    public ExamHallSlot(int startTime, int endTime, int counter, int reservetionId, String reserverId, boolean isCancelled) {
+    public void setRdate(String rdate) {
+        this.rdate = rdate;
+    }
+
+    public String getRdate() {
+        return rdate;
+    }
+
+    public ExamHallSlot(int startTime, int endTime, int counter, String rdate, String reservetionId, String reserverId, boolean isCancelled) {
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.counter = counter;
+        this.rdate = rdate;
+        this.reservetionId = reservetionId;
+        this.reserverId = reserverId;
+        this.isCancelled = isCancelled;
+    }
+
+    public ExamHallSlot(int startTime, int endTime, int counter, String reservetionId, String reserverId, boolean isCancelled) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.counter = counter;
@@ -45,7 +68,7 @@ public class ExamHallSlot {
         this.endTime = endTime;
     }
 
-    public void setReservetionId(int reservetionId) {
+    public void setReservetionId(String reservetionId) {
         this.reservetionId = reservetionId;
     }
 
@@ -66,7 +89,7 @@ public class ExamHallSlot {
         return endTime;
     }
 
-    public int getReservetionId() {
+    public String getReservetionId() {
         return reservetionId;
     }
 
@@ -78,7 +101,7 @@ public class ExamHallSlot {
         return isCancelled;
     }
 
-    int reservetionId;
+    String reservetionId;
     String reserverId;
     boolean isCancelled;
 

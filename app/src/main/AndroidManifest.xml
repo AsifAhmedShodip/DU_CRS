@@ -33,7 +33,13 @@
         <activity
             android:name="com.example.omi.du_crs.Main2Activity"
             android:label="@string/title_activity_main2" />
-        <activity android:name="com.example.omi.du_crs.SearchActivity"></activity>
+        <activity android:name="com.example.omi.du_crs.SearchActivity" />
+        <activity android:name="com.example.omi.du_crs.exam_hall_available_list" />
+        <activity
+            android:name="com.example.omi.du_crs.Book_Exam_Hall"
+            android:label="@string/title_activity_book__exam__hall"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.example.omi.du_crs.book_exam_halls"></activity>
     </application>
 
 </manifest>

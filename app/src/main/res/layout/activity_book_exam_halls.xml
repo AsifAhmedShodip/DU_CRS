@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.omi.du_crs.book_exam_halls">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#ff6128"
+        android:id="@+id/r1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Book Exam Hall"
+            android:padding="4dp"
+            android:textStyle="bold"
+            android:layout_marginLeft="@dimen/fab_margin"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/r1"
+        android:layout_margin="4dp">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#FFFFEF"
+            android:padding="9dp">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Exam Date :"
+                android:id="@+id/exd"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Exam Start Time :"
+                android:layout_below="@id/exd"
+                android:id="@+id/exst"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Exam End Time :"
+                android:layout_below="@id/exst"
+                android:id="@+id/exet"
+                />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Number Of Student :"
+                android:layout_below="@id/exet"
+                android:id="@+id/excnt"
+                />
+            <Button
+                android:id="@+id/booking_button"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textinput"
+                android:text="Book Hall"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/excnt"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>
