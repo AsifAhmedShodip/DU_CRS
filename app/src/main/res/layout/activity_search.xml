@@ -89,10 +89,17 @@
             android:hint="Number of Student"
             android:id="@+id/count_no"
             android:layout_alignParentRight="true"/>
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/count_no"
+            android:id="@+id/hall_choice">
+
+        </Spinner>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/count_no"
+        android:layout_below="@id/hall_choice"
         android:layout_alignParentRight="true"
         android:text="Search"
         android:id="@+id/searchb"/>

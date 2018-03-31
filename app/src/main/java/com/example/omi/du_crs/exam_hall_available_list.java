@@ -44,7 +44,7 @@ public class exam_hall_available_list extends AppCompatActivity {
                     for (DataSnapshot users : dataSnapshot.getChildren()) {
                         ExamHallSlot temp = new ExamHallSlot();
                         temp = users.getValue(ExamHallSlot.class);
-                        if(temp.isCancelled==false) all_bookings.add(temp);
+                        all_bookings.add(temp);
                     }
                 }
                 node ctd=node.stringtoclass(FunctionList.exam_hall_search.start_date);

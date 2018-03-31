@@ -29,7 +29,7 @@ public class book_exam_halls extends AppCompatActivity {
 
     DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name);
     DatabaseReference ds;
-    EditText exd,exst,exet,excnt;
+    EditText exd,exst,exet,excnt,exsub;
     Button booking_button;
     ArrayList<ExamHallSlot> all_bookings=new ArrayList<>();
     ArrayList<ExamHallSlot> temp_list=new ArrayList<>();
@@ -43,6 +43,7 @@ public class book_exam_halls extends AppCompatActivity {
         exst=findViewById(R.id.exst);
         exet=findViewById(R.id.exet);
         excnt=findViewById(R.id.excnt);
+        exsub=findViewById(R.id.exsub);
         booking_button=findViewById(R.id.booking_button);
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name);
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -53,7 +54,7 @@ public class book_exam_halls extends AppCompatActivity {
                     for (DataSnapshot users : dataSnapshot.getChildren()) {
                         ExamHallSlot temp = new ExamHallSlot();
                         temp = users.getValue(ExamHallSlot.class);
-                        if(temp.isCancelled==false) all_bookings.add(temp);
+                        all_bookings.add(temp);
                     }
                 }
             }
@@ -204,6 +205,7 @@ public class book_exam_halls extends AppCompatActivity {
                     temp.setRdate(s);
                     temp.setStartTime(exam_st);
                     temp.setEndTime(exam_et);
+                    temp.setCancelled(exsub.getText().toString());
                     temp.setReserverId(User_Department.getCurrent().getDeptName().toString());
                     temp.counter=cnt;
                     ds.setValue(temp);

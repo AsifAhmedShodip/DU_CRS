@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,8 +32,8 @@ import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 
 public class SearchActivity extends AppCompatActivity {
-    Spinner search_category,dept,auditorioum,ground,E_Hall;
-    String final_choice,final_dept,final_audi,final_ground,final_hall="Exam Hall";
+    Spinner search_category,dept,auditorioum,ground,E_Hall,hall_choice;
+    String final_choice,final_dept,final_audi,final_ground,final_hall="Exam Hall",final_hall_choice;
     EditText stb,etb,sdb,edb,room_no,count_no;
     Button searchb;
     ArrayList<String> choice=new ArrayList<>();
@@ -40,6 +41,7 @@ public class SearchActivity extends AppCompatActivity {
     ArrayList<String> depts=new ArrayList<>();
     ArrayList<String> grounds=new ArrayList<>();
     ArrayList<String> Hall=new ArrayList<>();
+    ArrayList<String> Hall_choice_list=new ArrayList<>();
     private DatePickerDialog.OnDateSetListener mDateSetListener,mDateSetListener1;
     void init_all()
     {
@@ -53,6 +55,7 @@ public class SearchActivity extends AppCompatActivity {
         ground.setVisibility(View.GONE);
         E_Hall.setVisibility(View.GONE);
         count_no.setVisibility(View.GONE);
+        hall_choice.setVisibility(View.GONE);
     }
     void set_all()
     {
@@ -66,6 +69,7 @@ public class SearchActivity extends AppCompatActivity {
         ground.setVisibility(View.VISIBLE);
         E_Hall.setVisibility(View.VISIBLE);
         count_no.setVisibility(View.VISIBLE);
+        hall_choice.setVisibility(View.VISIBLE);
     }
     void init_lab_class()
     {
@@ -74,6 +78,7 @@ public class SearchActivity extends AppCompatActivity {
         ground.setVisibility(View.GONE);
         E_Hall.setVisibility(View.GONE);
         count_no.setVisibility(View.GONE);
+        hall_choice.setVisibility(View.GONE);
     }
     void init_ground()
     {
@@ -83,6 +88,7 @@ public class SearchActivity extends AppCompatActivity {
         auditorioum.setVisibility(View.GONE);
         E_Hall.setVisibility(View.GONE);
         count_no.setVisibility(View.GONE);
+        hall_choice.setVisibility(View.GONE);
     }
     void init_audi()
     {
@@ -92,6 +98,7 @@ public class SearchActivity extends AppCompatActivity {
         ground.setVisibility(View.GONE);
         E_Hall.setVisibility(View.GONE);
         count_no.setVisibility(View.GONE);
+        hall_choice.setVisibility(View.GONE);
     }
     void init_exam_hall()
     {
@@ -118,6 +125,8 @@ public class SearchActivity extends AppCompatActivity {
         grounds.add("Swimming pool");
         grounds.add("Hagi mohsin");
         Hall.add("Karjon Hall");
+        Hall_choice_list.add("Free Slots");
+        Hall_choice_list.add("My Reservations");
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +145,7 @@ public class SearchActivity extends AppCompatActivity {
         E_Hall=findViewById(R.id.ExamHall);
         searchb=findViewById(R.id.searchb);
         count_no=findViewById(R.id.count_no);
+        hall_choice=findViewById(R.id.hall_choice);
         init_exam_hall();
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,choice);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -211,10 +221,36 @@ public class SearchActivity extends AppCompatActivity {
 
             }
         });
+        adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,Hall_choice_list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        hall_choice.setAdapter(adapter);
+        hall_choice.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                final_hall_choice=adapterView.getItemAtPosition(i).toString();
+                if(final_hall_choice.equals("My Reservations"))
+                {
+                    init_all();
+                    hall_choice.setVisibility(View.VISIBLE);
+
+                    E_Hall.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    init_exam_hall();
+                    E_Hall.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         searchb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(final_choice.equals("Exam Hall"))
+                if(final_choice.equals("Exam Hall") && !final_hall_choice.equals("My Reservations"))
                 {
                     String temp=count_no.getText().toString();
                     String temp1=sdb.getText().toString();
@@ -223,6 +259,13 @@ public class SearchActivity extends AppCompatActivity {
                     int tp=Integer.parseInt(temp);
                     FunctionList.exam_hall_search=new search_hall_date_range(temp1,temp2,final_hall,tp);
                     Intent intent = new Intent(SearchActivity.this,exam_hall_available_list.class);
+                    startActivity(intent);
+                }
+                if(final_choice.equals("Exam Hall") && final_hall_choice.equals("My Reservations"))
+                {
+
+                    FunctionList.exam_hall_search.hall_name=final_hall;
+                    Intent intent = new Intent(SearchActivity.this,exam_hall_reservation.class);
                     startActivity(intent);
                 }
             }

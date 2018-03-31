@@ -5,7 +5,7 @@
 package com.example.omi.du_crs;
 
 public class ExamHallSlot {
-    public ExamHallSlot(int startTime, int endTime, String reservetionId, String reserverId, boolean isCancelled) {
+    public ExamHallSlot(int startTime, int endTime, String reservetionId, String reserverId, String isCancelled) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.reservetionId = reservetionId;
@@ -15,7 +15,7 @@ public class ExamHallSlot {
 
     public ExamHallSlot() {
         startTime=endTime=counter=0;
-        isCancelled=false;
+        isCancelled="No Subject";
         reservetionId=reserverId="Omi";
         rdate="12/12/2012";
     }
@@ -33,7 +33,7 @@ public class ExamHallSlot {
         return rdate;
     }
 
-    public ExamHallSlot(int startTime, int endTime, int counter, String rdate, String reservetionId, String reserverId, boolean isCancelled) {
+    public ExamHallSlot(int startTime, int endTime, int counter, String rdate, String reservetionId, String reserverId, String isCancelled) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.counter = counter;
@@ -43,7 +43,7 @@ public class ExamHallSlot {
         this.isCancelled = isCancelled;
     }
 
-    public ExamHallSlot(int startTime, int endTime, int counter, String reservetionId, String reserverId, boolean isCancelled) {
+    public ExamHallSlot(int startTime, int endTime, int counter, String reservetionId, String reserverId, String isCancelled) {
         this.startTime = startTime;
         this.endTime = endTime;
         this.counter = counter;
@@ -76,7 +76,7 @@ public class ExamHallSlot {
         this.reserverId = reserverId;
     }
 
-    public void setCancelled(boolean cancelled) {
+    public void setCancelled(String cancelled) {
         isCancelled = cancelled;
     }
 
@@ -97,12 +97,19 @@ public class ExamHallSlot {
         return reserverId;
     }
 
-    public boolean isCancelled() {
+    public String isCancelled() {
         return isCancelled;
     }
 
     String reservetionId;
     String reserverId;
-    boolean isCancelled;
+    String isCancelled;
 
+    public void setIsCancelled(String isCancelled) {
+        this.isCancelled = isCancelled;
+    }
+
+    public String getIsCancelled() {
+        return isCancelled;
+    }
 }
