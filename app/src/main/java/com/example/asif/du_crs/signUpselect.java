@@ -5,11 +5,19 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-public class signUpselect extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class signUpselect extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     private ImageButton ok;
+    private Button select;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,12 +26,30 @@ public class signUpselect extends AppCompatActivity {
 
         ok = findViewById(R.id.buttonOK);
 
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) signUpselect.this);
+        List<String> categories = new ArrayList<String>();
+        categories.add("As Department Authority");
+        categories.add("As Faculty Member");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent signUp=new Intent(signUpselect.this,Sign_Up.class);
+                Intent signUp=new Intent(signUpselect.this,signUpselect_2.class);
                 startActivity(signUp);
             }
         });
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+       // String item = parent.getItemAtPosition(position).toString();
+    }
+    public void onNothingSelected(AdapterView<?> arg0) {
+        // TODO Auto-generated method stub
     }
 }

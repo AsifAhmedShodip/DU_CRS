@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="194dp"
         android:gravity="center"
-        android:hint="How are you going to use the app?"
+        android:hint="Select Department"
         android:paddingBottom="20dp"
         android:textColor="#000000"
         android:textSize="20dp"
@@ -24,9 +24,11 @@
         tools:layout_editor_absoluteY="171dp" />
 
 
-    <Spinner
-        android:id="@+id/spinner"
+    <TextView
+        android:id="@+id/dept"
         android:layout_width="200dp"
+        android:maxLines="1"
+        android:ellipsize="end"
         android:gravity="center"
         android:layout_height="40dp"
         android:layout_below="@+id/type"

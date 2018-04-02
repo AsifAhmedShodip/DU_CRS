@@ -16,14 +16,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Sign_Up"
+        <activity
+            android:name=".Sign_Up"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".sign_in"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".signUpselect"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Reservations" />
+        <activity
+            android:name=".signUpselect_2"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Sign_Up_Code"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".sign_in"
-            android:theme="@style/AppTheme.NoActionBar" >
-        </activity>
-        <activity android:name=".signUpselect"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Reservations"></activity>
     </application>
 
 </manifest>
