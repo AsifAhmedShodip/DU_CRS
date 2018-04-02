@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.omi.du_crs.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -100,7 +101,7 @@ public class sign_in extends AppCompatActivity {
 
                             }
                         });
-                        Intent intent = new Intent(sign_in.this, Reservations.class);
+                        Intent intent = new Intent(sign_in.this,SearchActivity.class);
                         startActivity(intent);
                     } else {
                         Toast.makeText(sign_in.this, "Login failed", Toast.LENGTH_LONG).show();
@@ -138,7 +139,7 @@ public class sign_in extends AppCompatActivity {
 
                 }
             });
-            Intent intent = new Intent(sign_in.this,Reservations.class);
+            Intent intent = new Intent(sign_in.this,SearchActivity.class);
             startActivity(intent);
         }
     }

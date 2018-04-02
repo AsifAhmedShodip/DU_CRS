@@ -11,18 +11,77 @@ import java.util.List;
 /**
  * Created by aniomi on 3/26/18.
  */
-public class FunctionList {
-    static int getminute(int hourss,int minutess)
-    {
-        return hourss*60+minutess;
+
+class free_slots
+{
+    String start_t,end_t,mdate;
+
+    public free_slots(String start_t, String end_t, String mdate) {
+        this.start_t = start_t;
+        this.end_t = end_t;
+        this.mdate = mdate;
     }
-    static boolean isTheTimeSlotFree(int st, int ed,int capacity,int need, ArrayList<ExamHallSlot> Bookedslots)
+
+    public free_slots() {
+    }
+}
+class search_hall_date_range
+{
+    String start_date,end_date,hall_name;
+    int count;
+
+    static String standardtime(int ms)
+    {
+        String s="";
+        String isPm="AM";
+        if(ms>12*60) isPm="PM";
+        ms=(ms%(12*60));
+        int sh=ms/60;
+        int sm=ms%60;
+        if(sh==0) sh=12;
+
+        s=sh+":"+sm+" "+isPm;
+        s="";
+        if(sh<10) s+="0"+sh+":";
+        else s+=sh+":";
+        if(sm<10) s+="0"+sm;
+        else s+=sm;
+        s+=" "+isPm;
+        return s;
+    }
+
+    public search_hall_date_range(String start_date, String end_date, String hall_name, int count) {
+        this.start_date = start_date;
+        this.end_date = end_date;
+        this.hall_name = hall_name;
+        this.count = count;
+    }
+
+    public search_hall_date_range() {
+    }
+}
+public class FunctionList {
+    static int getminute(String s)
+    {
+        int t=0;
+        t+=(((s.charAt(0)-'0')*10)+((s.charAt(1)-'0')*1))*60;
+        t+=(((s.charAt(3)-'0')*10)+((s.charAt(4)-'0')*1));
+        if(s.charAt(6)=='P')
+        {
+            t+=(12*60);
+        }
+        return t;
+    }
+    static search_hall_date_range exam_hall_search=new search_hall_date_range();
+    static boolean isTheTimeSlotFree(int st, int ed,int rangel,int rangeh,int capacity,int need, ArrayList<ExamHallSlot> Bookedslots)
     {
         int flag[]=new int[2000];
         for(int i=0;i<2000;i++)
         {
             flag[i]=capacity;
         }
+        for(int i=0;i<rangel;i++) flag[i]=0;
+        for(int i=rangeh+1;i<2000;i++) flag[i]=0;
         int l=Bookedslots.size();
         for(int i=0;i<l;i++)
         {
@@ -99,6 +158,72 @@ public class FunctionList {
     boolean isNormalHoliday(node curr)
     {
         return true;
+    }
+    static ArrayList<free_slots> EmptySlots(int need,int rangel,int rangeh,int capacity,ArrayList<ExamHallSlot> Bookedslots,String rdates)
+    {
+        ArrayList<free_slots> FreeList=new ArrayList<>();
+        int flag[]=new int[2000];
+        for(int i=0;i<2000;i++)
+        {
+            flag[i]=capacity;
+        }
+        for(int i=0;i<rangel;i++)
+        {
+            flag[i]=0;
+        }
+        for(int i=rangeh+1;i<2000;i++)
+        {
+            flag[i]=0;
+        }
+        int l=Bookedslots.size();
+        for(int i=0;i<l;i++)
+        {
+            int stt=Bookedslots.get(i).startTime;
+            int ett=Bookedslots.get(i).endTime;
+            int count=Bookedslots.get(i).counter;
+            for(int j=stt;j<=ett;j++)
+            {
+                flag[j]-=count;
+            }
+        }
+        int ss=-1,ee=0,cc=1;
+        for(int i=rangel;i<=rangeh;i++)
+        {
+            if(flag[i]>=need)
+            {
+                ss=i;
+                break;
+            }
+        }
+        if(ss==-1) return FreeList;
+        boolean isCum=true;
+        int t=0;
+        for(int i=ss;i<=rangeh+1;i++)
+        {
+            if(isCum)
+            {
+                if(need<=flag[i])
+                {
+                    ee=i;
+                }
+                else
+                {
+                    FreeList.add(new free_slots(search_hall_date_range.standardtime(ss),search_hall_date_range.standardtime(ee),rdates));
+                    isCum=false;
+                }
+
+            }
+            else
+            {
+                if(need<=flag[i])
+                {
+                    ss=i;
+                    ee=i;
+                    isCum=true;
+                }
+            }
+        }
+        return FreeList;
     }
 
 }
