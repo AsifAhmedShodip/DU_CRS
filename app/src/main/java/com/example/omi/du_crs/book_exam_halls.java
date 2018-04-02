@@ -14,8 +14,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.asif.du_crs.R;
-import com.example.asif.du_crs.User_Department;
-import com.example.asif.du_crs.sign_in;
+import com.example.asif.du_crs.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -206,7 +205,7 @@ public class book_exam_halls extends AppCompatActivity {
                     temp.setStartTime(exam_st);
                     temp.setEndTime(exam_et);
                     temp.setCancelled(exsub.getText().toString());
-                    temp.setReserverId(User_Department.getCurrent().getDeptName().toString());
+                    temp.setReserverId(User.getCurrent().getDeptName().toString());
                     temp.counter=cnt;
                     ds.setValue(temp);
                     Toast.makeText(book_exam_halls.this, "Booking is Done", Toast.LENGTH_LONG).show();

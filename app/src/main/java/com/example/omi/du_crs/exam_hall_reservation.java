@@ -6,7 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.asif.du_crs.R;
-import com.example.asif.du_crs.User_Department;
+import com.example.asif.du_crs.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,7 +37,7 @@ public class exam_hall_reservation extends AppCompatActivity {
                 for (DataSnapshot users : dataSnapshot.getChildren()) {
                     ExamHallSlot temp = new ExamHallSlot();
                     temp = users.getValue(ExamHallSlot.class);
-                    if(temp.reserverId.equals(User_Department.getCurrent().getDeptName()))all_bookings.add(temp);
+                    if(temp.reserverId.equals(User.getCurrent().getDeptName()))all_bookings.add(temp);
                 }
                 adapter=new exam_hall_resrvation_adapter(all_bookings);
                 recyclerView.setAdapter(adapter);

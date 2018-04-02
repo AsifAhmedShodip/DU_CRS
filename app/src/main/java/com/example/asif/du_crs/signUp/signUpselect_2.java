@@ -1,4 +1,4 @@
-package com.example.asif.du_crs;
+package com.example.asif.du_crs.signUp;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -7,17 +7,21 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.asif.du_crs.R;
+import com.example.asif.du_crs.User;
+
 import java.util.ArrayList;
 
 import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
+
+import static com.example.asif.du_crs.signUp.signUpselect.userThatIsSigningUP;
 
 public class signUpselect_2 extends AppCompatActivity {
     private ImageButton ok;
     private TextView department;
     SpinnerDialog spinnerDialog;
     ArrayList<String> deptList=new ArrayList<>();
-    static User_Department newUser = new User_Department();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +43,14 @@ public class signUpselect_2 extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent signUp=new Intent(signUpselect_2.this,Sign_Up_Code.class);
-                startActivity(signUp);
+                if(userThatIsSigningUP.getAccessCode() == 2){
+                    Intent signUp=new Intent(signUpselect_2.this,Sign_Up_Code.class);
+                    startActivity(signUp);
+                }
+                else if(userThatIsSigningUP.getAccessCode() == 1){
+                    Intent signUp=new Intent(signUpselect_2.this,Sign_Up.class);
+                    startActivity(signUp);
+                }
             }
         });
     }
@@ -51,7 +61,8 @@ public class signUpselect_2 extends AppCompatActivity {
             @Override
             public void onClick(String item, int position) {
                 department.setText(item);
-                newUser.setDeptName(item);
+                userThatIsSigningUP.setDeptName(item);
+
             }
         });
     }

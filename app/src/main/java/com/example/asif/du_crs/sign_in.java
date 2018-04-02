@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asif.du_crs.signUp.signUpselect;
 import com.example.omi.du_crs.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -86,10 +87,10 @@ public class sign_in extends AppCompatActivity {
 
                                 for(DataSnapshot users : dataSnapshot.getChildren())
                                 {
-                                    User_Department temp=users.getValue(User_Department.class);
+                                    User temp=users.getValue(User.class);
 
                                     if(temp.getEmail().equals(email)) {
-                                        User_Department.current=temp;
+                                        User.current=temp;
                                         break;
                                     }
 
@@ -122,11 +123,11 @@ public class sign_in extends AppCompatActivity {
 
                     for(DataSnapshot users : dataSnapshot.getChildren())
                     {
-                        User_Department temp=users.getValue(User_Department.class);
+                        User temp=users.getValue(User.class);
 
                         if(temp.getEmail().equals(user.getEmail()))
                         {
-                            User_Department.current=temp;
+                            User.current=temp;
                             Toast.makeText(sign_in.this, temp.email, Toast.LENGTH_LONG).show();
                             break;
                         }

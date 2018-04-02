@@ -1,4 +1,4 @@
-package com.example.asif.du_crs;
+package com.example.asif.du_crs.signUp;
 
 /**
  * Created by asif on 26-Mar-18.

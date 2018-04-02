@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00cd9a"
-    tools:context="com.example.asif.du_crs.signUpselect">
+    android:background="@color/colorPrimary"
+    tools:context="com.example.asif.du_crs.signUp.signUpselect">
 
     <TextView
         android:id="@+id/type"
@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="194dp"
         android:gravity="center"
-        android:hint="Enter Code"
+        android:hint="How are you going to use the app?"
         android:paddingBottom="20dp"
         android:textColor="#000000"
         android:textSize="20dp"
@@ -24,12 +24,13 @@
         tools:layout_editor_absoluteY="171dp" />
 
 
-    <EditText
-        android:id="@+id/code"
+    <Spinner
+        android:id="@+id/spinner"
         android:layout_width="200dp"
         android:gravity="center"
         android:layout_height="40dp"
         android:layout_below="@+id/type"
+        android:spinnerMode="dialog"
         android:layout_centerHorizontal="true"
         android:background="#ffffff" />
 
@@ -41,5 +42,5 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:background="#00000000"
-        android:src="@drawable/ic_action_name" />
+        android:src="@drawable/ic_forward" />
 </RelativeLayout>

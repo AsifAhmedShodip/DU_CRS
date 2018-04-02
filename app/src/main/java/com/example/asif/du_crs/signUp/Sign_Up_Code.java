@@ -1,4 +1,4 @@
-package com.example.asif.du_crs;
+package com.example.asif.du_crs.signUp;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,16 +8,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.asif.du_crs.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import static com.example.asif.du_crs.signUpselect_2.newUser;
+import static com.example.asif.du_crs.signUp.signUpselect.userThatIsSigningUP;
 
 public class Sign_Up_Code extends AppCompatActivity {
 
@@ -46,7 +45,7 @@ public class Sign_Up_Code extends AppCompatActivity {
                             Long temp =users.getValue(Long.class);
                             String strLong = Long.toString(temp);
 
-                            if(mCode.equals(strLong)  && users.getKey().equals(newUser.getDeptName())) {
+                            if(mCode.equals(strLong)  && users.getKey().equals(userThatIsSigningUP.getDeptName())) {
                                 flag =true;
                                 Intent signUp = new Intent(Sign_Up_Code.this, Sign_Up.class);
                                 startActivity(signUp);
