@@ -27,7 +27,8 @@ public class admin_add_option extends AppCompatActivity {
     Spinner optionSpinnerDialog;
     private DatabaseReference databaseReference;
 
-    String fieldS,nameS;
+    String fieldS, nameS, sTime, eTime;
+    int capacityInt;
 
     ArrayList<String> optionList = new ArrayList<>();
 
@@ -42,8 +43,6 @@ public class admin_add_option extends AppCompatActivity {
         capacityET = (EditText) findViewById(R.id.et_capacity);
         addButton = (AppCompatButton) findViewById(R.id.b_add);
         optionSpinnerDialog = (Spinner) findViewById(R.id.spinner_category);
-
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("data");
 
         loadList();
         nullAll();
@@ -151,6 +150,12 @@ public class admin_add_option extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!checkNull()){
+                    detail newData = new detail(nameS, sTime, eTime, capacityInt);
+                    databaseReference = FirebaseDatabase.getInstance().getReference("data").child(fieldS);
+                    databaseReference.setValue(newData);
+
+                }
 
                 nullAll();
             }
@@ -174,7 +179,16 @@ public class admin_add_option extends AppCompatActivity {
     }
 
     boolean checkNull(){
-        boolean result = true;
+        boolean result = false;
+        nameS = nameET.getText().toString();
+        sTime = startTimeET.getText().toString();
+        eTime = endTimeET.getText().toString();
+        capacityInt = Integer.parseInt(capacityET.getText().toString());
+
+        if(nameS.equals("") || sTime.equals("") || eTime.equals("") || capacityInt==0){
+            result = true;
+        }
+
         return result;
     }
 }
