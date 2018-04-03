@@ -81,7 +81,6 @@ public class sign_in extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        progressDialog.dismiss();
                         DatabaseReference databaseUsers= FirebaseDatabase.getInstance().getReference().child("Users");
                         databaseUsers.addValueEventListener(new ValueEventListener() {
                             @Override
@@ -94,6 +93,7 @@ public class sign_in extends AppCompatActivity {
                                     if(temp.getEmail().equals(email)) {
                                         User.current=temp;
                                         userThatIsSignedIn = temp;
+                                        progressDialog.dismiss();
                                         if(temp.getAccessCode() == 10) {
                                             Intent intent = new Intent(sign_in.this, admin_add_option.class);
                                             startActivity(intent);
@@ -146,7 +146,6 @@ public class sign_in extends AppCompatActivity {
                         {
                             User.current=temp;
                             userThatIsSignedIn = temp;
-                            Toast.makeText(sign_in.this, temp.email, Toast.LENGTH_LONG).show();
                             if(temp.getAccessCode() == 10) {
                                 Intent intent = new Intent(sign_in.this, admin_add_option.class);
                                 startActivity(intent);
