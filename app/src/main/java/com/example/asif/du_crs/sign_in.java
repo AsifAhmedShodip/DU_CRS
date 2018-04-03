@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asif.du_crs.signUp.signUpselect;
+import com.example.rafi.du_crs.admin_add_option;
 import com.example.omi.du_crs.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,6 +32,7 @@ public class sign_in extends AppCompatActivity {
     private Button mSignIn;
     private TextView mSignUp,text;
     private EditText mEmail,mPass;
+    static User userThatIsSignedIn = new User();
 
 
     @Override
@@ -47,7 +49,7 @@ public class sign_in extends AppCompatActivity {
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/BerkshireSwash-Regular.ttf");
         text.setTypeface(type);
         
-        Check_Login_Status();
+        //Check_Login_Status();
 
         mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +93,15 @@ public class sign_in extends AppCompatActivity {
 
                                     if(temp.getEmail().equals(email)) {
                                         User.current=temp;
+                                        userThatIsSignedIn = temp;
+                                        if(temp.getAccessCode() == 10) {
+                                            Intent intent = new Intent(sign_in.this, admin_add_option.class);
+                                            startActivity(intent);
+                                        }
+                                        else if(temp.getAccessCode() == 1 || userThatIsSignedIn.getAccessCode() == 2){
+                                            Intent intent = new Intent(sign_in.this, Reservations.class);
+                                            startActivity(intent);
+                                        }
                                         break;
                                     }
 
@@ -102,8 +113,14 @@ public class sign_in extends AppCompatActivity {
 
                             }
                         });
-                        Intent intent = new Intent(sign_in.this,SearchActivity.class);
-                        startActivity(intent);
+                        if(User.current.getAccessCode() == 10) {
+                            Intent intent = new Intent(sign_in.this, admin_add_option.class);
+                            startActivity(intent);
+                        }
+                        else if(User.current.getAccessCode() == 1 || userThatIsSignedIn.getAccessCode() == 2){
+                            Intent intent = new Intent(sign_in.this, Reservations.class);
+                            startActivity(intent);
+                        }
                     } else {
                         Toast.makeText(sign_in.this, "Login failed", Toast.LENGTH_LONG).show();
                         progressDialog.dismiss();
@@ -128,7 +145,16 @@ public class sign_in extends AppCompatActivity {
                         if(temp.getEmail().equals(user.getEmail()))
                         {
                             User.current=temp;
+                            userThatIsSignedIn = temp;
                             Toast.makeText(sign_in.this, temp.email, Toast.LENGTH_LONG).show();
+                            if(temp.getAccessCode() == 10) {
+                                Intent intent = new Intent(sign_in.this, admin_add_option.class);
+                                startActivity(intent);
+                            }
+                            else if(temp.getAccessCode() == 1 || userThatIsSignedIn.getAccessCode() == 2){
+                                Intent intent = new Intent(sign_in.this, Reservations.class);
+                                startActivity(intent);
+                            }
                             break;
                         }
 
@@ -140,8 +166,6 @@ public class sign_in extends AppCompatActivity {
 
                 }
             });
-            Intent intent = new Intent(sign_in.this,SearchActivity.class);
-            startActivity(intent);
         }
     }
 }
