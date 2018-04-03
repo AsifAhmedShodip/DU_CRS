@@ -152,7 +152,7 @@ public class admin_add_option extends AppCompatActivity {
             public void onClick(View view) {
                 if(!checkNull()){
                     detail newData = new detail(nameS, sTime, eTime, capacityInt);
-                    databaseReference = FirebaseDatabase.getInstance().getReference("data").child(fieldS);
+                    databaseReference = FirebaseDatabase.getInstance().getReference("data").child(fieldS).child(nameS);
                     databaseReference.setValue(newData);
 
                 }

@@ -86,6 +86,7 @@ public class Sign_Up extends AppCompatActivity {
                         userThatIsSigningUP.setPass(pass);
                         userThatIsSigningUP.setUid(uid);
                         current.setValue(userThatIsSigningUP);
+                        User.setCurrent(userThatIsSigningUP);
                         Intent intent = new Intent(Sign_Up.this,MainActivity.class);
                         startActivity(intent) ;
                     }

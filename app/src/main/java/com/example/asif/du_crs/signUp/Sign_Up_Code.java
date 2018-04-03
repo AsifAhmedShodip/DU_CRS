@@ -42,10 +42,9 @@ public class Sign_Up_Code extends AppCompatActivity {
                         boolean flag = false;
                         for(DataSnapshot users : dataSnapshot.getChildren())
                         {
-                            Long temp =users.getValue(Long.class);
-                            String strLong = Long.toString(temp);
+                            String temp =users.getValue(String.class);
 
-                            if(mCode.equals(strLong)  && users.getKey().equals(userThatIsSigningUP.getDeptName())) {
+                            if(mCode.equals(temp)  && users.getKey().equals(userThatIsSigningUP.getDeptName())) {
                                 flag =true;
                                 Intent signUp = new Intent(Sign_Up_Code.this, Sign_Up.class);
                                 startActivity(signUp);

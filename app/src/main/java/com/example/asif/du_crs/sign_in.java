@@ -14,7 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asif.du_crs.signUp.signUpselect;
-import com.example.rafi.du_crs.admin_add_option;
+import com.example.rafi.du_crs.*;
+import com.example.omi.du_crs.*;
 import com.example.omi.du_crs.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -91,11 +92,11 @@ public class sign_in extends AppCompatActivity {
                                     User temp=users.getValue(User.class);
 
                                     if(temp.getEmail().equals(email)) {
-                                        User.current=temp;
+                                        User.setCurrent(temp);
                                         userThatIsSignedIn = temp;
                                         progressDialog.dismiss();
                                         if(temp.getAccessCode() == 10) {
-                                            Intent intent = new Intent(sign_in.this, admin_add_option.class);
+                                            Intent intent = new Intent(sign_in.this, admin_main.class);
                                             startActivity(intent);
                                         }
                                         else if(temp.getAccessCode() == 1 || userThatIsSignedIn.getAccessCode() == 2){
@@ -144,10 +145,10 @@ public class sign_in extends AppCompatActivity {
 
                         if(temp.getEmail().equals(user.getEmail()))
                         {
-                            User.current=temp;
+                            User.setCurrent(temp);
                             userThatIsSignedIn = temp;
                             if(temp.getAccessCode() == 10) {
-                                Intent intent = new Intent(sign_in.this, admin_add_option.class);
+                                Intent intent = new Intent(sign_in.this, admin_main.class);
                                 startActivity(intent);
                             }
                             else if(temp.getAccessCode() == 1 || userThatIsSignedIn.getAccessCode() == 2){
