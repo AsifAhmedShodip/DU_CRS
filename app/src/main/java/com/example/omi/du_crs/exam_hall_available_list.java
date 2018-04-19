@@ -69,7 +69,7 @@ public class exam_hall_available_list extends AppCompatActivity {
                     }
                     ctd=FunctionList.nextday(ctd);
                 }
-                adapter=new exam_hall_adapter(list,getApplicationContext());
+                adapter=new exam_hall_adapter(list,exam_hall_available_list.this);
                 recyclerView.setAdapter(adapter);
             }
 
@@ -105,7 +105,7 @@ public class exam_hall_available_list extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
 
-        adapter=new exam_hall_adapter(list,this);
+        adapter=new exam_hall_adapter(list,exam_hall_available_list.this);
         recyclerView.setAdapter(adapter);
     }
 }

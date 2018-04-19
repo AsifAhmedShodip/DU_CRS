@@ -62,6 +62,10 @@ public class GridDepAdapter extends ArrayAdapter {
                     getDate();
                     //gotoClassroom();
                 }
+                if(position==3)
+                {
+                    gotoExamHall();
+                }
             }
         });
         return v;
@@ -90,6 +94,11 @@ public class GridDepAdapter extends ArrayAdapter {
 
     private void gotoClassroom() {
         Intent intent = new Intent(context, Classroom.class);
+        context.startActivity(intent);
+    }
+    private void gotoExamHall()
+    {
+        Intent intent = new Intent(context, ExamHallCalendar.class);
         context.startActivity(intent);
     }
 }

@@ -52,8 +52,4 @@ dependencies {
 
 
 
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 apply plugin: 'com.google.gms.google-services'
