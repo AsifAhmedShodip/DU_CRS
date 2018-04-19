@@ -51,6 +51,7 @@
         <activity android:name="com.example.rafi.du_crs.admin_booking_detail" />
         <activity android:name="com.example.rafi.du_crs.admin_main" />
         <activity android:name="com.example.omi.du_crs.department_home"></activity>
+        <activity android:name="com.example.asif.du_crs.Classroom"></activity>
     </application>
 
 </manifest>

@@ -24,7 +24,7 @@ public class department_home extends AppCompatActivity {
         choices.add("Ground");
         choices.add("Auditorioum");
         simpleList = findViewById(R.id.simpleGridView);
-        GridDepAdapter adapter=new GridDepAdapter(department_home.this,R.layout.optionss,choices);
+        GridDepAdapter adapter=new GridDepAdapter(this,R.layout.optionss,choices);
         simpleList.setAdapter(adapter);
     }
 }
