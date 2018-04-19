@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="com.example.omi.du_crs.department_home">
+    <GridView
+        android:id="@+id/simpleGridView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical|horizontal"
+        android:horizontalSpacing="10dip"
+        android:verticalSpacing="10dip"
+        android:adjustViewBounds="true"
+        android:layout_margin="10dp"
+        android:numColumns="2">
+
+    </GridView>
+
+</RelativeLayout>
