@@ -55,7 +55,10 @@ public class signUpselect extends AppCompatActivity implements AdapterView.OnIte
         else
             userThatIsSigningUP.setAccessCode(1);
     }
-    public void onNothingSelected(AdapterView<?> arg0) {
-        // TODO Auto-generated method stub
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
+
 }
