@@ -43,6 +43,10 @@ public class book_exam_halls extends AppCompatActivity {
         exet=findViewById(R.id.exet);
         excnt=findViewById(R.id.excnt);
         exsub=findViewById(R.id.exsub);
+        exd.setText(ExamHallCalendar.mdate);
+        exst.setText(ExamHallCalendar.mstime);
+        exet.setText(ExamHallCalendar.metime);
+        excnt.setText(ExamHallCalendar.cnt);
         booking_button=findViewById(R.id.booking_button);
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name);
         databaseReference.addValueEventListener(new ValueEventListener() {

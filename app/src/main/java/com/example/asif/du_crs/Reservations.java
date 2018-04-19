@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.omi.du_crs.ExamHallCalendar;
 import com.example.omi.du_crs.SearchActivity;
 
 public class Reservations extends AppCompatActivity {
@@ -27,7 +28,7 @@ public class Reservations extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.search:
-                Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
+                Intent intent = new Intent(getApplicationContext(),ExamHallCalendar.class);
                 startActivity(intent);
         }
         return true;

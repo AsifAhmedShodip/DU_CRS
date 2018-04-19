@@ -27,6 +27,14 @@
             android:layout_below="@+id/t1"
             android:id="@+id/t2"
             />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Book Now"
+            android:layout_below="@id/t2"
+            android:id="@+id/t3"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/fab_margin"/>
 
     </RelativeLayout>
 
