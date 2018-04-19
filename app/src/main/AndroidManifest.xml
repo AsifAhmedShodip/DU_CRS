@@ -9,7 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".signUp.Sign_Up"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".sign_in"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,13 +23,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Sign_Up"
+            android:name=".signUp.signUpselect"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".sign_in"
+            android:name=".signUp.signUpselect_2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".signUpselect"
+            android:name=".signUp.Sign_Up_Code"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Reservations" />
         <activity
@@ -40,7 +46,10 @@
             android:label="@string/title_activity_book__exam__hall"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name="com.example.omi.du_crs.book_exam_halls" />
-        <activity android:name="com.example.omi.du_crs.exam_hall_reservation"></activity>
+        <activity android:name="com.example.omi.du_crs.exam_hall_reservation" />
+        <activity android:name="com.example.rafi.du_crs.admin_add_option" />
+        <activity android:name="com.example.rafi.du_crs.admin_booking_detail" />
+        <activity android:name="com.example.rafi.du_crs.admin_main"></activity>
     </application>
 
 </manifest>

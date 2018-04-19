@@ -13,6 +13,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asif.du_crs.signUp.signUpselect;
+import com.example.rafi.du_crs.*;
+import com.example.omi.du_crs.*;
 import com.example.omi.du_crs.SearchActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,6 +33,7 @@ public class sign_in extends AppCompatActivity {
     private Button mSignIn;
     private TextView mSignUp,text;
     private EditText mEmail,mPass;
+    static User userThatIsSignedIn = new User();
 
 
     @Override
@@ -46,7 +50,7 @@ public class sign_in extends AppCompatActivity {
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/BerkshireSwash-Regular.ttf");
         text.setTypeface(type);
         
-        Check_Login_Status();
+        //Check_Login_Status();
 
         mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +82,6 @@ public class sign_in extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        progressDialog.dismiss();
                         DatabaseReference databaseUsers= FirebaseDatabase.getInstance().getReference().child("Users");
                         databaseUsers.addValueEventListener(new ValueEventListener() {
                             @Override
@@ -86,10 +89,20 @@ public class sign_in extends AppCompatActivity {
 
                                 for(DataSnapshot users : dataSnapshot.getChildren())
                                 {
-                                    User_Department temp=users.getValue(User_Department.class);
+                                    User temp=users.getValue(User.class);
 
                                     if(temp.getEmail().equals(email)) {
-                                        User_Department.current=temp;
+                                        User.setCurrent(temp);
+                                        userThatIsSignedIn = temp;
+                                        progressDialog.dismiss();
+                                        if(temp.getAccessCode() == 10) {
+                                            Intent intent = new Intent(sign_in.this, admin_main.class);
+                                            startActivity(intent);
+                                        }
+                                        else if(temp.getAccessCode() == 1 || userThatIsSignedIn.getAccessCode() == 2){
+                                            Intent intent = new Intent(sign_in.this, Reservations.class);
+                                            startActivity(intent);
+                                        }
                                         break;
                                     }
 
@@ -101,8 +114,14 @@ public class sign_in extends AppCompatActivity {
 
                             }
                         });
-                        Intent intent = new Intent(sign_in.this,SearchActivity.class);
-                        startActivity(intent);
+                        if(User.current.getAccessCode() == 10) {
+                            Intent intent = new Intent(sign_in.this, admin_add_option.class);
+                            startActivity(intent);
+                        }
+                        else if(User.current.getAccessCode() == 1 || userThatIsSignedIn.getAccessCode() == 2){
+                            Intent intent = new Intent(sign_in.this, Reservations.class);
+                            startActivity(intent);
+                        }
                     } else {
                         Toast.makeText(sign_in.this, "Login failed", Toast.LENGTH_LONG).show();
                         progressDialog.dismiss();
@@ -122,12 +141,20 @@ public class sign_in extends AppCompatActivity {
 
                     for(DataSnapshot users : dataSnapshot.getChildren())
                     {
-                        User_Department temp=users.getValue(User_Department.class);
+                        User temp=users.getValue(User.class);
 
                         if(temp.getEmail().equals(user.getEmail()))
                         {
-                            User_Department.current=temp;
-                            Toast.makeText(sign_in.this, temp.email, Toast.LENGTH_LONG).show();
+                            User.setCurrent(temp);
+                            userThatIsSignedIn = temp;
+                            if(temp.getAccessCode() == 10) {
+                                Intent intent = new Intent(sign_in.this, admin_main.class);
+                                startActivity(intent);
+                            }
+                            else if(temp.getAccessCode() == 1 || userThatIsSignedIn.getAccessCode() == 2){
+                                Intent intent = new Intent(sign_in.this, Reservations.class);
+                                startActivity(intent);
+                            }
                             break;
                         }
 
@@ -139,8 +166,6 @@ public class sign_in extends AppCompatActivity {
 
                 }
             });
-            Intent intent = new Intent(sign_in.this,SearchActivity.class);
-            startActivity(intent);
         }
     }
 }

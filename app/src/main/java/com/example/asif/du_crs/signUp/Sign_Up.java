@@ -1,4 +1,4 @@
-package com.example.asif.du_crs;
+package com.example.asif.du_crs.signUp;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -11,6 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.asif.du_crs.MainActivity;
+import com.example.asif.du_crs.R;
+import com.example.asif.du_crs.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,9 +26,11 @@ import java.util.ArrayList;
 import in.galaxyofandroid.spinerdialog.OnSpinerItemClick;
 import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 
+import static com.example.asif.du_crs.signUp.signUpselect.userThatIsSigningUP;
+
 public class Sign_Up extends AppCompatActivity {
 
-    private EditText deptName , mCode , mEmail, mPass , mRepass;
+    private EditText mEmail, mPass , mRepass , mName;
     private Button mSignUp;
     private TextView mLogin;
     private DatabaseReference mDatabase;
@@ -39,26 +44,15 @@ public class Sign_Up extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign__up);
 
-
-        deptName = (EditText) findViewById(R.id.deptName);
         mEmail = (EditText) findViewById(R.id.email);
         mPass = (EditText) findViewById(R.id.password);
         mSignUp= (Button) findViewById(R.id.btn_signup);
         mRepass = findViewById(R.id.retype);
-        mCode=findViewById(R.id.code);
         mLogin = findViewById(R.id.link_login);
         mAuth = FirebaseAuth.getInstance();
+        mName = findViewById(R.id.name);
+
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-
-        Fill_deptList();
-        selectDepartment();
-        deptName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                spinnerDialog.showSpinerDialog();
-            }
-        });
-
 
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,34 +62,14 @@ public class Sign_Up extends AppCompatActivity {
         });
     }
 
-    private void selectDepartment(){
-        spinnerDialog=new SpinnerDialog(Sign_Up.this,deptList,"Select Department",R.style.DialogAnimations_SmileWindow,"Close");
-        spinnerDialog.bindOnSpinerListener(new OnSpinerItemClick() {
-            @Override
-            public void onClick(String item, int position) {
-                deptName.setText(item);
-            }
-        });
-    }
-
-
-    private void Fill_deptList() {
-        deptList.add("Computer Science and Engineering");
-        deptList.add("Pharmacy");
-        deptList.add("Physics");
-        deptList.add("Chemistry");
-    }
-
     private void startSignUp() {
-        final String dept = deptName.getText().toString().trim();
         final String email = mEmail.getText().toString().trim();
         final String pass = mPass.getText().toString().trim();
+        final String name = mName.getText().toString().trim();
         final String rePass = mRepass.getText().toString().trim(); //need to implement
-        final String code = mCode.getText().toString().trim();
 
 
-        if(!TextUtils.isEmpty(dept) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass) && !TextUtils.isEmpty(rePass)
-                && !TextUtils.isEmpty(code))
+        if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(pass) && !TextUtils.isEmpty(rePass))
         {
            /* mprog.setMessage("Signing UP...");
             mprog.show();*/
@@ -107,9 +81,12 @@ public class Sign_Up extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"DONE",Toast.LENGTH_LONG).show();
                         String uid = mAuth.getCurrentUser().getUid();
                         DatabaseReference current  = mDatabase.child(uid);
-
-                        User_Department temp= new User_Department(dept,email,pass,uid);
-                        current.setValue(temp);
+                        userThatIsSigningUP.setEmail(email);
+                        userThatIsSigningUP.setName(name);
+                        userThatIsSigningUP.setPass(pass);
+                        userThatIsSigningUP.setUid(uid);
+                        current.setValue(userThatIsSigningUP);
+                        User.setCurrent(userThatIsSigningUP);
                         Intent intent = new Intent(Sign_Up.this,MainActivity.class);
                         startActivity(intent) ;
                     }

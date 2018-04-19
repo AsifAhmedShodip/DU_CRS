@@ -4,29 +4,49 @@ package com.example.asif.du_crs;
  * Created by asif on 26-Mar-18.
  */
 
-public class User_Department {
-    static User_Department current=new User_Department();
-    String deptName =null , email=null , pass = null , uid=null ;
+public class User {
+    static User current=new User();
+    String deptName =null , email=null , pass = null , uid=null ,name ;
+    int accessCode = 0;
 
-    public User_Department()
+    public User()
     {
         deptName=email=pass=uid="Not Selected";
+        accessCode = 0;
     }
 
-    public User_Department(String dept , String mail , String password , String id)
+    public User(String dept , String mail ,String n, String password , String id ,int code)
     {
+        name = n;
         deptName = dept;
         email = mail;
         pass = password;
         uid = id;
+        accessCode = code;
     }
 
-    public static User_Department getCurrent() {
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAccessCode() {
+        return accessCode;
+    }
+
+    public void setAccessCode(int accessCode) {
+        this.accessCode = accessCode;
+    }
+
+    public static User getCurrent() {
         return current;
     }
 
-    public static void setCurrent(User_Department current) {
-        User_Department.current = current;
+    public static void setCurrent(User current) {
+        User.current = current;
     }
 
     public String getDeptName() {
