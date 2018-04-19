@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cv"
+    app:cardBackgroundColor="#ff6128"
+    android:layout_margin="8dp">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FFFFEF"
+        android:layout_marginTop="15dp">
+        <TextView
+            android:paddingLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/t4"/>
+        <TextView
+            android:paddingLeft="4dp"
+            android:paddingTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date : 12/06/07"
+            android:id="@+id/t1"
+            />
+        <TextView
+            android:paddingLeft="4dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Time Slot: 12:45-4:45"
+            android:layout_below="@+id/t1"
+            android:id="@+id/t2"
+            />
+        <TextView
+            android:paddingLeft="4dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@+id/t2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Subject : CSE-2202"
+            android:id="@+id/t3"/>
+        <TextView
+            android:paddingLeft="4dp"
+            android:paddingBottom="10dp"
+            android:layout_below="@+id/t3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Reserver Id : CSE"
+            android:id="@+id/t5"/>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -77,6 +77,13 @@ public class ExamHallCalendar extends AppCompatActivity {
                     Intent intent = new Intent(ExamHallCalendar.this,exam_hall_reservation.class);
                     startActivity(intent);
                 }
+                if(choicee==0)
+                {
+                    FunctionList.exam_hall_search.hall_name="Karjon Hall";
+                    mdate=s;
+                    Intent intent = new Intent(ExamHallCalendar.this,ExamHallSchedule.class);
+                    startActivity(intent);
+                }
                 //editText.setText(s);
             }
         });

@@ -50,9 +50,13 @@
         <activity android:name="com.example.rafi.du_crs.admin_add_option" />
         <activity android:name="com.example.rafi.du_crs.admin_booking_detail" />
         <activity android:name="com.example.rafi.du_crs.admin_main" />
-        <activity android:name="com.example.omi.du_crs.department_home"></activity>
-        <activity android:name="com.example.asif.du_crs.Classroom"></activity>
-        <activity android:name="com.example.omi.du_crs.ExamHallCalendar"></activity>
+        <activity android:name="com.example.omi.du_crs.department_home" />
+        <activity android:name=".Classroom" />
+        <activity android:name="com.example.omi.du_crs.ExamHallCalendar" />
+        <activity
+            android:name="com.example.omi.du_crs.ExamHallSchedule"
+            android:label="@string/title_activity_exam_hall_schedule"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

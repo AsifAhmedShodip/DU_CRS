@@ -96,4 +96,5 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_book__exam__hall">Book_Exam_Hall</string>
+    <string name="title_activity_exam_hall_schedule">ExamHallSchedule</string>
 </resources>
