@@ -1,6 +1,8 @@
 package com.example.asif.du_crs;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import com.example.asif.du_crs.signUp.signUpselect;
 import com.example.asif.du_crs.signUp.signUpselect_2;
@@ -81,7 +84,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
             day = b.getString("day");
         }
 
-        date.setText(day+"/"+month+"/"+year);
+        date.setText(day+"-"+month+"-"+year);
 
         Fill_classList(); // Remember to fill the list from admin
         selectClassroom();
@@ -96,6 +99,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
 
         check.setOnClickListener(this);
         date.setOnClickListener(this);
+        book.setOnClickListener(this);
     }
 
     private void selectClassroom() {
@@ -126,7 +130,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                 book.setVisibility(View.INVISIBLE);
                 result.setText("");
 
-                final String date = day+"-"+"01"+"-"+year;  //have to reConfigure
+                final String date = day+"-"+month+"-"+year;  //have to reConfigure
                 databaseReference= FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date);
                 databaseReference.addValueEventListener(new ValueEventListener() {
                    @Override
@@ -134,7 +138,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                        for(DataSnapshot users : dataSnapshot.getChildren()){
                             Classroom_Object classroom_object = users.getValue(Classroom_Object.class);
                             if(selectRoom.getText().toString().equals(classroom_object.getRoom()))
-                                bookedslots.add(classroom_object.getsTiem()+"A.M  -  "+classroom_object.geteTime()+"A.M");
+                                bookedslots.add(classroom_object.getsTiem()+"  -  "+classroom_object.geteTime());
                        }
 
                        if(bookedslots.size() == 0){
@@ -181,6 +185,13 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                         }, mYear, mMonth, mDay);
                 datePickerDialog.show();
                 break;
+            }
+
+            case R.id.book:{
+                Intent intent = new Intent(this, Classroom_book.class);
+                intent.putExtra("date",date.getText().toString());
+                intent.putExtra("room",selectRoom.getText().toString());
+                startActivity(intent);
             }
         }
     }

@@ -17,6 +17,13 @@
         <item name="colorAccent">#00cd9a</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Dialog">
+        <!-- Customize your theme here. -->
+        <item name="android:windowBackground">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
     <style name="DialogAnimations" />
 
     <style name="DialogAnimations.SmileWindow">

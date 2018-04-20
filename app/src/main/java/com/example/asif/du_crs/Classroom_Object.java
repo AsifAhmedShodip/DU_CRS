@@ -5,9 +5,17 @@ package com.example.asif.du_crs;
  */
 
 public class Classroom_Object {
-    String room,bookedBy,sTiem,eTime;
+    String room,bookedBy,sTiem,eTime,detail;
 
     public Classroom_Object() {
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
     }
 
     public String getRoom() {

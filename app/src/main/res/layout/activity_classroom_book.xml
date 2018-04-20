@@ -1,9 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:layout_marginBottom="40dp"
     tools:context="com.example.asif.du_crs.Classroom_book">
 
-</android.support.constraint.ConstraintLayout>
+    <EditText
+        android:id="@+id/detail"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_margin="13dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:text="For What?"
+        android:background="#ffffff"
+        android:maxLines="1"
+        android:spinnerMode="dialog"
+        android:textColor="#000000"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/eTime2"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/sTime2"
+        android:layout_marginStart="75dp"
+        android:layout_toEndOf="@+id/sTime2"
+        android:background="@drawable/textinput_2"
+        android:gravity="center"
+        android:text="End Time" />
+
+
+    <TextView
+        android:id="@+id/sTime2"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/detail"
+        android:layout_marginStart="71dp"
+        android:layout_marginTop="18dp"
+        android:background="@drawable/textinput_2"
+        android:gravity="center"
+        android:text="Start Time" />
+
+    <Button
+        android:id="@+id/finalbook"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/eTime2"
+        android:layout_marginTop="26dp"
+        android:layout_toEndOf="@+id/sTime2"
+        android:background="@drawable/textinput_2"
+        android:gravity="center"
+        android:text="Book" />
+
+</RelativeLayout>
