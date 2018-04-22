@@ -19,29 +19,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:id="@+id/spinner_category"/>
-            <EditText
+            <Spinner
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_below="@+id/spinner_category"
+                android:id="@+id/spinner_dept_list"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/spinner_dept_list"
                 android:id="@+id/et_name"
                 android:hint="Name"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_below="@+id/et_name"
+                android:id="@+id/et_location"
+                android:hint="Location"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_below="@+id/et_location"
                 android:id="@+id/et_start_time"
-                android:hint="Start time"/>
+                android:hint="Availability start time"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_below="@+id/et_start_time"
                 android:id="@+id/et_end_time"
-                android:hint="End time"/>
+                android:hint="Availability end time"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_below="@+id/et_end_time"
                 android:id="@+id/et_capacity"
+                android:inputType="number"
                 android:hint="Capacity"/>
             <android.support.v7.widget.AppCompatButton
                 android:layout_width="wrap_content"
