@@ -63,6 +63,12 @@ public class admin_add_option extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 fieldS = adapterView.getItemAtPosition(i).toString();
+                if(!fieldS.equals("Class") && !fieldS.equals("Lab")){
+                    deptListSpinnerDialog.setVisibility(view.GONE);
+                }
+                else {
+                    deptListSpinnerDialog.setVisibility(view.VISIBLE);
+                }
             }
 
             @Override
@@ -177,8 +183,14 @@ public class admin_add_option extends AppCompatActivity {
             public void onClick(View view) {
                 if(!checkNull()){
                     detail newData = new detail(nameS, locationS, sTime, eTime, capacityInt);
-                    databaseReference = FirebaseDatabase.getInstance().getReference("data").child(fieldS).child(deptS).child(nameS);
-                    databaseReference.setValue(newData);
+                    if(fieldS.equals("Class") || fieldS.equals("Lab")){
+                        databaseReference = FirebaseDatabase.getInstance().getReference("data").child(fieldS).child(deptS).child(nameS);
+                        databaseReference.setValue(newData);
+                    }
+                    else {
+                        databaseReference = FirebaseDatabase.getInstance().getReference("data").child(fieldS).child(nameS);
+                        databaseReference.setValue(newData);
+                    }
 
                 }
 
