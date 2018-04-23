@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -40,11 +41,15 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
     String month;
     String day;
     DatabaseReference databaseReference;
+    boolean isRoomTypeSelected = true;
+    final ArrayList<String> availableClassroom=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classroom);
+
+        getSupportActionBar().setTitle("Classroom");
         
         check = findViewById(R.id.check);
         book = findViewById(R.id.book);
@@ -100,6 +105,8 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
         check.setOnClickListener(this);
         date.setOnClickListener(this);
         book.setOnClickListener(this);
+        sTime.setOnClickListener(this);
+        eTime.setOnClickListener(this);
     }
 
     private void selectClassroom() {
@@ -124,46 +131,12 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.check:{
-                final ArrayList<String> bookedslots=new ArrayList<>();
-                bookedslots.removeAll(bookedslots);
-                result.setVisibility(View.INVISIBLE);
-                book.setVisibility(View.INVISIBLE);
-                result.setText("");
-
-                final String date = day+"-"+month+"-"+year;  //have to reConfigure
-                databaseReference= FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date);
-                databaseReference.addValueEventListener(new ValueEventListener() {
-                   @Override
-                   public void onDataChange(DataSnapshot dataSnapshot) {
-                       for(DataSnapshot users : dataSnapshot.getChildren()){
-                            Classroom_Object classroom_object = users.getValue(Classroom_Object.class);
-                            if(selectRoom.getText().toString().equals(classroom_object.getRoom()))
-                                bookedslots.add(classroom_object.getsTiem()+"  -  "+classroom_object.geteTime());
-                       }
-
-                       if(bookedslots.size() == 0){
-                           result.setVisibility(View.VISIBLE);
-                           result.setText("All day is avaiable on \n("+date+")");
-                           book.setVisibility(View.VISIBLE);
-                       }
-                       else {
-                           result.setVisibility(View.VISIBLE);
-                           book.setVisibility(View.VISIBLE);
-                           list.setVisibility(View.VISIBLE);
-                           //result.append("");
-                           result.setText("Below listed time slots are NOT available:\n\n");
-                           for (int i =0;i<bookedslots.size();i++){
-                               result.append(bookedslots.get(i)+"\n");
-                           }
-                       }
-
-                   }
-
-                   @Override
-                   public void onCancelled(DatabaseError databaseError) {
-
-                   }
-                });
+                if(isRoomTypeSelected){
+                    checkForRoomType();
+                }
+                else{
+                    checkForTimeType();
+                }
                 break;
             }
             case R.id.date:{
@@ -176,7 +149,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int yr, int monthOfYear, int dayOfMonth) {
-                                date.setText(Integer.toString(dayOfMonth)+"/"+Integer.toString(monthOfYear+1)+"/"+Integer.toString(yr));
+                                date.setText(Integer.toString(dayOfMonth)+"-"+Integer.toString(monthOfYear+1)+"-"+Integer.toString(yr));
                                 year = Integer.toString(yr);
                                 month  = Integer.toString(monthOfYear);
                                 day = Integer.toString(dayOfMonth);
@@ -188,18 +161,138 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
             }
 
             case R.id.book:{
-                Intent intent = new Intent(this, Classroom_book.class);
+                Intent intent = new Intent(this, Book_Classroom.class);
                 intent.putExtra("date",date.getText().toString());
                 intent.putExtra("room",selectRoom.getText().toString());
                 startActivity(intent);
             }
+
+            case R.id.select_start:{
+                Calendar mcurrentTime = Calendar.getInstance();
+                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+                int minute = mcurrentTime.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker;
+                mTimePicker = new TimePickerDialog(Classroom.this, AlertDialog.THEME_HOLO_LIGHT, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int selectedMinute) {
+                        String status = "AM";
+
+                        if(hourOfDay > 11)
+                        {
+                            status = "PM";
+                        }
+                        int hour_of_12_hour_format;
+
+                        if(hourOfDay > 11){
+                            hour_of_12_hour_format = hourOfDay - 12;
+                        }
+                        else {
+                            hour_of_12_hour_format = hourOfDay;
+                        }
+
+                        sTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
+                    }
+                }, hour, minute, false);//Yes 24 hour time
+                mTimePicker.setTitle("Select Time");
+                mTimePicker.show();
+                break;
+            }
+
+            case R.id.etime:{
+                Calendar mcurrentTime2 = Calendar.getInstance();
+                int hour2 = mcurrentTime2.get(Calendar.HOUR_OF_DAY);
+                int minute2 = mcurrentTime2.get(Calendar.MINUTE);
+                TimePickerDialog mTimePicker2;
+                mTimePicker2 = new TimePickerDialog(Classroom.this,AlertDialog.THEME_HOLO_LIGHT, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int selectedMinute) {
+                        String status = "AM";
+
+                        if(hourOfDay > 11)
+                        {
+                            status = "PM";
+                        }
+                        int hour_of_12_hour_format;
+
+                        if(hourOfDay > 11){
+                            hour_of_12_hour_format = hourOfDay - 12;
+                        }
+                        else {
+                            hour_of_12_hour_format = hourOfDay;
+                        }
+
+                        eTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
+                    }
+                }, hour2, minute2, false);//Yes 24 hour time
+                mTimePicker2.setTitle("Select Time");
+                mTimePicker2.show();
+                break;
+            }
         }
+    }
+
+    private void checkForTimeType() {
+        result.setVisibility(View.INVISIBLE);
+        book.setVisibility(View.INVISIBLE);
+        result.setText("");
+        boolean flag ;
+        String availableClass = "";
+
+        for(int i =0 ;i<classList.size();i++){
+            availableClassroom.add(classList.get(i));
+        }
+
+        loadNotAvailableTimeSlots();
+    }
+
+    private void checkForRoomType() {
+        final ArrayList<String> bookedslots=new ArrayList<>();
+        result.setVisibility(View.INVISIBLE);
+        book.setVisibility(View.INVISIBLE);
+        result.setText("");
+
+        final String date = day+"-"+month+"-"+year;  //have to reConfigure
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                bookedslots.removeAll(bookedslots);
+                for(DataSnapshot users : dataSnapshot.getChildren()){
+                    Classroom_Object classroom_object = users.getValue(Classroom_Object.class);
+                    if(selectRoom.getText().toString().equals(classroom_object.getRoom()))
+                        bookedslots.add(classroom_object.getsTiem()+"  -  "+classroom_object.geteTime());
+                }
+
+                if(bookedslots.size() == 0){
+                    result.setVisibility(View.VISIBLE);
+                    result.setText("All day is avaiable on \n("+date+")");
+                    book.setVisibility(View.VISIBLE);
+                }
+                else {
+                    result.setVisibility(View.VISIBLE);
+                    book.setVisibility(View.VISIBLE);
+                    list.setVisibility(View.VISIBLE);
+                    //result.append("");
+                    result.setText("Below listed time slots are NOT available:\n\n");
+                    for (int i =0;i<bookedslots.size();i++){
+                        result.append(bookedslots.get(i)+"\n");
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
         if(position==0){
+            isRoomTypeSelected = true;
             sTime_text.setVisibility(View.GONE);
             sTime.setVisibility(View.GONE);
             eTime_text.setVisibility(View.GONE);
@@ -208,8 +301,10 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
             selectRoom.setVisibility(View.VISIBLE);
             result.setVisibility(View.GONE);
             book.setVisibility(View.GONE);
+            list.setVisibility(View.GONE);
         }
         else{
+            isRoomTypeSelected = false;
             sTime_text.setVisibility(View.VISIBLE);
             sTime.setVisibility(View.VISIBLE);
             eTime_text.setVisibility(View.VISIBLE);
@@ -218,11 +313,84 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
             selectRoom.setVisibility(View.GONE);
             result.setVisibility(View.GONE);
             book.setVisibility(View.GONE);
+            list.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
 
+    }
+
+    private void loadNotAvailableTimeSlots() {
+        final boolean[] flag = {true};
+        final ArrayList<Double> sTimeSlots=new ArrayList<>();
+        final ArrayList<Double> eTimeSlots=new ArrayList<>();
+
+        String string = sTime.getText().toString();
+        String[] parts = string.split(" ");
+        string = parts[0]+"."+parts[2];
+        Double start = Double.parseDouble(string);
+        if(parts[3].equals("PM")){
+            start = start + 12.00;
+        }
+
+        String string2 = eTime.getText().toString();
+        String[] parts2 = string2.split(" ");
+        string2 = parts2[0]+"."+parts2[2];
+        Double end = Double.parseDouble(string2);
+        if(parts2[3].equals("PM")){
+            end = end + 12.00;
+        }
+
+
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date.getText().toString());
+        final Double finalStart = start;
+        final Double finalEnd = end;
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot users : dataSnapshot.getChildren()){
+
+                    Classroom_Object classroom_object = users.getValue(Classroom_Object.class);
+                    Double firstTime = Double.parseDouble(classroom_object.getsTiem());
+                    Double secondTime = Double.parseDouble(classroom_object.geteTime());
+
+                    firstTime = firstTime + 00.10;
+                    secondTime = secondTime - 00.10;
+
+                    if(finalStart >= firstTime && finalStart <= secondTime){
+                        availableClassroom.remove(classroom_object.getRoom());
+                    }
+                    else if (finalEnd >= firstTime && finalEnd <= secondTime){
+                        availableClassroom.add(classroom_object.getRoom());
+                    }
+                }
+
+                if(availableClassroom.size() == 0){
+                    result.setVisibility(View.VISIBLE);
+                    result.setText("No classroom is available for this time slot !!!");
+                    //book.setVisibility(View.VISIBLE);
+                    list.setVisibility(View.VISIBLE);
+                }
+                else {
+                    result.setVisibility(View.VISIBLE);
+                    result.setText("Below listed Room is Available:\n");
+                    book.setVisibility(View.VISIBLE);
+                    list.setVisibility(View.VISIBLE);
+
+                    for(int i = 0;i<availableClassroom.size();i++){
+                        result.append("\n"+availableClassroom.get(i));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

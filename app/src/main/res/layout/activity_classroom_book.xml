@@ -4,57 +4,80 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
-    android:layout_marginBottom="40dp"
-    tools:context="com.example.asif.du_crs.Classroom_book">
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:layout_marginBottom="40dp">
+
+    <TextView
+        android:id="@+id/date2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:background="#ffffff"
+        android:layout_margin="13dp"
+        android:text="Date"
+        android:textSize="16dp" />
+
+    <TextView
+        android:id="@+id/room2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:layout_below="@+id/date2"
+        android:background="#ffffff"
+        android:layout_margin="13dp"
+        android:text="Date"
+        android:textSize="16dp" />
 
     <EditText
         android:id="@+id/detail"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_margin="13dp"
+        android:layout_below="@+id/room2"
         android:ellipsize="end"
         android:gravity="center"
-        android:text="For What?"
+        android:hint="For What?"
         android:background="#ffffff"
         android:maxLines="1"
-        android:spinnerMode="dialog"
         android:textColor="#000000"
-        android:textSize="20dp" />
+        android:textSize="16dp" />
 
     <TextView
         android:id="@+id/eTime2"
-        android:layout_width="80dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_alignBottom="@+id/sTime2"
-        android:layout_marginStart="75dp"
-        android:layout_toEndOf="@+id/sTime2"
-        android:background="@drawable/textinput_2"
+        android:layout_below="@+id/sTime2"
+        android:layout_marginTop="16dp"
         android:gravity="center"
-        android:text="End Time" />
+        android:background="#ffffff"
+        android:layout_margin="13dp"
+        android:text="End Time"
+        android:textSize="16dp" />
 
 
     <TextView
         android:id="@+id/sTime2"
-        android:layout_width="80dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/detail"
-        android:layout_marginStart="71dp"
-        android:layout_marginTop="18dp"
-        android:background="@drawable/textinput_2"
+        android:background="#ffffff"
+        android:layout_margin="13dp"
+        android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Start Time" />
+        android:text="Start Time"
+        android:textSize="16dp" />
 
     <Button
-        android:id="@+id/finalbook"
-        android:layout_width="80dp"
+        android:id="@+id/book2"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/eTime2"
         android:layout_marginTop="26dp"
-        android:layout_toEndOf="@+id/sTime2"
+        android:layout_margin="13dp"
         android:background="@drawable/textinput_2"
         android:gravity="center"
         android:text="Book" />

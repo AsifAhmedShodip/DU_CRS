@@ -50,7 +50,7 @@ public class sign_in extends AppCompatActivity {
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/BerkshireSwash-Regular.ttf");
         text.setTypeface(type);
         
-        Check_Login_Status();
+        //Check_Login_Status();
 
         mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +100,7 @@ public class sign_in extends AppCompatActivity {
                                             startActivity(intent);
                                         }
                                         else if(temp.getAccessCode() == 1 || userThatIsSignedIn.getAccessCode() == 2){
-                                            Intent intent = new Intent(sign_in.this, Reservations.class);
+                                            Intent intent = new Intent(sign_in.this, department_home.class);
                                             startActivity(intent);
                                         }
                                         break;
