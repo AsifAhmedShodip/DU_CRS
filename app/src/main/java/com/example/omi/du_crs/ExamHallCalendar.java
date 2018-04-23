@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
@@ -64,11 +65,18 @@ public class ExamHallCalendar extends AppCompatActivity {
                 String s=format1.format(calendar.getTime()).toString();
                 if(choicee==1)
                 {
-                    cnt=editText.getText().toString();
-                    int tp=Integer.parseInt(editText.getText().toString());
-                    FunctionList.exam_hall_search=new search_hall_date_range(s,s,"Karjon Hall",tp);
-                    Intent intent = new Intent(ExamHallCalendar.this,exam_hall_available_list.class);
-                    startActivity(intent);
+                    if(editText.getText().toString().equals(""))
+                    {
+                        Toast.makeText(ExamHallCalendar.this, "Student number was not given", Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        cnt = editText.getText().toString();
+                        int tp = Integer.parseInt(editText.getText().toString());
+                        FunctionList.exam_hall_search = new search_hall_date_range(s, s, "Karjon Hall", tp);
+                        Intent intent = new Intent(ExamHallCalendar.this, exam_hall_available_list.class);
+                        startActivity(intent);
+                    }
                 }
                 if(choicee==2)
                 {

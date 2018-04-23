@@ -5,6 +5,14 @@
     android:layout_margin="@dimen/fab_margin"
     android:padding="@dimen/fab_margin"
     android:background="@color/browser_actions_divider_color">
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/google_classroom"
+
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/image"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="Class Room"
         android:textSize="18dp"
-        android:layout_below="@id/t1"
+        android:layout_below="@id/image"
         android:layout_centerHorizontal="true"
         android:id="@+id/t2"/>
 

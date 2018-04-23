@@ -49,13 +49,34 @@ public class GridDepAdapter extends ArrayAdapter {
         v = inflater.inflate(R.layout.optionss, null);
         TextView t1=v.findViewById(R.id.t1);
         TextView t2=v.findViewById(R.id.t2);
+        ImageView imageView=v.findViewById(R.id.image);
         GridView gridView = v.findViewById(R.id.simpleGridView);
         String s=""+choices.get(position).charAt(0);
         t1.setText(s);
         s=""+choices.get(position);
         t2.setText(s);
-
-        t1.setOnClickListener(new View.OnClickListener() {
+        t1.setVisibility(View.GONE);
+        if(position==1)
+        {
+            imageView.setImageResource(R.drawable.microscope_512);
+        }
+        if(position==2)
+        {
+            imageView.setImageResource(R.drawable.travel_25_512);
+        }
+        if(position==3)
+        {
+            imageView.setImageResource(R.drawable.collegelife010512);
+        }
+        if(position==4)
+        {
+            imageView.setImageResource(R.drawable.a23748_200);
+        }
+        if(position==5)
+        {
+            imageView.setImageResource(R.drawable.cinema_512);
+        }
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(position == 0){

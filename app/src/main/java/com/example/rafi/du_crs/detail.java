@@ -6,12 +6,14 @@ package com.example.rafi.du_crs;
 
 public class detail {
     String name;
+    String location;
     String startTime;
     String endTime;
     int capacity;
 
-    public detail(String name, String startTime, String endTime, int capacity) {
+    public detail(String name, String location, String startTime, String endTime, int capacity) {
         this.name = name;
+        this.location = location;
         this.startTime = startTime;
         this.endTime = endTime;
         this.capacity = capacity;
@@ -23,6 +25,14 @@ public class detail {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getStartTime() {
