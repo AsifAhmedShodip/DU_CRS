@@ -38,7 +38,15 @@ public class exam_hall_reservation extends AppCompatActivity {
                 for (DataSnapshot users : dataSnapshot.getChildren()) {
                     ExamHallSlot temp = new ExamHallSlot();
                     temp = users.getValue(ExamHallSlot.class);
-                    if(temp.reserverId.equals(User.getCurrent().getDeptName()) && temp.rdate.equals(ExamHallCalendar.mdate))all_bookings.add(temp);
+                    if(!temp.rdate.equals("ALL")) {
+                        if (temp.reserverId.equals(User.getCurrent().getDeptName()) && temp.rdate.equals(ExamHallCalendar.mdate))
+                            all_bookings.add(temp);
+                    }
+                    else
+                    {
+                        if (temp.reserverId.equals(User.getCurrent().getDeptName()))
+                            all_bookings.add(temp);
+                    }
                 }
                 adapter=new exam_hall_resrvation_adapter(all_bookings);
                 recyclerView.setAdapter(adapter);
