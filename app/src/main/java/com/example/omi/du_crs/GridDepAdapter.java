@@ -30,7 +30,7 @@ import java.util.zip.Inflater;
 public class GridDepAdapter extends ArrayAdapter {
     ArrayList<String> choices=new ArrayList<>();
     Context context;
-    boolean groundSelected;
+    boolean groundSelected = false;
 
     public GridDepAdapter(Context context, int textViewResourceId, ArrayList<String> objects) {
         super(context, textViewResourceId, objects);
@@ -90,7 +90,11 @@ public class GridDepAdapter extends ArrayAdapter {
                     gotoExamHall();
                 }
                 if(position==4){
+                    groundSelected = true;
+                    getDate();
+                    /*
                     gotoGround();
+                    */
                 }
             }
         });
@@ -111,7 +115,13 @@ public class GridDepAdapter extends ArrayAdapter {
                         intent.putExtra("year",Integer.toString(year));
                         intent.putExtra("month",Integer.toString(monthOfYear+1));
                         intent.putExtra("day",Integer.toString(dayOfMonth));
-                        context.startActivity(intent);
+                        if(groundSelected){
+                            Intent groundIntent = new Intent(context, ground_booking.class);
+                            context.startActivity(groundIntent);
+                        }
+                        else {
+                            context.startActivity(intent);
+                        }
                     }
 
                 }, mYear, mMonth, mDay);
