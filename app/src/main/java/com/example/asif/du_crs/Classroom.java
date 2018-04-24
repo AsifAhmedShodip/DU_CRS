@@ -354,8 +354,24 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                 for(DataSnapshot users : dataSnapshot.getChildren()){
 
                     Classroom_Object classroom_object = users.getValue(Classroom_Object.class);
-                    Double firstTime = Double.parseDouble(classroom_object.getsTiem());
-                    Double secondTime = Double.parseDouble(classroom_object.geteTime());
+
+                    String fTime = classroom_object.getsTiem();
+                    String[] p = fTime.split(" ");
+                    String time = p[0]+"."+p[2];
+                    Double firstTime = Double.parseDouble(time);
+                    if(p[3].equals("PM"))
+                    {
+                        firstTime = firstTime + 12.00;
+                    }
+
+                    String eTime = classroom_object.geteTime();
+                    String[] p1 = eTime.split(" ");
+                    String time2 = p1[0]+"."+p1[2];
+                    Double secondTime = Double.parseDouble(time2);
+                    if(p1[3].equals("PM"))
+                    {
+                        secondTime = secondTime + 12.00;
+                    }
 
                     firstTime = firstTime + 00.10;
                     secondTime = secondTime - 00.10;
@@ -366,6 +382,8 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                     else if (finalEnd >= firstTime && finalEnd <= secondTime){
                         availableClassroom.add(classroom_object.getRoom());
                     }
+
+                    Log.d("Debug",finalStart+"  "+finalEnd+"    time   =  "+firstTime+"   "+secondTime);
                 }
 
                 if(availableClassroom.size() == 0){
