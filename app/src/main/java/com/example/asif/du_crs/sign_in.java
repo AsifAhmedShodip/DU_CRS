@@ -50,7 +50,7 @@ public class sign_in extends AppCompatActivity {
         Typeface type = Typeface.createFromAsset(getAssets(),"fonts/BerkshireSwash-Regular.ttf");
         text.setTypeface(type);
         
-        //Check_Login_Status();
+        Check_Login_Status();
 
         mSignIn.setOnClickListener(new View.OnClickListener() {
             @Override

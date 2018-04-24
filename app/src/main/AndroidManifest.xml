@@ -14,7 +14,7 @@
             android:name=".signUp.Sign_Up"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.example.asif.du_crs.sign_in"
+            android:name=".sign_in"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -57,7 +57,8 @@
             android:name="com.example.omi.du_crs.ExamHallSchedule"
             android:label="@string/title_activity_exam_hall_schedule"
             android:theme="@style/AppTheme" />
-        <activity android:name=".Book_Classroom"></activity>
+        <activity android:name=".Book_Classroom" />
+        <activity android:name="com.example.rafi.du_crs.ground_booking"></activity>
     </application>
 
 </manifest>

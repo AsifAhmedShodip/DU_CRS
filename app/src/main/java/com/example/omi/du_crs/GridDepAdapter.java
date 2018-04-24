@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.asif.du_crs.Classroom;
 import com.example.asif.du_crs.MainActivity;
 import com.example.asif.du_crs.R;
+import com.example.rafi.du_crs.ground_booking;
 import com.example.asif.du_crs.sign_in;
 import com.example.rafi.du_crs.admin_add_option;
 
@@ -29,6 +30,7 @@ import java.util.zip.Inflater;
 public class GridDepAdapter extends ArrayAdapter {
     ArrayList<String> choices=new ArrayList<>();
     Context context;
+    boolean groundSelected;
 
     public GridDepAdapter(Context context, int textViewResourceId, ArrayList<String> objects) {
         super(context, textViewResourceId, objects);
@@ -87,6 +89,9 @@ public class GridDepAdapter extends ArrayAdapter {
                 {
                     gotoExamHall();
                 }
+                if(position==4){
+                    gotoGround();
+                }
             }
         });
         return v;
@@ -120,6 +125,11 @@ public class GridDepAdapter extends ArrayAdapter {
     private void gotoExamHall()
     {
         Intent intent = new Intent(context, ExamHallCalendar.class);
+        context.startActivity(intent);
+    }
+    private void gotoGround()
+    {
+        Intent intent = new Intent(context,ground_booking.class );
         context.startActivity(intent);
     }
 }
