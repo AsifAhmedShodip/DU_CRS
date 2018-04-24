@@ -211,7 +211,7 @@ public class admin_add_option extends AppCompatActivity {
         optionList.add("Auditorium");
         optionList.add("Ground");
 
-        String[] depts = new String[]{"Select dept","CSE","EEE","GE","PHYSICS","CHEMISTRY"};
+        String[] depts = new String[]{"Select dept","Computer Science and Engineering","EEE","GE","PHYSICS","Chemistry"};
         deptList = new ArrayList<String>(Arrays.asList(depts)) ;
     }
 
