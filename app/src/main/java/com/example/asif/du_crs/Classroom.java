@@ -122,9 +122,24 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
     }
 
     private void Fill_classList() {
-        classList.add("320");
+        /*classList.add("320");
         classList.add("324");
-        classList.add("312");
+        classList.add("312");*/
+
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("data").child("Class").child("CSE");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot users : dataSnapshot.getChildren()){
+                    classList.add(users.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
