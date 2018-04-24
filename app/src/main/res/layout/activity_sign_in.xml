@@ -15,6 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp"
         android:hint="Email"
+        android:inputType="textEmailAddress"
         android:paddingLeft="10dp" />
 
     <EditText

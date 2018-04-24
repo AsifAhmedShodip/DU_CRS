@@ -27,8 +27,9 @@ public class ground_booking extends AppCompatActivity {
     boolean byTimeSelected = false;
     String year;
     String month;
-    String date;
+    String day;
     String selection;
+    String groundSelection;
     ArrayList<String> optionList = new ArrayList<>();
     ArrayList<String> groundList = new ArrayList<>();
 
@@ -59,6 +60,14 @@ public class ground_booking extends AppCompatActivity {
         tvETime.setVisibility(View.GONE);
         bBook.setVisibility(View.GONE);
 
+        Bundle b = getIntent().getExtras();
+        if(b!=null){
+            year = b.getString("year");
+            month = b.getString("month");
+            day = b.getString("day");
+        }
+        tvDate.setText(day+"-"+month+"-"+year);
+
         optionList.add("BY GROUND");
         optionList.add("BY TIME");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,optionList);
@@ -69,16 +78,27 @@ public class ground_booking extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 selection = adapterView.getItemAtPosition(i).toString();
                 if(selection.equals("BY GROUND")){
+                    byTimeSelected = false;
                     tvtSTime.setVisibility(View.GONE);
                     tvSTime.setVisibility(View.GONE);
                     tvtETime.setVisibility(View.GONE);
                     tvETime.setVisibility(View.GONE);
                     bBook.setVisibility(View.GONE);
 
+                    tvtGround.setVisibility(View.VISIBLE);
                     spinnerGround.setVisibility(View.VISIBLE);
                 }
                 else {
+                    byTimeSelected = true;
                     //deptListSpinnerDialog.setVisibility(view.VISIBLE);
+                    tvtSTime.setVisibility(View.VISIBLE);
+                    tvSTime.setVisibility(View.VISIBLE);
+                    tvtETime.setVisibility(View.VISIBLE);
+                    tvETime.setVisibility(View.VISIBLE);
+                    bBook.setVisibility(View.VISIBLE);
+
+                    tvtGround.setVisibility(View.GONE);
+                    spinnerGround.setVisibility(View.GONE);
                 }
             }
 
@@ -88,6 +108,43 @@ public class ground_booking extends AppCompatActivity {
             }
         });
 
+        /*
+        groundList.add("Gymnasium");
+        groundList.add("Jogonnath");
+        */
+        getGroundList();
+        ArrayAdapter<String> gAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,groundList);
+        gAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerGround.setAdapter(gAdapter);
+        spinnerGround.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                groundSelection = adapterView.getItemAtPosition(i).toString();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        bCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(byTimeSelected){
+
+                }
+                else {
+
+                }
+            }
+        });
+
+    }
+
+    void getGroundList(){
+        groundList.add("Gymnasium");
+        groundList.add("Jogonnath");
+        //firebase ret later
     }
 }
