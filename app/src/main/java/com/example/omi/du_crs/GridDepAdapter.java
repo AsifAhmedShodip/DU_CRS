@@ -82,8 +82,13 @@ public class GridDepAdapter extends ArrayAdapter {
             @Override
             public void onClick(View view) {
                 if(position == 0){
+                    groundSelected = false;
                     getDate();
                     //gotoClassroom();
+                }
+                if(position==1){
+                    groundSelected = false;
+                    getDate();
                 }
                 if(position==3)
                 {
@@ -111,15 +116,26 @@ public class GridDepAdapter extends ArrayAdapter {
                 new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        /*
                         Intent intent = new Intent(context, Classroom.class);
                         intent.putExtra("year",Integer.toString(year));
                         intent.putExtra("month",Integer.toString(monthOfYear+1));
                         intent.putExtra("day",Integer.toString(dayOfMonth));
+                        */
                         if(groundSelected){
+                            groundSelected = false;
                             Intent groundIntent = new Intent(context, ground_booking.class);
+                            groundIntent.putExtra("year",Integer.toString(year));
+                            groundIntent.putExtra("month",Integer.toString(monthOfYear+1));
+                            groundIntent.putExtra("day",Integer.toString(dayOfMonth));
                             context.startActivity(groundIntent);
                         }
                         else {
+                            groundSelected = true;
+                            Intent intent = new Intent(context, Classroom.class);
+                            intent.putExtra("year",Integer.toString(year));
+                            intent.putExtra("month",Integer.toString(monthOfYear+1));
+                            intent.putExtra("day",Integer.toString(dayOfMonth));
                             context.startActivity(intent);
                         }
                     }
