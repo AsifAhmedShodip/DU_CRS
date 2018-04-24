@@ -214,6 +214,7 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
                     classroom_object.seteTime(eTime.getText().toString());
                     classroom_object.setBookedBy(User.getCurrent().getEmail());
 
+                    //pushing in Firebase
                     DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date);
                     String key = FirebaseDatabase.getInstance().getReference().push().getKey();
                     mDatabase.child(key).setValue(classroom_object);
