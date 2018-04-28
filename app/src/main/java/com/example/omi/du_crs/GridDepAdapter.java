@@ -104,6 +104,7 @@ public class GridDepAdapter extends ArrayAdapter {
                 if(position==2)
                 {
                     ExamHallCalendar.mdate="ALL";
+                    FunctionList.exam_hall_search.hall_name="Karjon Hall";
                     gotoallreserved();
                 }
             }
@@ -165,7 +166,7 @@ public class GridDepAdapter extends ArrayAdapter {
     }
     private void gotoallreserved()
     {
-        Intent intent = new Intent(context,exam_hall_reservation.class );
+        Intent intent = new Intent(context,MyAllHallReservetions.class);
         context.startActivity(intent);
     }
 }
