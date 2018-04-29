@@ -48,7 +48,7 @@ public class exam_hall_reservation extends AppCompatActivity {
                             all_bookings.add(temp);
                     }
                 }
-                adapter=new exam_hall_resrvation_adapter(all_bookings);
+                adapter=new exam_hall_resrvation_adapter(exam_hall_reservation.this,all_bookings);
                 recyclerView.setAdapter(adapter);
 
             }
@@ -67,7 +67,7 @@ public class exam_hall_reservation extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
 
-        adapter=new exam_hall_resrvation_adapter(all_bookings);
+        adapter=new exam_hall_resrvation_adapter(exam_hall_reservation.this,all_bookings);
         recyclerView.setAdapter(adapter);
 
     }

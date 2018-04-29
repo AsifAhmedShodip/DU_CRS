@@ -1,7 +1,9 @@
 package com.example.omi.du_crs;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
@@ -189,11 +191,11 @@ public class book_exam_halls extends AppCompatActivity {
             public void onClick(View view) {
                 temp_list.clear();
                 String s=exst.getText().toString();
-                int exam_st=FunctionList.getminute(s);
+                final int exam_st=FunctionList.getminute(s);
                 s=exet.getText().toString();
-                int exam_et=FunctionList.getminute(s);
+                final int exam_et=FunctionList.getminute(s);
                 s=excnt.getText().toString();
-                int cnt=Integer.parseInt(s);
+                final int cnt=Integer.parseInt(s);
                 s=exd.getText().toString();
                 for (int i=0;i<all_bookings.size();i++)
                 {
@@ -202,17 +204,45 @@ public class book_exam_halls extends AppCompatActivity {
                 boolean bool=FunctionList.isTheTimeSlotFree(exam_st,exam_et,(8*60)+30,17*60,200,cnt,temp_list);
                 if(bool)
                 {
-                    ExamHallSlot temp=new ExamHallSlot();
-                    ds=databaseReference.push();
-                    temp.setReservetionId(""+ds.getKey());
-                    temp.setRdate(s);
-                    temp.setStartTime(exam_st);
-                    temp.setEndTime(exam_et);
-                    temp.setCancelled(exsub.getText().toString());
-                    temp.setReserverId(User.getCurrent().getDeptName().toString());
-                    temp.counter=cnt;
-                    ds.setValue(temp);
-                    Toast.makeText(book_exam_halls.this, "Booking is Done", Toast.LENGTH_LONG).show();
+                    final AlertDialog.Builder a_buider=new AlertDialog.Builder(book_exam_halls.this);
+
+                    a_buider.setMessage("Do you want to book this slot?");
+                    a_buider.setCancelable(false);
+                    final String finalS = s;
+                    a_buider.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name).child(temp.getReservetionId());
+                            //databaseReference.removeValue();
+                            //AlertDialog alert = a_buider.create();
+                            //alert.setTitle("Confirmation");
+                            //alert.show();
+                            ExamHallSlot temp = new ExamHallSlot();
+                            ds = databaseReference.push();
+                            temp.setReservetionId("" + ds.getKey());
+                            temp.setRdate(finalS);
+                            temp.setStartTime(exam_st);
+                            temp.setEndTime(exam_et);
+                            temp.setCancelled(exsub.getText().toString());
+                            temp.setReserverId(User.getCurrent().getDeptName().toString());
+                            temp.counter = cnt;
+                            ds.setValue(temp);
+                            Toast.makeText(book_exam_halls.this, "Booking is Done", Toast.LENGTH_LONG).show();
+                            dialogInterface.cancel();
+                        }
+                    });
+                    a_buider.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+                    AlertDialog alert=a_buider.create();
+                    alert.setTitle("Confirmation");
+                    alert.show();
+                    //DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name).child(temp.getReservetionId());
+                    //databaseReference.removeValue();
+
                 }
                 else
                 {
