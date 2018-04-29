@@ -70,14 +70,17 @@
 
         </RelativeLayout>
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_below="@+id/info"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="10dp"
             android:id="@+id/cancelb"
-            android:text="Cancel"
+
+            android:background="@drawable/cancel512"
+
             />
+
 
 
 

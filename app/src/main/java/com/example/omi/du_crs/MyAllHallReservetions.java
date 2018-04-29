@@ -86,7 +86,7 @@ public class MyAllHallReservetions extends AppCompatActivity {
                             list.add(temp);
 
                 }
-                adapter=new MyAllExamAdapter(list);
+                adapter=new MyAllExamAdapter(MyAllHallReservetions.this,list);
                 recyclerView.setAdapter(adapter);
 
             }
@@ -103,7 +103,7 @@ public class MyAllHallReservetions extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
 
-        adapter=new MyAllExamAdapter(list);
+        adapter=new MyAllExamAdapter(MyAllHallReservetions.this,list);
         recyclerView.setAdapter(adapter);
     }
 }
