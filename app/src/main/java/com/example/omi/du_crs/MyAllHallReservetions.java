@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class MyAllHallReservetions extends AppCompatActivity {
@@ -86,6 +87,8 @@ public class MyAllHallReservetions extends AppCompatActivity {
                             list.add(temp);
 
                 }
+
+                Collections.sort(list,new ExamResComp());
                 adapter=new MyAllExamAdapter(MyAllHallReservetions.this,list);
                 recyclerView.setAdapter(adapter);
 
@@ -102,7 +105,7 @@ public class MyAllHallReservetions extends AppCompatActivity {
         layoutManager.setAutoMeasureEnabled(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setNestedScrollingEnabled(false);
-
+        Collections.sort(list,new ExamResComp());
         adapter=new MyAllExamAdapter(MyAllHallReservetions.this,list);
         recyclerView.setAdapter(adapter);
     }

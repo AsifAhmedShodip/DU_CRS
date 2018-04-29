@@ -6,11 +6,42 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by aniomi on 3/26/18.
  */
+
+class ExamResComp implements Comparator<ExamHallSlot>
+{
+    public int compare(ExamHallSlot a,ExamHallSlot b)
+    {
+        node na=node.stringtoclass(a.getRdate());
+        node nb=node.stringtoclass(b.getRdate());
+        if(na.isGreater(nb) && nb.isGreater(na))
+        {
+            if(a.getStartTime()!=b.getStartTime())
+            {
+                if(a.getEndTime()>b.getEndTime())
+                {
+                    return 0;
+                }
+                return 1;
+            }
+            else
+            {
+                if(a.getStartTime()>b.getStartTime())
+                {
+                    return 0;
+                }
+                return 1;
+            }
+        }
+        else if(na.isGreater(nb)) return 0;
+        return 1;
+    }
+}
 
 class free_slots
 {

@@ -41,6 +41,8 @@ public class ExamHallCalendar extends AppCompatActivity {
         choices.add("My reservations");
         spinner=findViewById(R.id.t1);
         calendarView=findViewById(R.id.t2);
+        //calendarView.getCurrentPageDate();
+        calendarView.showCurrentMonthPage();
         editText=findViewById(R.id.t3);
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,choices);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
