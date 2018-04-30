@@ -6,6 +6,9 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,6 +47,10 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
     boolean isRoomTypeSelected = true;
     final ArrayList<String> availableClassroom=new ArrayList<>();
 
+    RecyclerView rv;
+    Classroom_booked_Adapter adapter;
+    List<Classroom_Object> bookedClassroom = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +69,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
         eTime_text = findViewById(R.id.etime_text);
         eTime = findViewById(R.id.etime);
         room_text = findViewById(R.id.room_text);
+        rv = findViewById(R.id.recycler);
 
         result.setVisibility(View.GONE);
         book.setVisibility(View.GONE);
@@ -70,6 +78,8 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
         sTime.setVisibility(View.GONE);
         eTime_text.setVisibility(View.GONE);
         eTime.setVisibility(View.GONE);
+
+        rv.setVisibility(View.GONE);
 
         Spinner spinner = findViewById(R.id.select_type);
         spinner.setOnItemSelectedListener(Classroom.this);
@@ -102,11 +112,19 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
             }
         });
 
+        adapter = new Classroom_booked_Adapter(bookedClassroom,this);
+        rv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        rv.setItemAnimator(new DefaultItemAnimator());
+        rv.hasFixedSize();
+        rv.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
         check.setOnClickListener(this);
         date.setOnClickListener(this);
         book.setOnClickListener(this);
         sTime.setOnClickListener(this);
         eTime.setOnClickListener(this);
+        list.setOnClickListener(this);
     }
 
     private void selectClassroom() {
@@ -146,6 +164,8 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.check:{
+                rv.setVisibility(View.GONE);
+                list.setVisibility(View.GONE);
                 if(isRoomTypeSelected){
                     checkForRoomType();
                 }
@@ -243,6 +263,32 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                 mTimePicker2.show();
                 break;
             }
+
+            case R.id.list:{
+                rv.setVisibility(View.VISIBLE);
+                bookedClassroom.clear();
+                final String date = day+"-"+month+"-"+year;  //have to reConfigure
+                databaseReference= FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date);
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot users : dataSnapshot.getChildren()){
+                            Classroom_Object classroom_object = users.getValue(Classroom_Object.class);
+                            if(selectRoom.getText().toString().equals(classroom_object.getRoom())){
+                                bookedClassroom.add(classroom_object);
+                            }
+                        }
+
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+                break;
+            }
         }
     }
 
@@ -252,6 +298,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
         result.setText("");
         boolean flag ;
         String availableClass = "";
+        availableClassroom.clear();
 
         for(int i =0 ;i<classList.size();i++){
             availableClassroom.add(classList.get(i));
@@ -395,7 +442,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                         availableClassroom.remove(classroom_object.getRoom());
                     }
                     else if (finalEnd >= firstTime && finalEnd <= secondTime){
-                        availableClassroom.add(classroom_object.getRoom());
+                        availableClassroom.remove(classroom_object.getRoom());
                     }
 
                     Log.d("Debug",finalStart+"  "+finalEnd+"    time   =  "+firstTime+"   "+secondTime);
