@@ -74,10 +74,14 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
         result.setVisibility(View.GONE);
         book.setVisibility(View.GONE);
         list.setVisibility(View.GONE);
-        sTime_text.setVisibility(View.GONE);
-        sTime.setVisibility(View.GONE);
-        eTime_text.setVisibility(View.GONE);
-        eTime.setVisibility(View.GONE);
+
+        sTime_text.setVisibility(View.VISIBLE);
+        sTime.setVisibility(View.VISIBLE);
+        eTime_text.setVisibility(View.VISIBLE);
+        eTime.setVisibility(View.VISIBLE);
+
+        room_text.setVisibility(View.GONE);
+        selectRoom.setVisibility(View.GONE);
 
         rv.setVisibility(View.GONE);
 
@@ -90,7 +94,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
-        spinner.setSelection(0);
+        spinner.setSelection(1);
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
