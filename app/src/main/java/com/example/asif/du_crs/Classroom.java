@@ -126,7 +126,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
         classList.add("324");
         classList.add("312");*/
 
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("data").child("Class").child("CSE");
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("data").child("Class").child(User.getCurrent().getDeptName());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
