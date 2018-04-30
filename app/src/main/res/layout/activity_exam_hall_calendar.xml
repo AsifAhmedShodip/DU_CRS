@@ -21,25 +21,26 @@
         android:id="@+id/t1">
     </Spinner>
 
-    <com.applandeo.materialcalendarview.CalendarView
+        <EditText
+            android:inputType="number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Number of student"
+            android:id="@+id/t3"
+            android:layout_below="@id/t1"
+            android:layout_margin="@dimen/fab_margin"
+            />
+
+
+        <com.applandeo.materialcalendarview.CalendarView
         android:layout_margin="@dimen/fab_margin"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/t1"
+        android:layout_below="@id/t3"
 
         android:id="@+id/t2">
         </com.applandeo.materialcalendarview.CalendarView>
-
-    <EditText
-        android:inputType="number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter Number of student"
-        android:id="@+id/t3"
-        android:layout_below="@id/t2"
-        android:layout_margin="@dimen/fab_margin"
-        />
 
 
     </RelativeLayout>

@@ -44,6 +44,7 @@ public class ExamHallCalendar extends AppCompatActivity {
         //calendarView.getCurrentPageDate();
         calendarView.showCurrentMonthPage();
         editText=findViewById(R.id.t3);
+        editText.setVisibility(View.GONE);
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,choices);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -52,6 +53,14 @@ public class ExamHallCalendar extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 choicee=i;
                 //editText.setText(""+i);
+                if(i==1)
+                {
+                    editText.setVisibility(View.VISIBLE);
+                }
+                else
+                {
+                    editText.setVisibility(View.GONE);
+                }
             }
 
             @Override
