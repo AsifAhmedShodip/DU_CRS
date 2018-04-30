@@ -10,7 +10,11 @@ public class detail {
     String startTime;
     String endTime;
     int capacity;
-
+    public detail()
+    {
+        capacity=180;
+        name=location=startTime=endTime="omi";
+    }
     public detail(String name, String location, String startTime, String endTime, int capacity) {
         this.name = name;
         this.location = location;

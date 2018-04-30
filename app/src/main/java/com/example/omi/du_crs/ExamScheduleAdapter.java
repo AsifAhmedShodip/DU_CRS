@@ -46,7 +46,8 @@ public class ExamScheduleAdapter  extends RecyclerView.Adapter<ExamScheduleAdapt
 
         final ExamHallSlot temp=list.get(position);
         holder.text1.setText("Date : "+temp.getRdate());
-        holder.text2.setText("Time Slot : "+temp.getStartTime()+"-"+temp.getEndTime());
+        holder.text2.setText("Time Slot : "+search_hall_date_range.standardtime(temp.getStartTime())
+                +"-"+search_hall_date_range.standardtime(temp.getEndTime()));
         holder.text3.setText("Subject : "+temp.getIsCancelled());
         holder.text4.setText("Reserver Id : "+temp.getReserverId());
     }
