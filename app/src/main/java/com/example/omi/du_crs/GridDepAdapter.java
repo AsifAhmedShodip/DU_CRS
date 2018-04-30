@@ -101,6 +101,12 @@ public class GridDepAdapter extends ArrayAdapter {
                     gotoGround();
                     */
                 }
+                if(position==2)
+                {
+                    ExamHallCalendar.mdate="ALL";
+                    FunctionList.exam_hall_search.hall_name="Karjon Hall";
+                    gotoallreserved();
+                }
             }
         });
         return v;
@@ -156,6 +162,11 @@ public class GridDepAdapter extends ArrayAdapter {
     private void gotoGround()
     {
         Intent intent = new Intent(context,ground_booking.class );
+        context.startActivity(intent);
+    }
+    private void gotoallreserved()
+    {
+        Intent intent = new Intent(context,MyAllHallReservetions.class);
         context.startActivity(intent);
     }
 }

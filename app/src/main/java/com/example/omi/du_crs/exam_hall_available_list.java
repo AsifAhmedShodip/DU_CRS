@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.asif.du_crs.R;
 import com.google.firebase.database.DataSnapshot;
@@ -17,7 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.example.rafi.du_crs.*;
 public class exam_hall_available_list extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -29,11 +30,31 @@ public class exam_hall_available_list extends AppCompatActivity {
     Button book_button;
     DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name);
     DatabaseReference ds;
-
+    DatabaseReference ref=FirebaseDatabase.getInstance().getReference().child("data").child("Exam Hall").child(FunctionList.exam_hall_search.hall_name);
+    static int cnt=0;
+    static int hallst=0;
+    static int hallet=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_exam_hall_available_list);
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+               detail tt=new detail();
+               tt=dataSnapshot.getValue(detail.class);
+               cnt=tt.getCapacity();
+               String sss=tt.getStartTime();
+               hallst=FunctionList.getminute(sss);
+               sss=tt.getEndTime();
+               hallet=FunctionList.getminute(sss);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -62,7 +83,10 @@ public class exam_hall_available_list extends AppCompatActivity {
                             temp_list.add(all_bookings.get(i));
                         }
                     }
-                    temp_list1=FunctionList.EmptySlots(FunctionList.exam_hall_search.count,(8*60)+30,17*60,200,temp_list,stdctd);
+                    int capp=FunctionList.gethallcapacity(FunctionList.exam_hall_search.hall_name);
+                    capp=cnt;
+                    Toast.makeText(exam_hall_available_list.this,"counter "+capp,Toast.LENGTH_SHORT).show();
+                    temp_list1=FunctionList.EmptySlots(FunctionList.exam_hall_search.count,hallst,hallet,capp,temp_list,stdctd);
                     for(int i=0;i<temp_list1.size();i++)
                     {
                         list.add(temp_list1.get(i));

@@ -10,6 +10,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.asif.du_crs.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
@@ -112,6 +117,7 @@ public class ground_booking extends AppCompatActivity {
         groundList.add("Gymnasium");
         groundList.add("Jogonnath");
         */
+        groundList.add("Select Ground");
         getGroundList();
         ArrayAdapter<String> gAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,groundList);
         gAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -120,6 +126,7 @@ public class ground_booking extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 groundSelection = adapterView.getItemAtPosition(i).toString();
+                spinnerGround.setSelection(i);
             }
 
             @Override
@@ -132,6 +139,7 @@ public class ground_booking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(byTimeSelected){
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Ground");
 
                 }
                 else {
@@ -143,8 +151,26 @@ public class ground_booking extends AppCompatActivity {
     }
 
     void getGroundList(){
+        /*
         groundList.add("Gymnasium");
         groundList.add("Jogonnath");
+        */
         //firebase ret later
+        //c
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("data").child("Ground");
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot users : dataSnapshot.getChildren()){
+                    groundList.add(users.getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

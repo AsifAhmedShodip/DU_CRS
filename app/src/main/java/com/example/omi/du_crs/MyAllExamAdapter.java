@@ -15,32 +15,32 @@ import com.example.asif.du_crs.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by aniomi on 3/31/18.
+ * Created by aniomi on 4/28/18.
  */
 
-public class exam_hall_resrvation_adapter extends RecyclerView.Adapter<exam_hall_resrvation_adapter.sViewHolder> {
+public class MyAllExamAdapter extends RecyclerView.Adapter<MyAllExamAdapter.sViewHolder>{
     private List<ExamHallSlot> list;
     private Context context;
-    public exam_hall_resrvation_adapter(Context con,List<ExamHallSlot> list) {
+    public MyAllExamAdapter(Context con,List<ExamHallSlot> list) {
         this.list = list;context=con;
     }
-
+    private List<String> mp=new ArrayList<>();
     public class sViewHolder extends RecyclerView.ViewHolder
     {
         public TextView text1,text2,text3,text4;
-        public Button search_b;
+        public Button cancel_b;
         public CardView cv;
         public sViewHolder(View itemView) {
             super(itemView);
-            text1=(TextView) itemView.findViewById(R.id.t1);
-            text2=(TextView) itemView.findViewById(R.id.t2);
-            text4=itemView.findViewById(R.id.t4);
-            text4.setVisibility(View.GONE);
-            text3=itemView.findViewById(R.id.t3);
-            search_b=itemView.findViewById(R.id.mb);
+            text1=itemView.findViewById(R.id.datee);
+            text2=itemView.findViewById(R.id.monthe);
+            text3=itemView.findViewById(R.id.slote);
+            text4=itemView.findViewById(R.id.sube);
+            cancel_b=itemView.findViewById(R.id.cancelb);
             cv=(CardView) itemView.findViewById(R.id.cv);
 
         }
@@ -48,24 +48,32 @@ public class exam_hall_resrvation_adapter extends RecyclerView.Adapter<exam_hall
 
     }
     @Override
-    public exam_hall_resrvation_adapter.sViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.hall_reservation_cardview,parent,false);
-        return new exam_hall_resrvation_adapter.sViewHolder(v);
+    public MyAllExamAdapter.sViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.examcard,parent,false);
+        return new MyAllExamAdapter.sViewHolder(v);
     }
     @Override
-    public void onBindViewHolder(exam_hall_resrvation_adapter.sViewHolder holder, int position) {
+    public void onBindViewHolder(MyAllExamAdapter.sViewHolder holder, int position) {
 
         final ExamHallSlot temp=list.get(position);
 
+        node tt=node.stringtoclass(temp.getRdate());
+        holder.text1.setText(""+tt.d);
+        holder.text2.setText(""+node.mp.get(tt.m-1));
+        holder.text3.setText(search_hall_date_range.standardtime(temp.startTime)+"-"+search_hall_date_range.standardtime(temp.endTime));
+        holder.text4.setText(temp.isCancelled+"");
         //holder.setIsRecyclable(false);
-        holder.text1.setText("Date : "+temp.rdate);
-        holder.text2.setText("Free Slot : "+search_hall_date_range.standardtime(temp.startTime)+" - "+search_hall_date_range.standardtime(temp.endTime));
-        holder.text3.setText("Subject : "+temp.getIsCancelled());
-        holder.search_b.setOnClickListener(new View.OnClickListener() {
+        /*holder.search_b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name).child(temp.getReservetionId());
                 //databaseReference.removeValue();
+
+            }
+        });*/
+        holder.cancel_b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 AlertDialog.Builder a_buider=new AlertDialog.Builder(context);
 
                 a_buider.setMessage("Do you want to cancel this reservation?")
@@ -97,6 +105,5 @@ public class exam_hall_resrvation_adapter extends RecyclerView.Adapter<exam_hall
     public int getItemCount() {
         return list.size();
     }
-
 
 }

@@ -1,11 +1,15 @@
 package com.example.omi.du_crs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by aniomi on 3/26/18.
  */
 
 public class node {
     int y,m,d;
+    static List<String> mp=new ArrayList<>();
 
     public node(int y, int m, int d) {
         this.y = y;

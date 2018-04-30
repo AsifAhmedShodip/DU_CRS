@@ -2,15 +2,48 @@
 package com.example.omi.du_crs;
 import com.google.firebase.database.DataSnapshot;
 
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-
+import com.example.rafi.du_crs.*;
 /**
  * Created by aniomi on 3/26/18.
  */
+
+class ExamResComp implements Comparator<ExamHallSlot>
+{
+    public int compare(ExamHallSlot a,ExamHallSlot b)
+    {
+        node na=node.stringtoclass(a.getRdate());
+        node nb=node.stringtoclass(b.getRdate());
+        if(na.isGreater(nb) && nb.isGreater(na))
+        {
+            if(a.getStartTime()!=b.getStartTime())
+            {
+                if(a.getEndTime()>b.getEndTime())
+                {
+                    return 0;
+                }
+                return 1;
+            }
+            else
+            {
+                if(a.getStartTime()>b.getStartTime())
+                {
+                    return 0;
+                }
+                return 1;
+            }
+        }
+        else if(na.isGreater(nb)) return 0;
+        return 1;
+    }
+}
 
 class free_slots
 {
@@ -71,6 +104,33 @@ public class FunctionList {
             t+=(12*60);
         }
         return t;
+    }
+    static int gethallcapacity(String name)
+    {
+        final int[] cnt = new int[1];
+        final boolean[] flag=new boolean[1];
+
+        DatabaseReference ref=FirebaseDatabase.getInstance().
+                getReference().
+                child("data").
+                child("Exam Hall").
+                child(name);
+
+        /*ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                detail ccnt=new detail();
+                ccnt = dataSnapshot.getValue(detail.class);
+                cnt[0] =ccnt.getCapacity();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("The read failed: " + databaseError.getCode());
+            }
+        });*/
+        return cnt[0];
     }
     static search_hall_date_range exam_hall_search=new search_hall_date_range();
     static boolean isTheTimeSlotFree(int st, int ed,int rangel,int rangeh,int capacity,int need, ArrayList<ExamHallSlot> Bookedslots)
