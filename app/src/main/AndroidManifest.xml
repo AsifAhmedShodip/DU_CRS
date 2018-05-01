@@ -63,7 +63,8 @@
         <activity android:name="com.example.omi.du_crs.MyAllHallReservetions" />
         <activity android:name="com.example.omi.du_crs.AuditorioumCalendar" />
         <activity android:name="com.example.omi.du_crs.auditorioumfreeslots" />
-        <activity android:name="com.example.omi.du_crs.bookauditorioum"></activity>
+        <activity android:name="com.example.omi.du_crs.bookauditorioum" />
+        <activity android:name="com.example.omi.du_crs.audischedule"></activity>
     </application>
 
 </manifest>

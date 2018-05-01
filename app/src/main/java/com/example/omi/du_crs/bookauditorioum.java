@@ -87,24 +87,31 @@ public class bookauditorioum extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String ss=ed1.getText().toString();
-                String ee=ed2.getText().toString();
-                boolean flag=AuditorioumDetails.isfree(bookings,needl,needh,FunctionList.getminute(ss),FunctionList.getminute(ee));
-                if(flag)
+                if(ed1.getText().toString().equals("") || ed2.getText().toString().equals(""))
                 {
-                    ds = databaseUsers.push();
-                    postid=ds.getKey()+"";
-                    uploadFile();
-                    AuditorioumDetails temp=new AuditorioumDetails(0,FunctionList.getminute(ss),FunctionList.getminute(ee),
-                            User.getCurrent().getDeptName().toString(),"None",rdate,ds.getKey()+"",
-                            ds.getKey()+"",venue);
-                    ds.setValue(temp);
-                    uploadFile();
-
+                    Toast.makeText(bookauditorioum.this, "You have to select all field", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
-                    Toast.makeText(bookauditorioum.this, "Not available", Toast.LENGTH_LONG).show();
+                    String ss=ed1.getText().toString();
+                    String ee=ed2.getText().toString();
+                    boolean flag=AuditorioumDetails.isfree(bookings,needl,needh,FunctionList.getminute(ss),FunctionList.getminute(ee));
+                    if(flag)
+                    {
+                        ds = databaseUsers.push();
+                        postid=ds.getKey()+"";
+                        uploadFile();
+                        AuditorioumDetails temp=new AuditorioumDetails(0,FunctionList.getminute(ss),FunctionList.getminute(ee),
+                            User.getCurrent().getDeptName().toString(),"None",rdate,ds.getKey()+"",
+                            ds.getKey()+"",venue);
+                        ds.setValue(temp);
+                        uploadFile();
+
+                    }
+                    else
+                    {
+                        Toast.makeText(bookauditorioum.this, "Not available", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });

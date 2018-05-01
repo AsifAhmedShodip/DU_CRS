@@ -116,6 +116,13 @@ public class AuditorioumCalendar extends AppCompatActivity {
                     Intent intent = new Intent(AuditorioumCalendar.this,auditorioumfreeslots.class);
                     startActivity(intent);
                 }
+                else if(choice.equals("Schedules") && !venue.equals("Not Selected"))
+                {
+                    audischedule.rrdate=s;
+                    audischedule.vvenue=venue;
+                    Intent intent = new Intent(AuditorioumCalendar.this,audischedule.class);
+                    startActivity(intent);
+                }
             }
         });
     }
