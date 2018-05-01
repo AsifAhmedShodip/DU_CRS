@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.omi.du_crs.AuditorioumCalendar">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/fab_margin"
+        android:id="@+id/t1">
+    </Spinner>
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/t1"
+        android:layout_margin="@dimen/fab_margin"
+        android:id="@+id/t2">
+    </Spinner>
+    <com.applandeo.materialcalendarview.CalendarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/t2"
+        android:layout_margin="@dimen/fab_margin"
+        android:id="@+id/t3">
+
+    </com.applandeo.materialcalendarview.CalendarView>
+    </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>
