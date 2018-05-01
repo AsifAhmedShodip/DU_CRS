@@ -60,7 +60,10 @@
         <activity android:name=".Book_Classroom" />
         <activity android:name="com.example.rafi.du_crs.ground_booking" />
         <activity android:name="com.example.rafi.du_crs.ground_book_page" />
-        <activity android:name="com.example.omi.du_crs.MyAllHallReservetions"></activity>
+        <activity android:name="com.example.omi.du_crs.MyAllHallReservetions" />
+        <activity android:name="com.example.omi.du_crs.AuditorioumCalendar" />
+        <activity android:name="com.example.omi.du_crs.auditorioumfreeslots" />
+        <activity android:name="com.example.omi.du_crs.bookauditorioum"></activity>
     </application>
 
 </manifest>
