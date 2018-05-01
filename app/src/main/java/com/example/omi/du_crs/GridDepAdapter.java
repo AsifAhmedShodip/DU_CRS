@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.asif.du_crs.Classroom;
 import com.example.asif.du_crs.MainActivity;
 import com.example.asif.du_crs.R;
+import com.example.asif.du_crs.Upload_routine;
 import com.example.rafi.du_crs.ground_booking;
 import com.example.asif.du_crs.sign_in;
 import com.example.rafi.du_crs.admin_add_option;
@@ -106,6 +107,11 @@ public class GridDepAdapter extends ArrayAdapter {
                     ExamHallCalendar.mdate="ALL";
                     FunctionList.exam_hall_search.hall_name="Karjon Hall";
                     gotoallreserved();
+                }
+
+                if (position == 6) {
+                    Intent intent = new Intent(context, Upload_routine.class);
+                    context.startActivity(intent);
                 }
             }
         });

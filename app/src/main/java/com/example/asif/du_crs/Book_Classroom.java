@@ -26,7 +26,7 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
     TextView   sTime,eTime , date2,room2;
     Button book;
     EditText detail;
-    String date,room;
+    String date, room, start, end;
     DatabaseReference databaseReference;
     ArrayList<Double> sTimeSlots=new ArrayList<>();
     ArrayList<Double> eTimeSlots=new ArrayList<>();
@@ -38,21 +38,27 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
 
         getSupportActionBar().setTitle("Reserve");
 
-        sTime = (TextView) findViewById(R.id.sTime2);
-        date2 = (TextView) findViewById(R.id.date2);
-        room2 = (TextView) findViewById(R.id.room2);
-        eTime = (TextView) findViewById(R.id.eTime2);
-        detail = (EditText) findViewById(R.id.detail);
-        book = (Button) findViewById(R.id.book2);
+        sTime = findViewById(R.id.sTime2);
+        date2 = findViewById(R.id.date2);
+        room2 = findViewById(R.id.room2);
+        eTime = findViewById(R.id.eTime2);
+        detail = findViewById(R.id.detail);
+        book = findViewById(R.id.book2);
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
             date = b.getString("date");
             room = b.getString("room");
+            start = b.getString("Start Time");
+            end = b.getString("End Time");
         }
 
         date2.setText(date);
         room2.setText(room);
+        if (!start.equals("")) {
+            sTime.setText(start);
+            eTime.setText(end);
+        }
 
         sTime.setOnClickListener(this);
         eTime.setOnClickListener(this);
@@ -105,7 +111,7 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.sTime2:
+            case R.id.sTime2: {
                 Calendar mcurrentTime = Calendar.getInstance();
                 int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mcurrentTime.get(Calendar.MINUTE);
@@ -121,19 +127,26 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
                         }
                         int hour_of_12_hour_format;
 
-                        if(hourOfDay > 11){
+                        if (hourOfDay > 12) {
                             hour_of_12_hour_format = hourOfDay - 12;
                         }
                         else {
                             hour_of_12_hour_format = hourOfDay;
                         }
 
-                        sTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
+                        if (selectedMinute < 10) {
+                            sTime.setText(hour_of_12_hour_format + " :  0" + selectedMinute + " " + status);
+                        } else {
+                            sTime.setText(hour_of_12_hour_format + " :  " + selectedMinute + " " + status);
+                        }
                     }
                 }, hour, minute, false);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
                 break;
+            }
+
+
             case R.id.eTime2:
                 Calendar mcurrentTime2 = Calendar.getInstance();
                 int hour2 = mcurrentTime2.get(Calendar.HOUR_OF_DAY);
@@ -150,14 +163,18 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
                         }
                         int hour_of_12_hour_format;
 
-                        if(hourOfDay > 11){
+                        if (hourOfDay > 12) {
                             hour_of_12_hour_format = hourOfDay - 12;
                         }
                         else {
                             hour_of_12_hour_format = hourOfDay;
                         }
 
-                        eTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
+                        if (selectedMinute < 10) {
+                            eTime.setText(hour_of_12_hour_format + " :  0" + selectedMinute + " " + status);
+                        } else {
+                            eTime.setText(hour_of_12_hour_format + " :  " + selectedMinute + " " + status);
+                        }
                     }
                 }, hour2, minute2, false);//Yes 24 hour time
                 mTimePicker2.setTitle("Select Time");
@@ -190,8 +207,8 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
                     Double firstTime = sTimeSlots.get(i);
                     Double secondTime = eTimeSlots.get(i);
 
-                    firstTime = firstTime + 00.10;
-                    secondTime = secondTime - 00.10;
+                    start = start + 00.10;
+                    end = end - 00.10;
 
                     if(start >= firstTime && start <= secondTime){
                         flag = false;

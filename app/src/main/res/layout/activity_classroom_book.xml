@@ -4,44 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="40dp"
     android:focusable="true"
-    android:focusableInTouchMode="true"
-    android:layout_marginBottom="40dp">
+    android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/date2"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:background="#ffffff"
         android:layout_margin="13dp"
+        android:layout_marginTop="16dp"
+        android:background="#ffffff"
+        android:gravity="center"
         android:text="Date"
+        android:textColor="#000000"
         android:textSize="16dp" />
 
     <TextView
         android:id="@+id/room2"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
         android:layout_below="@+id/date2"
-        android:background="#ffffff"
         android:layout_margin="13dp"
+        android:layout_marginTop="16dp"
+        android:background="#ffffff"
+        android:gravity="center"
         android:text="Date"
+        android:textColor="#000000"
         android:textSize="16dp" />
 
     <EditText
         android:id="@+id/detail"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_below="@+id/room2"
         android:layout_gravity="center"
         android:layout_margin="13dp"
-        android:layout_below="@+id/room2"
+        android:background="#ffffff"
         android:ellipsize="end"
         android:gravity="center"
         android:hint="For What?"
-        android:background="#ffffff"
         android:maxLines="1"
         android:textColor="#000000"
         android:textSize="16dp" />
@@ -51,11 +53,12 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/sTime2"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:background="#ffffff"
         android:layout_margin="13dp"
+        android:layout_marginTop="16dp"
+        android:background="#ffffff"
+        android:gravity="center"
         android:text="End Time"
+        android:textColor="#000000"
         android:textSize="16dp" />
 
 
@@ -64,11 +67,12 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/detail"
-        android:background="#ffffff"
-        android:layout_margin="13dp"
         android:layout_centerHorizontal="true"
+        android:layout_margin="13dp"
+        android:background="#ffffff"
         android:gravity="center"
         android:text="Start Time"
+        android:textColor="#000000"
         android:textSize="16dp" />
 
     <Button
@@ -76,8 +80,8 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/eTime2"
-        android:layout_marginTop="26dp"
         android:layout_margin="13dp"
+        android:layout_marginTop="26dp"
         android:background="@drawable/textinput_2"
         android:gravity="center"
         android:text="Book" />

@@ -15,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -36,17 +38,20 @@ import in.galaxyofandroid.spinerdialog.SpinnerDialog;
 
 
 public class Classroom extends AppCompatActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener{
+    final ArrayList<String> availableClassroom = new ArrayList<>();
     Button check,book,list;
-    TextView selectRoom,result,date,room_text,sTime_text,sTime,eTime_text,eTime;
+    TextView selectRoom, date, room_text, sTime_text, sTime, eTime_text, eTime;
+    ScrollView sv;
     ArrayList<String> classList=new ArrayList<>();
+    ArrayAdapter arrayAdapter, arrayAdapterRoom;
+    ListView result;
     SpinnerDialog spinnerDialog;
     String year;
     String month;
     String day;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, databaseReference2;
     boolean isRoomTypeSelected = true;
-    final ArrayList<String> availableClassroom=new ArrayList<>();
-
+    ArrayList<String> NotAvailableClassroom = new ArrayList<>();
     RecyclerView rv;
     Classroom_booked_Adapter adapter;
     List<Classroom_Object> bookedClassroom = new ArrayList<>();
@@ -55,9 +60,86 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_classroom);
-
         getSupportActionBar().setTitle("Classroom");
-        
+
+        Bundle b = getIntent().getExtras();
+        if (b != null) {
+            year = b.getString("year");
+            month = b.getString("month");
+            day = b.getString("day");
+        }
+
+        initial();
+        playWithVisibility();
+
+        arrayAdapter = new ArrayAdapter<String>(this, R.layout.activity_listview, availableClassroom);
+        arrayAdapterRoom = new ArrayAdapter<String>(this, R.layout.activity_listview_2, NotAvailableClassroom);
+
+        result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i != 0 && !isRoomTypeSelected) {
+                    Intent intent = new Intent(Classroom.this, Book_Classroom.class);
+                    intent.putExtra("date", date.getText().toString());
+                    intent.putExtra("room", (String) adapterView.getItemAtPosition(i));
+                    intent.putExtra("Start Time", sTime.getText().toString());
+                    intent.putExtra("End Time", eTime.getText().toString());
+                    startActivity(intent);
+                }
+            }
+        });
+
+
+        Spinner spinner = findViewById(R.id.select_type);
+        spinner.setOnItemSelectedListener(Classroom.this);
+        List<String> categories = new ArrayList<String>();
+        categories.add("BY ROOM");
+        categories.add("BY TIME");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
+        spinner.setSelection(1);
+
+        date.setText(day+"-"+month+"-"+year);
+
+        Fill_classList();
+        selectClassroom();
+
+
+        selectRoom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                spinnerDialog.showSpinerDialog();
+            }
+        });
+
+
+        check.setOnClickListener(this);
+        date.setOnClickListener(this);
+        book.setOnClickListener(this);
+        sTime.setOnClickListener(this);
+        eTime.setOnClickListener(this);
+        list.setOnClickListener(this);
+    }
+
+    private void playWithVisibility() {
+        result.setVisibility(View.GONE);
+        book.setVisibility(View.GONE);
+        list.setVisibility(View.GONE);
+
+        sTime_text.setVisibility(View.VISIBLE);
+        sTime.setVisibility(View.VISIBLE);
+        eTime_text.setVisibility(View.VISIBLE);
+        eTime.setVisibility(View.VISIBLE);
+
+        room_text.setVisibility(View.GONE);
+        selectRoom.setVisibility(View.GONE);
+
+
+    }
+
+    public void initial() {
         check = findViewById(R.id.check);
         book = findViewById(R.id.book);
         list = findViewById(R.id.list);
@@ -71,64 +153,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
         room_text = findViewById(R.id.room_text);
         rv = findViewById(R.id.recycler);
 
-        result.setVisibility(View.GONE);
-        book.setVisibility(View.GONE);
-        list.setVisibility(View.GONE);
-
-        sTime_text.setVisibility(View.VISIBLE);
-        sTime.setVisibility(View.VISIBLE);
-        eTime_text.setVisibility(View.VISIBLE);
-        eTime.setVisibility(View.VISIBLE);
-
-        room_text.setVisibility(View.GONE);
-        selectRoom.setVisibility(View.GONE);
-
-        rv.setVisibility(View.GONE);
-
-        Spinner spinner = findViewById(R.id.select_type);
-        spinner.setOnItemSelectedListener(Classroom.this);
-        List<String> categories = new ArrayList<String>();
-        categories.add("BY ROOM");
-        categories.add("BY TIME");
-
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
-        spinner.setSelection(1);
-
-        Bundle b = getIntent().getExtras();
-        if(b!=null){
-            year = b.getString("year");
-            month = b.getString("month");
-            day = b.getString("day");
-        }
-
-        date.setText(day+"-"+month+"-"+year);
-
-        Fill_classList(); // Remember to fill the list from admin
-        selectClassroom();
-
-
-        selectRoom.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                spinnerDialog.showSpinerDialog();
-            }
-        });
-
-        adapter = new Classroom_booked_Adapter(bookedClassroom,this);
-        rv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        rv.setItemAnimator(new DefaultItemAnimator());
-        rv.hasFixedSize();
-        rv.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-
-        check.setOnClickListener(this);
-        date.setOnClickListener(this);
-        book.setOnClickListener(this);
-        sTime.setOnClickListener(this);
-        eTime.setOnClickListener(this);
-        list.setOnClickListener(this);
+        sv = findViewById(R.id.scrollView);
     }
 
     private void selectClassroom() {
@@ -137,17 +162,12 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onClick(String item, int position) {
                 selectRoom.setText(item);
-                //userThatIsSigningUP.setDeptName(item);
-
             }
         });
     }
 
     private void Fill_classList() {
-        /*classList.add("320");
-        classList.add("324");
-        classList.add("312");*/
-
+        //classList.add("412");
         databaseReference= FirebaseDatabase.getInstance().getReference().child("data").child("Class").child(User.getCurrent().getDeptName());
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -156,7 +176,6 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                     classList.add(users.getKey());
                 }
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -164,9 +183,13 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
         });
     }
 
+
     @Override
     public void onClick(View view) {
+
         switch (view.getId()){
+
+
             case R.id.check:{
                 rv.setVisibility(View.GONE);
                 list.setVisibility(View.GONE);
@@ -178,6 +201,8 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                 }
                 break;
             }
+
+
             case R.id.date:{
                 DatePickerDialog datePickerDialog;
                 final Calendar c = Calendar.getInstance();
@@ -199,11 +224,15 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                 break;
             }
 
+
             case R.id.book:{
                 Intent intent = new Intent(this, Book_Classroom.class);
                 intent.putExtra("date",date.getText().toString());
                 intent.putExtra("room",selectRoom.getText().toString());
+                intent.putExtra("Start Time", "");
+                intent.putExtra("End Time", "");
                 startActivity(intent);
+                break;
             }
 
             case R.id.select_start:{
@@ -222,20 +251,25 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                         }
                         int hour_of_12_hour_format;
 
-                        if(hourOfDay > 11){
+                        if (hourOfDay > 12) {
                             hour_of_12_hour_format = hourOfDay - 12;
                         }
                         else {
                             hour_of_12_hour_format = hourOfDay;
                         }
 
-                        sTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
+                        if (selectedMinute < 10) {
+                            sTime.setText(hour_of_12_hour_format + " :  0" + selectedMinute + " " + status);
+                        } else {
+                            sTime.setText(hour_of_12_hour_format + " :  " + selectedMinute + " " + status);
+                        }
                     }
                 }, hour, minute, false);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
                 break;
             }
+
 
             case R.id.etime:{
                 Calendar mcurrentTime2 = Calendar.getInstance();
@@ -253,14 +287,18 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                         }
                         int hour_of_12_hour_format;
 
-                        if(hourOfDay > 11){
+                        if (hourOfDay > 12) {
                             hour_of_12_hour_format = hourOfDay - 12;
                         }
                         else {
                             hour_of_12_hour_format = hourOfDay;
                         }
 
-                        eTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
+                        if (selectedMinute < 10) {
+                            eTime.setText(hour_of_12_hour_format + " :  0" + selectedMinute + " " + status);
+                        } else {
+                            eTime.setText(hour_of_12_hour_format + " :  " + selectedMinute + " " + status);
+                        }
                     }
                 }, hour2, minute2, false);//Yes 24 hour time
                 mTimePicker2.setTitle("Select Time");
@@ -268,41 +306,69 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                 break;
             }
 
+
             case R.id.list:{
                 rv.setVisibility(View.VISIBLE);
+
+                adapter = new Classroom_booked_Adapter(bookedClassroom, this);
+                rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+                rv.setItemAnimator(new DefaultItemAnimator());
+                rv.hasFixedSize();
+                rv.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
                 bookedClassroom.clear();
-                final String date = day+"-"+month+"-"+year;  //have to reConfigure
-                databaseReference= FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date);
-                databaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot users : dataSnapshot.getChildren()){
-                            Classroom_Object classroom_object = users.getValue(Classroom_Object.class);
-                            if(selectRoom.getText().toString().equals(classroom_object.getRoom())){
-                                bookedClassroom.add(classroom_object);
+                final String date1 = date.getText().toString();   //have to reConfigure
+                if (isRoomTypeSelected) {
+                    databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date1);
+                    databaseReference2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot users : dataSnapshot.getChildren()) {
+                                Classroom_Object classroom_object = users.getValue(Classroom_Object.class);
+                                if (selectRoom.getText().toString().equals(classroom_object.getRoom())) {
+                                    bookedClassroom.add(classroom_object);
+                                }
                             }
+
+                            adapter.notifyDataSetChanged();
                         }
 
-                        adapter.notifyDataSetChanged();
-                    }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                } else {
+                    databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date1);
+                    databaseReference2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot users : dataSnapshot.getChildren()) {
+                                Classroom_Object classroom_object = users.getValue(Classroom_Object.class);
+                                bookedClassroom.add(classroom_object);
+                            }
 
-                    }
-                });
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
                 break;
             }
         }
     }
 
     private void checkForTimeType() {
-        result.setVisibility(View.INVISIBLE);
-        book.setVisibility(View.INVISIBLE);
-        result.setText("");
-        boolean flag ;
-        String availableClass = "";
+        result.setVisibility(View.GONE);
+        book.setVisibility(View.GONE);
+        //result.setText("");
+
         availableClassroom.clear();
+        availableClassroom.add("Available Classrooms : ");
 
         for(int i =0 ;i<classList.size();i++){
             availableClassroom.add(classList.get(i));
@@ -313,16 +379,20 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
 
     private void checkForRoomType() {
         final ArrayList<String> bookedslots=new ArrayList<>();
-        result.setVisibility(View.INVISIBLE);
-        book.setVisibility(View.INVISIBLE);
-        result.setText("");
+        //result.setVisibility(View.GONE);
+        book.setVisibility(View.GONE);
+        //result.setText("");
+        NotAvailableClassroom.clear();
 
-        final String date = day+"-"+month+"-"+year;  //have to reConfigure
-        databaseReference= FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date);
+        result.setAdapter(arrayAdapterRoom);
+
+        final String date1 = date.getText().toString();  //have to reConfigure
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date1);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 bookedslots.removeAll(bookedslots);
+                NotAvailableClassroom.clear();
                 for(DataSnapshot users : dataSnapshot.getChildren()){
                     Classroom_Object classroom_object = users.getValue(Classroom_Object.class);
                     if(selectRoom.getText().toString().equals(classroom_object.getRoom()))
@@ -331,19 +401,25 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
 
                 if(bookedslots.size() == 0){
                     result.setVisibility(View.VISIBLE);
-                    result.setText("All day is avaiable on \n("+date+")");
+                    //result.setText("All day is avaiable on \n("+date+")");
                     book.setVisibility(View.VISIBLE);
+                    NotAvailableClassroom.add("All Day is Available !!! ");
                 }
                 else {
                     result.setVisibility(View.VISIBLE);
                     book.setVisibility(View.VISIBLE);
                     list.setVisibility(View.VISIBLE);
                     //result.append("");
-                    result.setText("Below listed time slots are NOT available:\n\n");
+                    //result.setText("Below listed time slots are NOT available:\n\n");
+                    NotAvailableClassroom.add("Booked Slots :");
                     for (int i =0;i<bookedslots.size();i++){
-                        result.append(bookedslots.get(i)+"\n");
+                        //result.append(bookedslots.get(i)+"\n");
+                        NotAvailableClassroom.add(bookedslots.get(i));
                     }
                 }
+
+                arrayAdapterRoom.notifyDataSetChanged();
+                Helper.getListViewSize(result);
 
             }
 
@@ -368,6 +444,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
             result.setVisibility(View.GONE);
             book.setVisibility(View.GONE);
             list.setVisibility(View.GONE);
+            rv.setVisibility(View.GONE);
         }
         else{
             isRoomTypeSelected = false;
@@ -380,6 +457,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
             result.setVisibility(View.GONE);
             book.setVisibility(View.GONE);
             list.setVisibility(View.GONE);
+            rv.setVisibility(View.GONE);
         }
     }
 
@@ -389,9 +467,6 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
     }
 
     private void loadNotAvailableTimeSlots() {
-        final boolean[] flag = {true};
-        final ArrayList<Double> sTimeSlots=new ArrayList<>();
-        final ArrayList<Double> eTimeSlots=new ArrayList<>();
 
         String string = sTime.getText().toString();
         String[] parts = string.split(" ");
@@ -409,10 +484,14 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
             end = end + 12.00;
         }
 
+        result.setAdapter(arrayAdapter);
 
         databaseReference= FirebaseDatabase.getInstance().getReference().child("Classroom").child(User.getCurrent().getDeptName()).child(date.getText().toString());
-        final Double finalStart = start;
-        final Double finalEnd = end;
+        final Double[] finalStart = {start};
+        final Double[] finalEnd = {end};
+        finalStart[0] = finalStart[0] + 00.10;
+        finalEnd[0] = finalEnd[0] - 00.10;
+        final String[] flag = new String[1];
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -439,35 +518,33 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                         secondTime = secondTime + 12.00;
                     }
 
-                    firstTime = firstTime + 00.10;
-                    secondTime = secondTime - 00.10;
-
-                    if(finalStart >= firstTime && finalStart <= secondTime){
+                    flag[0] = "false";
+                    if (finalStart[0] >= firstTime && finalStart[0] <= secondTime) {
+                        flag[0] = "true01";
                         availableClassroom.remove(classroom_object.getRoom());
-                    }
-                    else if (finalEnd >= firstTime && finalEnd <= secondTime){
+                    } else if (finalEnd[0] >= firstTime && finalEnd[0] <= secondTime) {
                         availableClassroom.remove(classroom_object.getRoom());
+                        flag[0] = "true02";
                     }
 
-                    Log.d("Debug",finalStart+"  "+finalEnd+"    time   =  "+firstTime+"   "+secondTime);
+                    Log.d("Debug", finalStart[0] + "  " + finalEnd[0] + "    time   =  " + firstTime + "   " + secondTime + "   " + classroom_object.getRoom());
                 }
 
                 if(availableClassroom.size() == 0){
                     result.setVisibility(View.VISIBLE);
-                    result.setText("No classroom is available for this time slot !!!");
                     //book.setVisibility(View.VISIBLE);
+                    availableClassroom.add("   NONE !!!!");
                     list.setVisibility(View.VISIBLE);
                 }
                 else {
                     result.setVisibility(View.VISIBLE);
-                    result.setText("Below listed Room is Available:\n");
-                    book.setVisibility(View.VISIBLE);
+                    // result.setText("Below listed Room is Available:\n");
+                    //book.setVisibility(View.VISIBLE);
                     list.setVisibility(View.VISIBLE);
-
-                    for(int i = 0;i<availableClassroom.size();i++){
-                        result.append("\n"+availableClassroom.get(i));
-                    }
                 }
+
+                arrayAdapter.notifyDataSetChanged();
+                Helper.getListViewSize(result);
 
             }
 

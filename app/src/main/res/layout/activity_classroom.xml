@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.asif.du_crs.Classroom">
@@ -187,61 +188,50 @@
                 android:layout_below="@+id/select_start"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
                 android:layout_marginTop="1dp"
-                android:background="@drawable/textinput"
+                android:background="@drawable/textinput_2"
                 android:gravity="center"
                 android:text="Check" />
 
-            <TextView
+            <ListView
                 android:id="@+id/result"
-                android:layout_width="match_parent"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/check"
-                android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
-                android:layout_margin="20dp"
-                android:background="#ffffff"
-                android:gravity="center"
-                android:text=""
-                android:textColor="#000000"
-                android:textSize="20dp"
-                android:visibility="visible" />
+                android:layout_marginBottom="20dp"
+                android:background="#ffffff"></ListView>
 
-            <RelativeLayout
+            <Button
+                android:id="@+id/book"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/textinput_2"
+                android:gravity="center"
+                android:text="Reserve" />
 
-                <Button
-                    android:id="@+id/book"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginEnd="102dp"
-                    android:background="@drawable/textinput"
-                    android:gravity="center"
-                    android:text="Book" />
-
-
-                <Button
-                    android:id="@+id/list"
-                    android:layout_width="80dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginEnd="31dp"
-                    android:layout_toStartOf="@+id/book"
-                    android:background="@drawable/textinput"
-                    android:gravity="center"
-                    android:text="List" />
-
-            </RelativeLayout>
-
+            <Button
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/textinput_2"
+                android:gravity="center"
+                android:text="List" />
 
             <android.support.v7.widget.RecyclerView
-                android:layout_marginTop="20dp"
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp">
 
             </android.support.v7.widget.RecyclerView>
 
