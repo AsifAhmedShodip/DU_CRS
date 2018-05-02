@@ -111,6 +111,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:hint="Start Time"
+                    android:clickable="true"
                     android:maxLines="1"
                     android:spinnerMode="dialog"
                     android:textColor="#000000"
@@ -141,6 +142,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:hint="End Time"
+                    android:clickable="true"
                     android:maxLines="1"
                     android:spinnerMode="dialog"
                     android:textColor="#000000"
@@ -189,19 +191,14 @@
                     android:gravity="center"
                     android:text="Check" />
 
-                <TextView
-                    android:layout_width="match_parent"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/ground_recycler"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_margin="20dp"
-                    android:visibility="visible"
-                    android:textSize="20dp"
                     android:layout_gravity="center"
-                    android:id="@+id/tv_result"
-                    android:gravity="center"
-                    android:background="#ffffff"
-                    android:text=""
-                    android:textColor="#000000" />
+                    >
+
+                </android.support.v7.widget.RecyclerView>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
