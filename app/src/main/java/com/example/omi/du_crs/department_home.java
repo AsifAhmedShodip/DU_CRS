@@ -18,12 +18,11 @@ public class department_home extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_department_home);
         choices.add("Class Room");
-        choices.add("Lab Room");
+        choices.add("Upload Routine");
         choices.add("Reservations");
         choices.add("Exam Hall");
         choices.add("Ground");
         choices.add("Auditorium");
-        choices.add("Upload Routine");
         simpleList = findViewById(R.id.simpleGridView);
         GridDepAdapter adapter=new GridDepAdapter(this,R.layout.optionss,choices);
         simpleList.setAdapter(adapter);

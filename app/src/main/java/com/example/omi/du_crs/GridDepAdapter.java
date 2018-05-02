@@ -88,8 +88,11 @@ public class GridDepAdapter extends ArrayAdapter {
                     //gotoClassroom();
                 }
                 if(position==1){
-                    groundSelected = false;
-                    getDate();
+                   /* groundSelected = false;
+                    getDate();*/
+
+                    Intent intent = new Intent(context, Upload_routine.class);
+                    context.startActivity(intent);
                 }
                 if(position==3)
                 {
@@ -109,8 +112,9 @@ public class GridDepAdapter extends ArrayAdapter {
                     gotoallreserved();
                 }
 
-                if (position == 6) {
-                    Intent intent = new Intent(context, Upload_routine.class);
+                if (position == 5) {
+
+                    Intent intent = new Intent(context, AuditorioumCalendar.class);
                     context.startActivity(intent);
                 }
             }
