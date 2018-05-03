@@ -53,7 +53,9 @@
                 android:maxLines="1"
                 android:spinnerMode="dialog"
                 android:textColor="#000000"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"/>
             <TextView
                 android:id="@+id/tv_title_datee"
                 android:layout_width="wrap_content"
@@ -79,7 +81,9 @@
                 android:ellipsize="end"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:hint="dd - mm -- yyyy"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:hint="dd - mm - yyyy"
                 android:maxLines="1"
                 android:spinnerMode="dialog"
                 android:textColor="#000000"
@@ -108,6 +112,9 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/textinput_2"
                 android:ellipsize="end"
+
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:hint="HH : MM AM"
@@ -139,6 +146,9 @@
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/textinput_2"
                 android:ellipsize="end"
+
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:hint="HH : MM AM"
@@ -172,6 +182,9 @@
                 android:ellipsize="end"
                 android:layout_gravity="center"
                 android:gravity="center"
+
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:hint=""
                 android:maxLines="1"
                 android:spinnerMode="dialog"

@@ -52,8 +52,8 @@ public class ground_book_page extends AppCompatActivity {
 
         loadText();
         final DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference().child("Ground booking");;
-        final DatabaseReference ds = databaseUsers.push();
-        postID = ds.getKey()+"";
+        final DatabaseReference ds2 = databaseUsers.push();
+        postID = ds2.getKey()+"";
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,7 +63,8 @@ public class ground_book_page extends AppCompatActivity {
                 else {
                     booking.setBookedBy("User");
                     booking.setEventName(tvDetail.getText().toString());
-                    ds.setValue(booking);
+                    booking.setBookingID(postID);
+                    ds2.setValue(booking);
                     uploadFile();
                 }
 
@@ -113,10 +114,13 @@ public class ground_book_page extends AppCompatActivity {
     }
 
     void loadText(){
+        /*
         tvDate.setText(booking.date);
         tvStime.setText(booking.startTime);
         tvEtime.setText(booking.endTime);
         tvGName.setText(booking.groundName);
+        */
+
     }
 
     private void uploadFile() {
