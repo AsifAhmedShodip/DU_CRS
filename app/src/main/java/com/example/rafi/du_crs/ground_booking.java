@@ -172,19 +172,13 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"bCheck clickked",Toast.LENGTH_SHORT).show();
+                recyclerView.setVisibility(View.VISIBLE);
                 if(byTimeSelected){
-                    try {
-                        Toast.makeText(getApplicationContext(),"bytime",Toast.LENGTH_SHORT).show();
-                        getGroundListByTime();
-                    } catch (ParseException e) {
-                        Toast.makeText(getApplicationContext(),"by ground",Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                    }
-
+                    Toast.makeText(getApplicationContext(),"bytime",Toast.LENGTH_SHORT).show();
+                    getGroundListByTime();
                 }
                 else {
                         getGroundListByGround();
-
                 }
             }
         });
@@ -225,14 +219,16 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    void getGroundListByTime() throws ParseException {
+    void getGroundListByTime()  {
         /*
         final HashMap<String,Boolean>  gAvailable = new HashMap<String, Boolean>();
         */
         for(int i=1; i<groundList.size();i++){
             gAvailable.put(groundList.get(i),true);
         }
+        /*
         final SimpleDateFormat dateFormat2 = new SimpleDateFormat("hh : mm aa");
+        */
         final Double dSTime = getDateValue(sTime);
         final Double dETime = getDateValue(eTime);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Ground booking");
@@ -246,9 +242,11 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
 
                     if(reservedObject.getDate().equals(date)){
                         if(dSTime>eventETime || dETime<eventSTime){
+                            /*
                             gAvailable.put(reservedObject.getGroundName(),true);
+                            */
                         }
-                        else if(dSTime<eventSTime && dETime<eventETime){
+                        else {
                             gAvailable.put(reservedObject.getGroundName(),false);
                         }
                     }
@@ -262,18 +260,19 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         });
 
         ArrayList<Ground_object> availableGList = new ArrayList<>();
-        for(String key : gAvailable.keySet()){
-            if(gAvailable.get(key)){
-                Ground_object newGO = new Ground_object(key,sTime,eTime,date,true);
-                availableGList.add(newGO);
-            }
-        }
 
         adapter = new GroundAvailableAdapter(availableGList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.hasFixedSize();
         recyclerView.setAdapter(adapter);
+        for(String key : gAvailable.keySet()){
+            if(gAvailable.get(key)){
+                Ground_object newGO = new Ground_object(key,sTime,eTime,date,true);
+                availableGList.add(newGO);
+                adapter.notifyDataSetChanged();
+            }
+        }
         adapter.notifyDataSetChanged();
 
     }

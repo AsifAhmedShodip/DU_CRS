@@ -43,7 +43,7 @@ public class booking_confirmation extends AppCompatActivity {
         bCancel = (Button) findViewById(R.id.bt_cancel);
 
         loadText();
-        //loadImage();
+        loadImage();
 
         bAccept.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,19 +77,21 @@ public class booking_confirmation extends AppCompatActivity {
     }
 
     void loadImage(){
-        setImageFromStorage(getApplicationContext(),"POSTimages/"+appliedObject.getPicloc()+".jpg",ivPic);
+        setImageFromStorage(getApplicationContext(),"https://firebasestorage.googleapis.com/v0/b/ducrs-cb938.appspot.com/o/POSTimages%2F"+appliedObject.getPicloc()+".jpg?alt=media&token=e2cba7e7-ac04-4c4a-b917-fc078e301674",ivPic);
     }
 
     static void setImageFromStorage(Context context, String uri, ImageView imageView)
     {
+        /*
         StorageReference storageRef;// = FirebaseStorage.getInstance().getReference();
         StorageReference forestRef;
 
         storageRef = FirebaseStorage.getInstance().getReference();
 
         forestRef = storageRef.child(uri);
+        */
         Glide.with(context)
-                .load(forestRef)
+                .load(uri)
                 .into(imageView);
     }
 

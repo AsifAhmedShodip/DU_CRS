@@ -40,7 +40,7 @@ public class GroundAvailableAdapter extends RecyclerView.Adapter<GroundAvailable
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         Ground_object groundObject = gList.get(position);
         String detail;
         if(groundObject.isShowTime()){
@@ -52,12 +52,15 @@ public class GroundAvailableAdapter extends RecyclerView.Adapter<GroundAvailable
         holder.groundName.setText(groundObject.groundName);
         holder.groundDetail.setText(detail);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.groundName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Intent intent = new Intent(/*class of booking page*/);
+                Intent intent = new Intent(context,ground_book_page.class);
                 //send class
+                ground_book_page.booking = gList.get(position);
                 // intent
+                context.startActivity(intent);
             }
         });
     }
