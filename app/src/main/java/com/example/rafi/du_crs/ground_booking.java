@@ -93,6 +93,9 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         date = day+"-"+month+"-"+year;
         tvDate.setText(day+"-"+month+"-"+year);
 
+        tvSTime.setOnClickListener(this);
+        tvETime.setOnClickListener(this);
+
         optionList.add("BY GROUND");
         optionList.add("BY TIME");
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,optionList);
@@ -177,7 +180,7 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        tvtETime.setOnClickListener(new View.OnClickListener() {
+        /*tvETime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar mTime = Calendar.getInstance();
@@ -209,7 +212,7 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
                 mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
             }
-        });
+        });*/
 
     }
 
@@ -219,27 +222,22 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
             gAvailable.put(groundList.get(i),true);
         }
         final SimpleDateFormat dateFormat2 = new SimpleDateFormat("hh : mm aa");
-        final Date dSTime = dateFormat2.parse(sTime);
-        final Date dETime = dateFormat2.parse(eTime);
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Ground booking");
+        final Double dSTime = getDateValue(sTime);
+        final Double dETime = getDateValue(eTime);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Ground booking").child(date);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleData : dataSnapshot.getChildren()){
                     Ground_object reservedObject = singleData.getValue(Ground_object.class);
-                    try {
-                        Date eventSTime = dateFormat2.parse(reservedObject.getStartTime().toString());
-                        Date eventETime = dateFormat2.parse(reservedObject.getEndTime().toString());
+                    Double eventSTime = getDateValue(reservedObject.getStartTime().toString());
+                    Double eventETime = getDateValue(reservedObject.getEndTime().toString());
 
-                        if(dSTime.getTime()>eventETime.getTime() || dETime.getTime()<eventSTime.getTime()){
-                            gAvailable.put(reservedObject.getGroundName(),true);
-                        }
-                        else if(dSTime.getTime()<eventSTime.getTime() && dETime.getTime()<eventETime.getTime()){
-                            gAvailable.put(reservedObject.getGroundName(),false);
-                        }
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
+                    if(dSTime>eventETime || dETime<eventSTime){
+                        gAvailable.put(reservedObject.getGroundName(),true);
+                    }
+                    else if(dSTime<eventSTime && dETime<eventETime){
+                        gAvailable.put(reservedObject.getGroundName(),false);
                     }
                 }
             }
@@ -342,7 +340,10 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         availableList.add(gTemp);
         for(Ground_object gNow : unavailableGList){
             for (Ground_object gT : availableList){
-                if(true){
+                if(true){//if gT interfere with gNow
+                    //delete gt from availableList
+                    //split gt into two Ground_object which don't interfere with gNow
+                    //insert them to availableList
 
                 }
             }
@@ -421,5 +422,17 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
             }
 
         }
+    }
+
+    double getDateValue(String dateS){
+        double val = 0;
+        String[] p1 = dateS.split(" ");
+        String time2 = p1[0]+"."+p1[2];
+        val = Double.parseDouble(time2);
+        if(p1[3].equals("PM"))
+        {
+            val = val + 12.00;
+        }
+        return val;
     }
 }

@@ -12,6 +12,7 @@ public class Ground_object {
     boolean isBooked;
     String eventName;
     String bookedBy;
+    String bookingID;
 
     public Ground_object(String groundName, String startTime, String endTime, String date, boolean showTime) {
         this.groundName = groundName;
@@ -23,6 +24,14 @@ public class Ground_object {
     }
 
     public Ground_object() {
+    }
+
+    public String getBookingID() {
+        return bookingID;
+    }
+
+    public void setBookingID(String bookingID) {
+        this.bookingID = bookingID;
     }
 
     public String getGroundName() {
