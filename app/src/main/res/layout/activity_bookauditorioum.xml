@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/stt"
                 android:id="@+id/edt"
-                android:hint="End Timeess"/>
+                android:hint="End Time"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
