@@ -3,10 +3,12 @@ package com.example.rafi.du_crs;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -26,6 +28,7 @@ public class booking_confirmation extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.e("created","af");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_confirmation);
 
@@ -46,8 +49,10 @@ public class booking_confirmation extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 appliedObject.setStatus(1);
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Auditorium bookings").child(appliedObject.getPicloc());
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Auditorioum bookings").child(appliedObject.getPicloc());
                 databaseReference.setValue(appliedObject);
+                Toast.makeText(getApplicationContext(),"Accepted !",Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
@@ -55,15 +60,10 @@ public class booking_confirmation extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 appliedObject.setStatus(2);
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Auditorium bookings").child(appliedObject.getPicloc());
+                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Auditorioum bookings").child(appliedObject.getPicloc());
                 databaseReference.setValue(appliedObject);
-            }
-        });
-
-        bCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
+                Toast.makeText(getApplicationContext(),"Cancelled !",Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }
@@ -71,8 +71,8 @@ public class booking_confirmation extends AppCompatActivity {
     void loadText(){
         gName.setText(appliedObject.getVenue());
         eDate.setText(appliedObject.getRdate());
-        sTime.setText(appliedObject.getStartt());
-        eTime.setText(appliedObject.getEndt());
+        sTime.setText(standardtime(appliedObject.getStartt()));
+        eTime.setText(standardtime(appliedObject.getEndt()));
         eDetail.setText(appliedObject.getSubject());
     }
 
@@ -91,5 +91,24 @@ public class booking_confirmation extends AppCompatActivity {
         Glide.with(context)
                 .load(forestRef)
                 .into(imageView);
+    }
+
+    static String standardtime(int ms){
+        String s="";
+        String isPm="AM";
+        if(ms>12*60) isPm="PM";
+        ms=(ms%(12*60));
+        int sh=ms/60;
+        int sm=ms%60;
+        if(sh==0) sh=12;
+
+        s=sh+":"+sm+" "+isPm;
+        s="";
+        if(sh<10) s+="0"+sh+":";
+        else s+=sh+":";
+        if(sm<10) s+="0"+sm;
+        else s+=sm;
+        s+=" "+isPm;
+        return s;
     }
 }

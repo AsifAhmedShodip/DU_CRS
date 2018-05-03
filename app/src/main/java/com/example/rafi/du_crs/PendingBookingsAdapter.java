@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class PendingBookingsAdapter extends RecyclerView.Adapter<PendingBookings
         holder.tvTime.setText(timeDeatils);
         holder.tvDate.setText(groundObject.getRdate());
 
+        /*
         final View.OnClickListener vL = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -50,7 +52,17 @@ public class PendingBookingsAdapter extends RecyclerView.Adapter<PendingBookings
                 context.startActivity(intent);
             }
         };
-        holder.button.setOnClickListener(vL);
+        */
+        holder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("onclick","before");
+                booking_confirmation.appliedObject = groundObject;
+                Intent intent = new Intent(context,booking_confirmation.class);
+                context.startActivity(intent);
+                Log.e("onclick","after");
+            }
+        });
     }
 
     @Override

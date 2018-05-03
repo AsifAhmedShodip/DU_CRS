@@ -40,6 +40,7 @@ public class admin_add_option extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_add_option);
+        getSupportActionBar().setTitle("Admin Panel : Add New Place");
 
         nameET = (EditText) findViewById(R.id.et_name);
         locationET = (EditText) findViewById(R.id.et_location);
