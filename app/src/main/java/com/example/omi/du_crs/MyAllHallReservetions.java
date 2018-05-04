@@ -29,6 +29,18 @@ public class MyAllHallReservetions extends AppCompatActivity {
     List<String> choices=new ArrayList<>();
     DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name);
     List<ExamHallSlot> list=new ArrayList<>();
+    void gotoclass()
+    {
+
+    }
+    void gotoground()
+    {
+
+    }
+    void gotoauditorioum()
+    {
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +62,10 @@ public class MyAllHallReservetions extends AppCompatActivity {
 
         search_category=findViewById(R.id.search_category);
 
+        choices.add("Classroom/lab");
+        choices.add("Ground");
+        choices.add("Auditorioum");
+
         ArrayAdapter<String> adapters=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,choices);
         adapters.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         search_category.setAdapter(adapters);
@@ -58,8 +74,11 @@ public class MyAllHallReservetions extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(i!=0)
                 {
-
+                    if(i==1) gotoclass();
+                    if(i==2) gotoground();
+                    if(i==3) gotoauditorioum();
                 }
+
             }
 
             @Override

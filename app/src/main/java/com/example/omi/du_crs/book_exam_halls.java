@@ -241,7 +241,7 @@ public class book_exam_halls extends AppCompatActivity {
                         AlertDialog alert = a_buider.create();
                         alert.setTitle("Confirmation");
                         alert.show();
-                        
+
                     } else {
                         Toast.makeText(book_exam_halls.this, "Not available", Toast.LENGTH_LONG).show();
                     }
