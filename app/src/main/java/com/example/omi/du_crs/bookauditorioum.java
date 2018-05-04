@@ -133,15 +133,6 @@ public class bookauditorioum extends AppCompatActivity {
                         alert.setTitle("Confirmation");
                         alert.show();
 
-                        /*ds = databaseUsers.push();
-                        postid=ds.getKey()+"";
-                        uploadFile();
-                        AuditorioumDetails temp=new AuditorioumDetails(0,FunctionList.getminute(ss),FunctionList.getminute(ee),
-                            User.getCurrent().getDeptName().toString(),dd,rdate,ds.getKey()+"",
-                            ds.getKey()+"",venue);
-                        ds.setValue(temp);
-                        uploadFile();*/
-
                     }
                     else
                     {
