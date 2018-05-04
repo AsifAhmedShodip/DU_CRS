@@ -1,7 +1,9 @@
 package com.example.omi.du_crs;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -41,7 +43,7 @@ import static com.example.omi.du_crs.auditorioumfreeslots.venue;
 
 public class bookauditorioum extends AppCompatActivity {
 
-    private EditText ed1,ed2;
+    private EditText ed1,ed2,ed3;
     private static final int PICK_IMAGE_REQUEST=234;
     private Uri filePath;
     private StorageReference storageReference= FirebaseStorage.getInstance().getReference();
@@ -77,6 +79,7 @@ public class bookauditorioum extends AppCompatActivity {
         });
         ed1=findViewById(R.id.stt);
         ed2=findViewById(R.id.edt);
+        ed3=findViewById(R.id.desc);
         imageView=findViewById(R.id.imageview);
         b1=findViewById(R.id.button);
         b2=findViewById(R.id.button1);
@@ -87,25 +90,48 @@ public class bookauditorioum extends AppCompatActivity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ed1.getText().toString().equals("") || ed2.getText().toString().equals(""))
+                if(ed1.getText().toString().equals("") || ed2.getText().toString().equals("") || ed3.getText().toString().equals(""))
                 {
                     Toast.makeText(bookauditorioum.this, "You have to select all field", Toast.LENGTH_LONG).show();
                 }
                 else
                 {
-                    String ss=ed1.getText().toString();
-                    String ee=ed2.getText().toString();
+                    final String ss=ed1.getText().toString();
+                    final String ee=ed2.getText().toString();
+                    final String dd=ed3.getText().toString();
                     boolean flag=AuditorioumDetails.isfree(bookings,needl,needh,FunctionList.getminute(ss),FunctionList.getminute(ee));
                     if(flag)
                     {
-                        ds = databaseUsers.push();
-                        postid=ds.getKey()+"";
-                        uploadFile();
-                        AuditorioumDetails temp=new AuditorioumDetails(0,FunctionList.getminute(ss),FunctionList.getminute(ee),
-                            User.getCurrent().getDeptName().toString(),"None",rdate,ds.getKey()+"",
-                            ds.getKey()+"",venue);
-                        ds.setValue(temp);
-                        uploadFile();
+                        final AlertDialog.Builder a_buider = new AlertDialog.Builder(bookauditorioum.this);
+
+                        a_buider.setMessage("Do you want to book this slot?");
+                        a_buider.setCancelable(false);
+
+                        a_buider.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                //Toast.makeText(book_exam_halls.this, "Booking is Done", Toast.LENGTH_LONG).show();
+                                ds = databaseUsers.push();
+                                postid=ds.getKey()+"";
+                                uploadFile();
+                                AuditorioumDetails temp=new AuditorioumDetails(0,FunctionList.getminute(ss),FunctionList.getminute(ee),
+                                        User.getCurrent().getDeptName().toString(),dd,rdate,ds.getKey()+"",
+                                        ds.getKey()+"",venue);
+                                ds.setValue(temp);
+                                uploadFile();
+                                dialogInterface.cancel();
+                            }
+                        });
+                        a_buider.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
+                        AlertDialog alert = a_buider.create();
+                        alert.setTitle("Confirmation");
+                        alert.show();
 
                     }
                     else

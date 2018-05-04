@@ -23,31 +23,29 @@ import java.util.List;
 
 public class MyAllHallReservetions extends AppCompatActivity {
 
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
     Spinner search_category;
     List<String> choices=new ArrayList<>();
     DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name);
     List<ExamHallSlot> list=new ArrayList<>();
-    private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    void gotoclass()
+    {
 
+    }
+    void gotoground()
+    {
+
+    }
+    void gotoauditorioum()
+    {
+
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_all_hall_reservetions);
-
         choices.add("Exam Hall");
-
-
-        fetchExamHall();
-        fetchClassroom();
-
-
-    }
-
-    private void fetchClassroom() {
-    }
-
-    public void fetchExamHall() {
         node.mp.clear();
         node.mp.add("January");
         node.mp.add("February");
@@ -64,15 +62,23 @@ public class MyAllHallReservetions extends AppCompatActivity {
 
         search_category=findViewById(R.id.search_category);
 
+        choices.add("Classroom/lab");
+        choices.add("Ground");
+        choices.add("Auditorioum");
+
         ArrayAdapter<String> adapters=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,choices);
         adapters.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         search_category.setAdapter(adapters);
         search_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i!=0) {
-
+                if(i!=0)
+                {
+                    if(i==1) gotoclass();
+                    if(i==2) gotoground();
+                    if(i==3) gotoauditorioum();
                 }
+
             }
 
             @Override
@@ -81,7 +87,8 @@ public class MyAllHallReservetions extends AppCompatActivity {
             }
         });
 
-        for(int i=0; i<10; i++) {
+        for(int i=0;i<10;i++)
+        {
             //list.add(new ExamHallSlot());
         }
         DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name);
@@ -96,7 +103,7 @@ public class MyAllHallReservetions extends AppCompatActivity {
                     temp = users.getValue(ExamHallSlot.class);
 
                     if (temp.reserverId.equals(User.getCurrent().getDeptName()))
-                        list.add(temp);
+                            list.add(temp);
 
                 }
 
@@ -111,7 +118,7 @@ public class MyAllHallReservetions extends AppCompatActivity {
 
             }
         });
-        recyclerView = findViewById(R.id.recycler);
+        recyclerView=(RecyclerView) findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setAutoMeasureEnabled(true);

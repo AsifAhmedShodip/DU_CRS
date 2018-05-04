@@ -43,6 +43,7 @@ public class admin_main extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                pendingList.clear();
                 for(DataSnapshot data: dataSnapshot.getChildren()){
                     AuditorioumDetails temp = data.getValue(AuditorioumDetails.class);
                     if(temp.getStatus() == 0){

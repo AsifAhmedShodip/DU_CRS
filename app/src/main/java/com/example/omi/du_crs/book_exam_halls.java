@@ -218,11 +218,6 @@ public class book_exam_halls extends AppCompatActivity {
                         a_buider.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                //DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name).child(temp.getReservetionId());
-                                //databaseReference.removeValue();
-                                //AlertDialog alert = a_buider.create();
-                                //alert.setTitle("Confirmation");
-                                //alert.show();
                                 ExamHallSlot temp = new ExamHallSlot();
                                 ds = databaseReference.push();
                                 temp.setReservetionId("" + ds.getKey());
@@ -246,8 +241,6 @@ public class book_exam_halls extends AppCompatActivity {
                         AlertDialog alert = a_buider.create();
                         alert.setTitle("Confirmation");
                         alert.show();
-                        //DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name).child(temp.getReservetionId());
-                        //databaseReference.removeValue();
 
                     } else {
                         Toast.makeText(book_exam_halls.this, "Not available", Toast.LENGTH_LONG).show();

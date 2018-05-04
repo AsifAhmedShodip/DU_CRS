@@ -48,7 +48,9 @@ public class ground_book_page extends AppCompatActivity {
         tvDetail = (TextView) findViewById(R.id.tv_bp_detail);
         imageView = (ImageView) findViewById(R.id.iv_pic);
         chooseButton = (Button) findViewById(R.id.bt_choose);
+        /*
         bookButton = (Button) findViewById(R.id.bt_book);
+        */
 
         loadText();
         final DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference().child("Ground booking");;
@@ -114,13 +116,10 @@ public class ground_book_page extends AppCompatActivity {
     }
 
     void loadText(){
-        /*
         tvDate.setText(booking.date);
         tvStime.setText(booking.startTime);
         tvEtime.setText(booking.endTime);
         tvGName.setText(booking.groundName);
-        */
-
     }
 
     private void uploadFile() {

@@ -172,7 +172,7 @@
                 android:textColor="#000000"
                 android:textSize="10sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tv_bp_detail"
                 android:layout_width="300dp"
                 android:layout_height="40dp"
@@ -185,7 +185,7 @@
 
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:hint=""
+                android:hint="Reason of booking"
                 android:maxLines="1"
                 android:spinnerMode="dialog"
                 android:textColor="#000000"

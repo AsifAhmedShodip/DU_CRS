@@ -53,6 +53,7 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
     String groundSelection;
     ArrayList<String> optionList = new ArrayList<>();
     ArrayList<String> groundList = new ArrayList<>();
+    HashMap<String,Boolean>  gAvailable = new HashMap<String, Boolean>();
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
 
@@ -63,7 +64,9 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         getSupportActionBar().setTitle("Ground");
 
         bCheck = (Button) findViewById(R.id.bt_check);
+        /*
         bBook = (Button) findViewById(R.id.bt_book);
+        */
         tvSTime = (TextView) findViewById(R.id.tv_stime);
         tvETime = (TextView) findViewById(R.id.tv_etime);
         tvDate = (TextView) findViewById(R.id.tv_date);
@@ -82,7 +85,9 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         tvSTime.setVisibility(View.GONE);
         tvtETime.setVisibility(View.GONE);
         tvETime.setVisibility(View.GONE);
+        /*
         bBook.setVisibility(View.GONE);
+        */
 
         Bundle b = getIntent().getExtras();
         if(b!=null){
@@ -111,7 +116,9 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
                     tvSTime.setVisibility(View.GONE);
                     tvtETime.setVisibility(View.GONE);
                     tvETime.setVisibility(View.GONE);
+                    /*
                     bBook.setVisibility(View.GONE);
+                    */
 
                     tvtGround.setVisibility(View.VISIBLE);
                     spinnerGround.setVisibility(View.VISIBLE);
@@ -123,7 +130,9 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
                     tvSTime.setVisibility(View.VISIBLE);
                     tvtETime.setVisibility(View.VISIBLE);
                     tvETime.setVisibility(View.VISIBLE);
+                    /*
                     bBook.setVisibility(View.VISIBLE);
+                    */
 
                     tvtGround.setVisibility(View.GONE);
                     spinnerGround.setVisibility(View.GONE);
@@ -163,19 +172,13 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"bCheck clickked",Toast.LENGTH_SHORT).show();
+                recyclerView.setVisibility(View.VISIBLE);
                 if(byTimeSelected){
-                    try {
-                        Toast.makeText(getApplicationContext(),"bytime",Toast.LENGTH_SHORT).show();
-                        getGroundListByTime();
-                    } catch (ParseException e) {
-                        Toast.makeText(getApplicationContext(),"by ground",Toast.LENGTH_SHORT).show();
-                        e.printStackTrace();
-                    }
-
+                    Toast.makeText(getApplicationContext(),"bytime",Toast.LENGTH_SHORT).show();
+                    getGroundListByTime();
                 }
                 else {
                         getGroundListByGround();
-
                 }
             }
         });
@@ -216,15 +219,19 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    void getGroundListByTime() throws ParseException {
+    void getGroundListByTime()  {
+        /*
         final HashMap<String,Boolean>  gAvailable = new HashMap<String, Boolean>();
+        */
         for(int i=1; i<groundList.size();i++){
             gAvailable.put(groundList.get(i),true);
         }
+        /*
         final SimpleDateFormat dateFormat2 = new SimpleDateFormat("hh : mm aa");
+        */
         final Double dSTime = getDateValue(sTime);
         final Double dETime = getDateValue(eTime);
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Ground booking").child(date);
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Ground booking");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -233,11 +240,15 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
                     Double eventSTime = getDateValue(reservedObject.getStartTime().toString());
                     Double eventETime = getDateValue(reservedObject.getEndTime().toString());
 
-                    if(dSTime>eventETime || dETime<eventSTime){
-                        gAvailable.put(reservedObject.getGroundName(),true);
-                    }
-                    else if(dSTime<eventSTime && dETime<eventETime){
-                        gAvailable.put(reservedObject.getGroundName(),false);
+                    if(reservedObject.getDate().equals(date)){
+                        if(dSTime>eventETime || dETime<eventSTime){
+                            /*
+                            gAvailable.put(reservedObject.getGroundName(),true);
+                            */
+                        }
+                        else {
+                            gAvailable.put(reservedObject.getGroundName(),false);
+                        }
                     }
                 }
             }
@@ -249,18 +260,19 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         });
 
         ArrayList<Ground_object> availableGList = new ArrayList<>();
-        for(String key : gAvailable.keySet()){
-            if(gAvailable.get(key)){
-                Ground_object newGO = new Ground_object(key,sTime,eTime,date,true);
-                availableGList.add(newGO);
-            }
-        }
 
         adapter = new GroundAvailableAdapter(availableGList,this);
         recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.hasFixedSize();
         recyclerView.setAdapter(adapter);
+        for(String key : gAvailable.keySet()){
+            if(gAvailable.get(key)){
+                Ground_object newGO = new Ground_object(key,sTime,eTime,date,true);
+                availableGList.add(newGO);
+                adapter.notifyDataSetChanged();
+            }
+        }
         adapter.notifyDataSetChanged();
 
     }
