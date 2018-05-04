@@ -100,6 +100,7 @@ public class sign_in extends AppCompatActivity {
                                             startActivity(intent);
                                         }
                                         else if(temp.getAccessCode() == 1 || userThatIsSignedIn.getAccessCode() == 2){
+                                            department_home.userThatIsSignedIn = userThatIsSignedIn;
                                             Intent intent = new Intent(sign_in.this, department_home.class);
                                             startActivity(intent);
                                         }

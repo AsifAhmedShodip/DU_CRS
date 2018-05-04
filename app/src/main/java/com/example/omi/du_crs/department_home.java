@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.widget.GridView;
 
 import com.example.asif.du_crs.R;
+import com.example.asif.du_crs.User;
 
 import java.util.ArrayList;
 
 public class department_home extends AppCompatActivity {
 
+    public static User userThatIsSignedIn;
     GridView simpleList;
     ArrayList<String> choices=new ArrayList<>();
 

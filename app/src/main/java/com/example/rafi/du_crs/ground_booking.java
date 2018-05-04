@@ -54,8 +54,12 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
     ArrayList<String> optionList = new ArrayList<>();
     ArrayList<String> groundList = new ArrayList<>();
     HashMap<String,Boolean>  gAvailable = new HashMap<String, Boolean>();
+    ArrayList<Ground_object> unavailableGList = new ArrayList<>();
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
+    Double dSTime,dETime;
+    String[] sgTime = new String[1];
+    String[] egTime = new String[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,10 +175,14 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onClick(View view) {
+                /*
                 Toast.makeText(getApplicationContext(),"bCheck clickked",Toast.LENGTH_SHORT).show();
+                */
                 recyclerView.setVisibility(View.VISIBLE);
                 if(byTimeSelected){
+                    /*
                     Toast.makeText(getApplicationContext(),"bytime",Toast.LENGTH_SHORT).show();
+                    */
                     getGroundListByTime();
                 }
                 else {
@@ -229,8 +237,9 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         /*
         final SimpleDateFormat dateFormat2 = new SimpleDateFormat("hh : mm aa");
         */
-        final Double dSTime = getDateValue(sTime);
-        final Double dETime = getDateValue(eTime);
+        dSTime = getDateValue(sTime);
+        dETime = getDateValue(eTime);
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Ground booking");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -303,8 +312,10 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
 
 
     void getGroundListByGround () {
+        /*
         final String[] sTime = new String[1];
         final String[] eTime = new String[1];
+        */
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("data").child("Ground");
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -312,8 +323,8 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
                 for(DataSnapshot d : dataSnapshot.getChildren()){
                     detail temp = d.getValue(detail.class);
                     if(temp.getName().equals(groundSelection)){
-                        sTime[0] = temp.startTime;
-                        eTime[0] = temp.endTime;
+                        sgTime[0] = temp.startTime;
+                        egTime[0] = temp.endTime;
                         break;
                     }
                 }
@@ -324,9 +335,12 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         });
         SimpleDateFormat  dateFormat = new SimpleDateFormat("hh : mm aa");
         //Date dSt = dateFormat.parse(sTime[0]);
+        dSTime = getDateValue(sgTime[0]);
+        dETime = getDateValue(egTime[0]);
 
+        /*
         final ArrayList<Ground_object> unavailableGList = new ArrayList<>();
-
+*/
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Ground booking");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -348,10 +362,12 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         });
 
         ArrayList<Ground_object> availableList = new ArrayList<>();
-        Ground_object gTemp = new Ground_object(groundSelection,sTime[0],eTime[0],date,true);
+        Ground_object gTemp = new Ground_object(groundSelection,sgTime[0],egTime[0],date,true);
         availableList.add(gTemp);
         for(Ground_object gNow : unavailableGList){
             for (Ground_object gT : availableList){
+                Double eventSTime = getDateValue(gT.getStartTime().toString());
+                Double eventETime = getDateValue(gT.getEndTime().toString());
                 if(true){//if gT interfere with gNow
                     //delete gt from availableList
                     //split gt into two Ground_object which don't interfere with gNow
@@ -368,7 +384,9 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.tv_stime:{
+                /*
                 Toast.makeText(getApplicationContext(),"stime clickked",Toast.LENGTH_SHORT).show();
+                */
                 Calendar mTime = Calendar.getInstance();
                 int hour = mTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mTime.get(Calendar.MINUTE);
@@ -401,7 +419,9 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
             }
 
             case R.id.tv_etime:{
+                /*
                 Toast.makeText(getApplicationContext(),"etime clicked",Toast.LENGTH_SHORT).show();
+                */
                 Calendar mTime = Calendar.getInstance();
                 int hour = mTime.get(Calendar.HOUR_OF_DAY);
                 int minute = mTime.get(Calendar.MINUTE);

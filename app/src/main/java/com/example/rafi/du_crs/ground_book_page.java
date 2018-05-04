@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.asif.du_crs.R;
+import com.example.asif.du_crs.sign_in;
+import com.example.omi.du_crs.department_home;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
@@ -31,6 +33,7 @@ public class ground_book_page extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST=234;
     private StorageReference storageReference= FirebaseStorage.getInstance().getReference();
     String postID;
+    String userID;
     private Uri filePath;
     TextView tvDate, tvStime, tvEtime, tvGName, tvDetail;
     ImageView imageView;
@@ -51,11 +54,13 @@ public class ground_book_page extends AppCompatActivity {
         /*
         bookButton = (Button) findViewById(R.id.bt_book);
         */
+        bookButton = (Button) findViewById(R.id.bt_bp_book);
 
         loadText();
         final DatabaseReference databaseUsers = FirebaseDatabase.getInstance().getReference().child("Ground booking");;
         final DatabaseReference ds2 = databaseUsers.push();
         postID = ds2.getKey()+"";
+        userID = department_home.userThatIsSignedIn.getUid();
         bookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,11 +68,13 @@ public class ground_book_page extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Fill every field first !", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    booking.setBookedBy("User");
+                    booking.setBookedBy(userID);
                     booking.setEventName(tvDetail.getText().toString());
                     booking.setBookingID(postID);
                     ds2.setValue(booking);
                     uploadFile();
+                    Toast.makeText(getApplicationContext(),"Booked !", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
 
             }

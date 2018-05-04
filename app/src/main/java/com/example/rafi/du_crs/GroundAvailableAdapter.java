@@ -52,7 +52,7 @@ public class GroundAvailableAdapter extends RecyclerView.Adapter<GroundAvailable
         holder.groundName.setText(groundObject.groundName);
         holder.groundDetail.setText(detail);
 
-        holder.groundName.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener onSelect = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Intent intent = new Intent(/*class of booking page*/);
@@ -62,7 +62,10 @@ public class GroundAvailableAdapter extends RecyclerView.Adapter<GroundAvailable
                 // intent
                 context.startActivity(intent);
             }
-        });
+        };
+
+        holder.groundName.setOnClickListener(onSelect);
+        holder.groundDetail.setOnClickListener(onSelect);
     }
 
     @Override
@@ -73,6 +76,7 @@ public class GroundAvailableAdapter extends RecyclerView.Adapter<GroundAvailable
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView groundName;
         TextView groundDetail;
+        android.widget.LinearLayout ll;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -80,10 +84,6 @@ public class GroundAvailableAdapter extends RecyclerView.Adapter<GroundAvailable
             groundName = itemView.findViewById(R.id.tv_ground_name);
             groundDetail = itemView.findViewById(R.id.tv_ground_detail);
         }
-
-
-
-
     }
 
 }
