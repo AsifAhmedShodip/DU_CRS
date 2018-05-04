@@ -67,10 +67,16 @@
                 android:layout_below="@id/stt"
                 android:id="@+id/edt"
                 android:hint="End Time"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/edt"
+                android:id="@+id/desc"
+                android:hint="Description"/>
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/edt"
+                android:layout_below="@id/desc"
                 android:layout_centerHorizontal="true"
                 android:layout_margin="@dimen/fab_margin"
                 android:text="Book Now"

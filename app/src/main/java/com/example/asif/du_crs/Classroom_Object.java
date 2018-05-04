@@ -5,9 +5,18 @@ package com.example.asif.du_crs;
  */
 
 public class Classroom_Object {
-    String room,bookedBy,sTiem,eTime,detail;
+    String room, bookedBy, sTiem, eTime, detail, date;
 
     public Classroom_Object() {
+        room = bookedBy = sTiem = eTime = detail = date = "Null";
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getDetail() {
