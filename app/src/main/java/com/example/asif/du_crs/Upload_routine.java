@@ -195,9 +195,9 @@ public class Upload_routine extends AppCompatActivity implements View.OnClickLis
                         }
 
                         if (selectedMinute < 10) {
-                            sTime.setText(hour_of_12_hour_format + " :  0" + selectedMinute + " " + status);
+                            sTime.setText(hour_of_12_hour_format + " : 0" + selectedMinute + " " + status);
                         } else {
-                            sTime.setText(hour_of_12_hour_format + " :  " + selectedMinute + " " + status);
+                            sTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
                         }
                     }
                 }, hour, minute, false);//Yes 24 hour time
@@ -228,9 +228,9 @@ public class Upload_routine extends AppCompatActivity implements View.OnClickLis
                         }
 
                         if (selectedMinute < 10) {
-                            eTime.setText(hour_of_12_hour_format + " :  0" + selectedMinute + " " + status);
+                            eTime.setText(hour_of_12_hour_format + " : 0" + selectedMinute + " " + status);
                         } else {
-                            eTime.setText(hour_of_12_hour_format + " :  " + selectedMinute + " " + status);
+                            eTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
                         }
                     }
                 }, hour, minute, false);//Yes 24 hour time

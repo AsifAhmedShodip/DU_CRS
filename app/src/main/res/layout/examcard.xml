@@ -72,6 +72,19 @@
 
             </TextView>
 
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_below="@id/sube"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                android:text="SUbject: CSE-2201"
+                android:textColor="#000000">
+
+            </TextView>
+
         </RelativeLayout>
         <Button
             android:id="@+id/cancelb"

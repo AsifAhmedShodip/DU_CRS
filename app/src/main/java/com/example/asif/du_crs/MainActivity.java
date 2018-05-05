@@ -13,5 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent sign_in=new Intent(MainActivity.this,sign_in.class);
         startActivity(sign_in);
+        finish();
     }
+
 }

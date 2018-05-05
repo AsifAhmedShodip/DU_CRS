@@ -9,7 +9,7 @@ public class Ground_object {
     String startTime, endTime;
     String date;
     boolean showTime;
-    boolean isBooked;
+    int isBooked;
     String eventName;
     String bookedBy;
     String bookingID;
@@ -20,7 +20,7 @@ public class Ground_object {
         this.endTime = endTime;
         this.date = date;
         this.showTime = showTime;
-        this.isBooked = false;
+        this.isBooked = 0;
     }
 
     public Ground_object() {
@@ -74,11 +74,15 @@ public class Ground_object {
         this.showTime = showTime;
     }
 
-    public boolean isBooked() {
+    public int getIsBooked() {
         return isBooked;
     }
 
-    public void setBooked(boolean booked) {
+    public void setIsBooked(int isBooked) {
+        this.isBooked = isBooked;
+    }
+
+    public void setBooked(int booked) {
         isBooked = booked;
     }
 

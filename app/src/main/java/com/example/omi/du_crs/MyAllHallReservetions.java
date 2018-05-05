@@ -14,6 +14,9 @@ import com.example.asif.du_crs.ClassroomAdapter;
 import com.example.asif.du_crs.Classroom_Object;
 import com.example.asif.du_crs.R;
 import com.example.asif.du_crs.User;
+import com.example.rafi.du_crs.AuditoriumAdapter;
+import com.example.rafi.du_crs.GroundAdapter;
+import com.example.rafi.du_crs.Ground_object;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -28,6 +31,8 @@ public class MyAllHallReservetions extends AppCompatActivity {
 
     ArrayList<String> classroomDates = new ArrayList<>();
     List<Classroom_Object> classroom_objects = new ArrayList<>();
+    List<Ground_object> ground_objects = new ArrayList<>();
+    List<AuditorioumDetails> auditorioumDetails = new ArrayList<>();
     Spinner search_category;
     List<String> choices=new ArrayList<>();
     DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name);
@@ -83,7 +88,7 @@ public class MyAllHallReservetions extends AppCompatActivity {
                         }
                     }
                     Log.d("Class 10", String.valueOf(classroom_objects.size()));
-
+                    Collections.reverse(classroom_objects);
                     adapter.notifyDataSetChanged();
 
                 }
@@ -99,11 +104,69 @@ public class MyAllHallReservetions extends AppCompatActivity {
     }
 
     void gotoground() {
+        adapter = new GroundAdapter(MyAllHallReservetions.this, ground_objects);
+        recyclerView.setAdapter(adapter);
 
+        ground_objects.clear();
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Ground booking");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ground_objects.clear();
+                for (DataSnapshot users : dataSnapshot.getChildren()) {
+                    Ground_object temp = new Ground_object();
+                    temp = users.getValue(Ground_object.class);
+                    //Log.d("Class", temp.getDetail());
+                    if (temp.getBookedBy().equals(User.getCurrent().getUid())) {
+                        ground_objects.add(temp);
+                        Log.d("Class 6 ", temp.getBookedBy());
+                    }
+                }
+                Log.d("Class 10", String.valueOf(ground_objects.size()));
+
+                Collections.reverse(ground_objects);
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     void gotoauditorioum() {
 
+        adapter = new AuditoriumAdapter(MyAllHallReservetions.this, auditorioumDetails);
+        recyclerView.setAdapter(adapter);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Auditorioum bookings");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                auditorioumDetails.clear();
+                for (DataSnapshot users : dataSnapshot.getChildren()) {
+                    AuditorioumDetails temp = new AuditorioumDetails();
+                    temp = users.getValue(AuditorioumDetails.class);
+                    //Log.d("Class", temp.getDetail());
+                    if (temp.getRequesterid().equals(User.getCurrent().getDeptName())) {
+                        auditorioumDetails.add(temp);
+                        //Log.d("Class 6 ", temp.getBookedBy());
+                    }
+                }
+                Log.d("Class 10", String.valueOf(auditorioumDetails.size()));
+
+                Collections.reverse(auditorioumDetails);
+                adapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     @Override

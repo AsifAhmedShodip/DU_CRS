@@ -1,4 +1,4 @@
-package com.example.asif.du_crs;
+package com.example.rafi.du_crs;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -12,10 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.omi.du_crs.ExamHallSlot;
-import com.example.omi.du_crs.FunctionList;
-import com.example.omi.du_crs.MyAllExamAdapter;
-import com.example.omi.du_crs.node;
+import com.example.asif.du_crs.ClassroomAdapter;
+import com.example.asif.du_crs.Classroom_Object;
+import com.example.asif.du_crs.R;
+import com.example.asif.du_crs.User;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,30 +25,26 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by asif on 04-May-18.
- */
-
-public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.sViewHolder> {
-    private List<Classroom_Object> list;
+public class GroundAdapter extends RecyclerView.Adapter<GroundAdapter.sViewHolder> {
+    private List<Ground_object> list;
     private Context context;
     private List<String> mp = new ArrayList<>();
 
-    public ClassroomAdapter(Context con, List<Classroom_Object> list) {
+    public GroundAdapter(Context con, List<Ground_object> list) {
         this.list = list;
         context = con;
     }
 
     @Override
-    public ClassroomAdapter.sViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public GroundAdapter.sViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.examcard, parent, false);
-        return new ClassroomAdapter.sViewHolder(v);
+        return new GroundAdapter.sViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ClassroomAdapter.sViewHolder holder, int position) {
+    public void onBindViewHolder(GroundAdapter.sViewHolder holder, int position) {
 
-        final Classroom_Object temp = list.get(position);
+        final Ground_object temp = list.get(position);
 
         //node tt=node.stringtoclass(temp.getRdate());
         holder.text1.setText("" + temp.getDate().split("-")[0]);
@@ -79,8 +75,9 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.sVie
             holder.text2.setText("December");
         }
 
-        holder.text3.setText(temp.getsTiem() + " - " + temp.geteTime());
-        holder.text4.setText(temp.getRoom());
+
+        holder.text3.setText(temp.getStartTime() + " - " + temp.getEndTime());
+        holder.text4.setText(temp.getGroundName());
         //holder.setIsRecyclable(false);
         /*holder.search_b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,38 +100,9 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.sVie
                                 // DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name).child(temp.getReservetionId());
                                 // databaseReference.removeValue();
 
-                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Classroom")
-                                        .child(User.getCurrent().getDeptName()).child(temp.getDate());
-                                databaseReference.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        //classroom_objects.clear();
-                                        for (DataSnapshot users : dataSnapshot.getChildren()) {
-                                            Classroom_Object temp01 = new Classroom_Object();
-                                            temp01 = users.getValue(Classroom_Object.class);
-                                            Log.d("Remove", temp.getDetail());
-                                            if (temp.getBookedBy().equals(temp01.getBookedBy()) &&
-                                                    temp.getDate().equals(temp01.getDate()) &&
-                                                    temp.getsTiem().equals(temp01.getsTiem()) &&
-                                                    temp.geteTime().equals(temp01.geteTime()) &&
-                                                    temp.getRoom().equals(temp01.getRoom()) &&
-                                                    temp.getDetail().equals(temp01.getDetail())) {
-                                                Log.d("Remove", "Deleting");
-                                                DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Classroom")
-                                                        .child(User.getCurrent().getDeptName()).child(temp.getDate()).child(users.getKey());
-                                                databaseReference2.removeValue();
-                                            }
-                                        }
-                                        //Log.d("Class 10", String.valueOf(classroom_objects.size()));
-
-                                        //adapter.notifyDataSetChanged();
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                    }
-                                });
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Ground booking")
+                                        .child(temp.getBookingID());
+                                databaseReference.removeValue();
                                 dialogInterface.cancel();
                             }
                         })
@@ -179,4 +147,5 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.sVie
     }
 
 }
+
 

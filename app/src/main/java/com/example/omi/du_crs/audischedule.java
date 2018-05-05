@@ -35,7 +35,7 @@ public class audischedule extends AppCompatActivity {
 
                     AuditorioumDetails temp = new AuditorioumDetails();
                     temp = users.getValue(AuditorioumDetails.class);
-                    if(temp.venue.equals(vvenue) && temp.rdate.equals(rrdate))bookings.add(temp);
+                    if(temp.venue.equals(vvenue) && temp.rdate.equals(rrdate) && temp.status<2)bookings.add(temp);
 
                 }
                 adapter=new audischeduleadapter(bookings,audischedule.this);

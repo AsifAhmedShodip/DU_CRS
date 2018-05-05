@@ -50,7 +50,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
     String month;
     String day;
     DatabaseReference databaseReference, databaseReference2;
-    boolean isRoomTypeSelected = true;
+    boolean isRoomTypeSelected = false;
     ArrayList<String> NotAvailableClassroom = new ArrayList<>();
     RecyclerView rv;
     Classroom_booked_Adapter adapter;
@@ -259,9 +259,9 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                         }
 
                         if (selectedMinute < 10) {
-                            sTime.setText(hour_of_12_hour_format + " :  0" + selectedMinute + " " + status);
+                            sTime.setText(hour_of_12_hour_format + " : 0" + selectedMinute + " " + status);
                         } else {
-                            sTime.setText(hour_of_12_hour_format + " :  " + selectedMinute + " " + status);
+                            sTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
                         }
                     }
                 }, hour, minute, false);//Yes 24 hour time
@@ -295,9 +295,9 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                         }
 
                         if (selectedMinute < 10) {
-                            eTime.setText(hour_of_12_hour_format + " :  0" + selectedMinute + " " + status);
+                                eTime.setText(hour_of_12_hour_format + " : 0" + selectedMinute + " " + status);
                         } else {
-                            eTime.setText(hour_of_12_hour_format + " :  " + selectedMinute + " " + status);
+                            eTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
                         }
                     }
                 }, hour2, minute2, false);//Yes 24 hour time
@@ -500,7 +500,7 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
 
                     Classroom_Object classroom_object = users.getValue(Classroom_Object.class);
 
-                    String fTime = classroom_object.getsTiem();
+                    /*String fTime = classroom_object.getsTiem();
                     String[] p = fTime.split(" ");
                     String time = p[0]+"."+p[2];
                     Double firstTime = Double.parseDouble(time);
@@ -516,16 +516,24 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
                     if(p1[3].equals("PM"))
                     {
                         secondTime = secondTime + 12.00;
-                    }
+                    }*/
+
+                    Double firstTime = getDateValue(classroom_object.getsTiem());
+
+                    Double secondTime = getDateValue(classroom_object.geteTime());
 
                     flag[0] = "false";
-                    if (finalStart[0] >= firstTime && finalStart[0] <= secondTime) {
+                    if(!(finalStart[0] >= secondTime || finalEnd [0]<= firstTime)){
+                        availableClassroom.remove(classroom_object.getRoom());
+                    }
+
+                    /*if (finalStart[0] >= firstTime && finalStart[0] <= secondTime) {
                         flag[0] = "true01";
                         availableClassroom.remove(classroom_object.getRoom());
                     } else if (finalEnd[0] >= firstTime && finalEnd[0] <= secondTime) {
                         availableClassroom.remove(classroom_object.getRoom());
                         flag[0] = "true02";
-                    }
+                    }*/
 
                     Log.d("Debug", finalStart[0] + "  " + finalEnd[0] + "    time   =  " + firstTime + "   " + secondTime + "   " + classroom_object.getRoom());
                 }
@@ -553,5 +561,17 @@ public class Classroom extends AppCompatActivity implements View.OnClickListener
 
             }
         });
+    }
+
+    double getDateValue(String dateS){
+        double val = 0;
+        String[] p1 = dateS.split(" ");
+        String time2 = p1[0]+"."+p1[2];
+        val = Double.parseDouble(time2);
+        if(p1[3].equals("PM"))
+        {
+            val = val + 12.00;
+        }
+        return val;
     }
 }

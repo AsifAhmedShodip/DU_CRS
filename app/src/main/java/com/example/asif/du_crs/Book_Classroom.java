@@ -135,9 +135,9 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
                         }
 
                         if (selectedMinute < 10) {
-                            sTime.setText(hour_of_12_hour_format + " :  0" + selectedMinute + " " + status);
+                            sTime.setText(hour_of_12_hour_format + " : 0" + selectedMinute + " " + status);
                         } else {
-                            sTime.setText(hour_of_12_hour_format + " :  " + selectedMinute + " " + status);
+                            sTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
                         }
                     }
                 }, hour, minute, false);//Yes 24 hour time
@@ -171,9 +171,9 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
                         }
 
                         if (selectedMinute < 10) {
-                            eTime.setText(hour_of_12_hour_format + " :  0" + selectedMinute + " " + status);
+                            eTime.setText(hour_of_12_hour_format + " : 0" + selectedMinute + " " + status);
                         } else {
-                            eTime.setText(hour_of_12_hour_format + " :  " + selectedMinute + " " + status);
+                            eTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
                         }
                     }
                 }, hour2, minute2, false);//Yes 24 hour time
@@ -187,7 +187,7 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
 
                 boolean flag = true;
 
-                String string = sTime.getText().toString();
+                /*String string = sTime.getText().toString();
                 String[] parts = string.split(" ");
                 string = parts[0]+"."+parts[2];
                 Double start = Double.parseDouble(string);
@@ -201,7 +201,12 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
                 Double end = Double.parseDouble(string2);
                 if(parts2[3].equals("PM")){
                     end = end + 12.00;
-                }
+                }*/
+
+                Double start = getDateValue(sTime.getText().toString());
+                Double end = getDateValue(eTime.getText().toString());
+
+                //flag[0] = "false";
 
                 for(int i=0;i<sTimeSlots.size();i++){
                     Double firstTime = sTimeSlots.get(i);
@@ -210,15 +215,15 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
                     start = start + 00.10;
                     end = end - 00.10;
 
-                    if(start >= firstTime && start <= secondTime){
+                    if(start >= secondTime && end <= firstTime){
                         flag = false;
                         break;
                     }
-
+/*
                     if (end >= firstTime && end <= secondTime){
                         flag = false;
                         break;
-                    }
+                    }*/
                 }
 
                 Log.d("Asif","i am here " + "flag");
@@ -275,6 +280,18 @@ public class Book_Classroom extends AppCompatActivity implements View.OnClickLis
 
         Log.d("Asif Ahmed","i am here " + flag);
         return flag;
+    }
+
+    double getDateValue(String dateS){
+        double val = 0;
+        String[] p1 = dateS.split(" ");
+        String time2 = p1[0]+"."+p1[2];
+        val = Double.parseDouble(time2);
+        if(p1[3].equals("PM"))
+        {
+            val = val + 12.00;
+        }
+        return val;
     }
 }
 

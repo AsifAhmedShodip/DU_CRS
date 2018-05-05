@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -58,6 +59,7 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     Double dSTime,dETime;
+    ArrayList<Ground_object> availableList = new ArrayList<>();
     String[] sgTime = new String[1];
     String[] egTime = new String[1];
 
@@ -237,8 +239,16 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         /*
         final SimpleDateFormat dateFormat2 = new SimpleDateFormat("hh : mm aa");
         */
-        dSTime = getDateValue(sTime);
-        dETime = getDateValue(eTime);
+        dSTime = getDateValue(tvSTime.getText().toString());
+        dETime = getDateValue(tvETime.getText().toString());
+
+        final ArrayList<Ground_object> availableGList = new ArrayList<>();
+
+        adapter = new GroundAvailableAdapter(availableGList,this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.hasFixedSize();
+        recyclerView.setAdapter(adapter);
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Ground booking");
         databaseReference.addValueEventListener(new ValueEventListener() {
@@ -249,8 +259,10 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
                     Double eventSTime = getDateValue(reservedObject.getStartTime().toString());
                     Double eventETime = getDateValue(reservedObject.getEndTime().toString());
 
-                    if(reservedObject.getDate().equals(date)){
-                        if(dSTime>eventETime || dETime<eventSTime){
+                    Log.d("Event Time ",dSTime+"  "+dETime+"         "+eventSTime+" ,"+eventETime);
+
+                    if(reservedObject.getDate().equals(tvDate.getText().toString())){
+                        if(dSTime>=eventETime || dETime<=eventSTime){
                             /*
                             gAvailable.put(reservedObject.getGroundName(),true);
                             */
@@ -260,6 +272,15 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
                         }
                     }
                 }
+
+                for(String key : gAvailable.keySet()){
+                    if(gAvailable.get(key) == true){
+                        Ground_object newGO = new Ground_object(key,tvSTime.getText().toString(),tvETime.getText().toString(),date,true);
+                        availableGList.add(newGO);
+                        adapter.notifyDataSetChanged();
+                    }
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -268,21 +289,6 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
             }
         });
 
-        ArrayList<Ground_object> availableGList = new ArrayList<>();
-
-        adapter = new GroundAvailableAdapter(availableGList,this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.hasFixedSize();
-        recyclerView.setAdapter(adapter);
-        for(String key : gAvailable.keySet()){
-            if(gAvailable.get(key)){
-                Ground_object newGO = new Ground_object(key,sTime,eTime,date,true);
-                availableGList.add(newGO);
-                adapter.notifyDataSetChanged();
-            }
-        }
-        adapter.notifyDataSetChanged();
 
     }
 
@@ -316,6 +322,8 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         final String[] sTime = new String[1];
         final String[] eTime = new String[1];
         */
+
+        //recyclerView.setVisibility(View.GONE);
         DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference("data").child("Ground");
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -328,6 +336,8 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
                         break;
                     }
                 }
+                dSTime = getDateValue("8 : 30 AM");
+                dETime = getDateValue("5 : 30 PM");
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -335,12 +345,20 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
         });
         SimpleDateFormat  dateFormat = new SimpleDateFormat("hh : mm aa");
         //Date dSt = dateFormat.parse(sTime[0]);
-        dSTime = getDateValue(sgTime[0]);
-        dETime = getDateValue(egTime[0]);
+
 
         /*
         final ArrayList<Ground_object> unavailableGList = new ArrayList<>();
-*/
+        */
+
+
+        adapter = new GroundAvailableAdapter(availableList,this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.hasFixedSize();
+        recyclerView.setAdapter(adapter);
+        recyclerView.setVisibility(View.VISIBLE);
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Ground booking");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -353,6 +371,37 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
                         }
                     }
                 }
+
+
+                Ground_object gTemp = new Ground_object(groundSelection,"8 : 30 AM","5 : 30 PM",date,true);
+                availableList.add(gTemp);
+                for(Ground_object gNow : unavailableGList){
+                    Double bookedSTime = getDateValue(gNow.getStartTime().toString());
+                    Double bookedETime = getDateValue(gNow.getEndTime().toString());
+                    for (Ground_object gT : availableList){
+                        Double eventSTime = getDateValue(gT.getStartTime().toString());
+                        Double eventETime = getDateValue(gT.getEndTime().toString());
+                        if(!(bookedSTime>=eventETime || bookedETime<=eventSTime)){//if gT interfere with gNow
+                            //delete gt from availableList
+                            availableList.remove(gT);
+                            //split gt into two Ground_object which don't interfere with gNow
+                            Ground_object temp1, temp2;
+                            if(!gT.startTime.equals(gNow.startTime)){
+                                temp1 = new Ground_object(groundSelection, gT.startTime,gNow.startTime,date,true);
+                                availableList.add(temp1);
+                            }
+                            if(!gNow.endTime.equals(gT.endTime)){
+                                temp2 = new Ground_object(groundSelection, gNow.endTime,gT.endTime,date,true);
+                                availableList.add(temp2);
+                            }
+                            //insert them to availableList
+
+                        }
+                    }
+                }
+
+                adapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -360,24 +409,9 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
 
             }
         });
+        adapter.notifyDataSetChanged();
 
-        ArrayList<Ground_object> availableList = new ArrayList<>();
-        Ground_object gTemp = new Ground_object(groundSelection,sgTime[0],egTime[0],date,true);
-        availableList.add(gTemp);
-        for(Ground_object gNow : unavailableGList){
-            for (Ground_object gT : availableList){
-                Double eventSTime = getDateValue(gT.getStartTime().toString());
-                Double eventETime = getDateValue(gT.getEndTime().toString());
-                if(true){//if gT interfere with gNow
-                    //delete gt from availableList
-                    //split gt into two Ground_object which don't interfere with gNow
-                    //insert them to availableList
-
-                }
-            }
-        }
-
-
+        //loadrecyclerview
     }
 
     @Override
@@ -402,15 +436,18 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
                         }
                         int hour_of_12_hour_format;
 
-                        if(hourOfDay > 11){
+                        if (hourOfDay > 12) {
                             hour_of_12_hour_format = hourOfDay - 12;
                         }
                         else {
                             hour_of_12_hour_format = hourOfDay;
                         }
 
-                        sTime = hour_of_12_hour_format + " : " + selectedMinute + " " + status;
-                        tvSTime.setText(sTime);
+                        if (selectedMinute < 10) {
+                            tvSTime.setText(hour_of_12_hour_format + " : 0" + selectedMinute + " " + status);
+                        } else {
+                            tvSTime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
+                        }
                     }
                 }, hour, minute, false);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");
@@ -437,15 +474,18 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
                         }
                         int hour_of_12_hour_format;
 
-                        if(hourOfDay > 11){
+                        if (hourOfDay > 12) {
                             hour_of_12_hour_format = hourOfDay - 12;
                         }
                         else {
                             hour_of_12_hour_format = hourOfDay;
                         }
 
-                        eTime = hour_of_12_hour_format + " : " + selectedMinute + " " + status;
-                        tvETime.setText(eTime);
+                        if (selectedMinute < 10) {
+                            tvETime.setText(hour_of_12_hour_format + " : 0" + selectedMinute + " " + status);
+                        } else {
+                            tvETime.setText(hour_of_12_hour_format + " : " + selectedMinute + " " + status);
+                        }
                     }
                 }, hour, minute, false);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");
@@ -466,5 +506,17 @@ public class ground_booking extends AppCompatActivity implements View.OnClickLis
             val = val + 12.00;
         }
         return val;
+    }
+
+    String getDateString(Double dateVal){
+        String sVal = "b";
+        //String[] p1 = dateS.split(" ");
+        //String time2 = p1[0]+"."+p1[2];
+        //val = Double.parseDouble(time2);
+        //if(p1[3].equals("PM"))
+        //{
+        //    val = val + 12.00;
+        //}
+        return sVal;
     }
 }

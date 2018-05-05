@@ -7,7 +7,16 @@
     android:layout_height="match_parent"
     tools:context="com.example.rafi.du_crs.admin_main">
 
+    <Button
+        android:layout_margin="5dp"
+        android:elevation="3dp"
+        android:id="@+id/bt_toggle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/textinput_2"/>
+
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/bt_toggle"
         android:id="@+id/pending_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

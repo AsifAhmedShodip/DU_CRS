@@ -61,7 +61,7 @@ public class GridDepAdapter extends ArrayAdapter {
         t1.setVisibility(View.GONE);
         if(position==1)
         {
-            imageView.setImageResource(R.drawable.microscope_512);
+            imageView.setImageResource(R.drawable.routine);
         }
         if(position==2)
         {

@@ -39,7 +39,8 @@ public class auditorioumfreeslots extends AppCompatActivity {
 
                     AuditorioumDetails temp = new AuditorioumDetails();
                     temp = users.getValue(AuditorioumDetails.class);
-                    if(temp.venue.equals(venue) && temp.rdate.equals(rdate))bookings.add(temp);
+                    if(temp.venue.equals(venue) && temp.rdate.equals(rdate) && temp.getStatus()<2)
+                        bookings.add(temp);
 
                 }
                 list.clear();

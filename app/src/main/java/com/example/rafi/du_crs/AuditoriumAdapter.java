@@ -1,58 +1,48 @@
-package com.example.asif.du_crs;
+package com.example.rafi.du_crs;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.omi.du_crs.ExamHallSlot;
-import com.example.omi.du_crs.FunctionList;
-import com.example.omi.du_crs.MyAllExamAdapter;
-import com.example.omi.du_crs.node;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.example.asif.du_crs.R;
+import com.example.omi.du_crs.AuditorioumDetails;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by asif on 04-May-18.
- */
-
-public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.sViewHolder> {
-    private List<Classroom_Object> list;
+public class AuditoriumAdapter extends RecyclerView.Adapter<AuditoriumAdapter.sViewHolder> {
+    private List<AuditorioumDetails> list;
     private Context context;
     private List<String> mp = new ArrayList<>();
 
-    public ClassroomAdapter(Context con, List<Classroom_Object> list) {
+    public AuditoriumAdapter(Context con, List<AuditorioumDetails> list) {
         this.list = list;
         context = con;
     }
 
     @Override
-    public ClassroomAdapter.sViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AuditoriumAdapter.sViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.examcard, parent, false);
-        return new ClassroomAdapter.sViewHolder(v);
+        return new AuditoriumAdapter.sViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ClassroomAdapter.sViewHolder holder, int position) {
+    public void onBindViewHolder(AuditoriumAdapter.sViewHolder holder, int position) {
 
-        final Classroom_Object temp = list.get(position);
+        final AuditorioumDetails temp = list.get(position);
 
         //node tt=node.stringtoclass(temp.getRdate());
-        holder.text1.setText("" + temp.getDate().split("-")[0]);
-        String month = temp.getDate().split("-")[1];
+        holder.text1.setText("" + temp.getRdate().split("/")[0]);
+        String month = temp.getRdate().split("/")[1];
         if (month.equals("1")) {
             holder.text2.setText("January");
         } else if (month.equals("2")) {
@@ -65,22 +55,30 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.sVie
             holder.text2.setText("May");
         } else if (month.equals("6")) {
             holder.text2.setText("June");
-        }else if (month.equals("7")) {
+        } else if (month.equals("7")) {
             holder.text2.setText("July");
-        }else if (month.equals("8")) {
+        } else if (month.equals("8")) {
             holder.text2.setText("August");
-        }else if (month.equals("9")) {
+        } else if (month.equals("9")) {
             holder.text2.setText("September");
-        }else if (month.equals("10")) {
+        } else if (month.equals("10")) {
             holder.text2.setText("October");
-        }else if (month.equals("11")) {
+        } else if (month.equals("11")) {
             holder.text2.setText("November");
-        }else if (month.equals("12")) {
+        } else if (month.equals("12")) {
             holder.text2.setText("December");
         }
 
-        holder.text3.setText(temp.getsTiem() + " - " + temp.geteTime());
-        holder.text4.setText(temp.getRoom());
+
+        holder.text3.setText(standardtime(temp.getStartt()) + " - " + standardtime(temp.getEndt()));
+        holder.text4.setText(temp.getVenue());
+        if (temp.getStatus() == 0)
+            holder.status.setText("Pending");
+        else if (temp.getStatus() == 1)
+            holder.status.setText("Accepted");
+        else
+            holder.status.setText("Canceled");
+
         //holder.setIsRecyclable(false);
         /*holder.search_b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,38 +101,9 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.sVie
                                 // DatabaseReference databaseReference= FirebaseDatabase.getInstance().getReference().child("Exam_Hall").child(FunctionList.exam_hall_search.hall_name).child(temp.getReservetionId());
                                 // databaseReference.removeValue();
 
-                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Classroom")
-                                        .child(User.getCurrent().getDeptName()).child(temp.getDate());
-                                databaseReference.addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        //classroom_objects.clear();
-                                        for (DataSnapshot users : dataSnapshot.getChildren()) {
-                                            Classroom_Object temp01 = new Classroom_Object();
-                                            temp01 = users.getValue(Classroom_Object.class);
-                                            Log.d("Remove", temp.getDetail());
-                                            if (temp.getBookedBy().equals(temp01.getBookedBy()) &&
-                                                    temp.getDate().equals(temp01.getDate()) &&
-                                                    temp.getsTiem().equals(temp01.getsTiem()) &&
-                                                    temp.geteTime().equals(temp01.geteTime()) &&
-                                                    temp.getRoom().equals(temp01.getRoom()) &&
-                                                    temp.getDetail().equals(temp01.getDetail())) {
-                                                Log.d("Remove", "Deleting");
-                                                DatabaseReference databaseReference2 = FirebaseDatabase.getInstance().getReference().child("Classroom")
-                                                        .child(User.getCurrent().getDeptName()).child(temp.getDate()).child(users.getKey());
-                                                databaseReference2.removeValue();
-                                            }
-                                        }
-                                        //Log.d("Class 10", String.valueOf(classroom_objects.size()));
-
-                                        //adapter.notifyDataSetChanged();
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-                                    }
-                                });
+                                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Auditorioum bookings")
+                                        .child(temp.getReservetionid());
+                                databaseReference.removeValue();
                                 dialogInterface.cancel();
                             }
                         })
@@ -160,7 +129,7 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.sVie
     }
 
     public class sViewHolder extends RecyclerView.ViewHolder {
-        public TextView text1, text2, text3, text4;
+        public TextView text1, text2, text3, text4, status;
         public Button cancel_b;
         public CardView cv;
 
@@ -170,7 +139,9 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.sVie
             text2 = itemView.findViewById(R.id.monthe);
             text3 = itemView.findViewById(R.id.slote);
             text4 = itemView.findViewById(R.id.sube);
+            status = itemView.findViewById(R.id.status);
             cancel_b = itemView.findViewById(R.id.cancelb);
+            status.setVisibility(View.VISIBLE);
             cv = itemView.findViewById(R.id.cv);
 
         }
@@ -178,5 +149,23 @@ public class ClassroomAdapter extends RecyclerView.Adapter<ClassroomAdapter.sVie
 
     }
 
-}
+    static String standardtime(int ms) {
+        String s = "";
+        String isPm = "AM";
+        if (ms > 12 * 60) isPm = "PM";
+        ms = (ms % (12 * 60));
+        int sh = ms / 60;
+        int sm = ms % 60;
+        if (sh == 0) sh = 12;
 
+        s = sh + ":" + sm + " " + isPm;
+        s = "";
+        if (sh < 10) s += "0" + sh + ":";
+        else s += sh + ":";
+        if (sm < 10) s += "0" + sm;
+        else s += sm;
+        s += " " + isPm;
+        return s;
+    }
+
+}
